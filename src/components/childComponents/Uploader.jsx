@@ -2,14 +2,14 @@ import React, {useState} from "react";
 
 import {Box, Container} from "@material-ui/core";
 
-// import LoadingOverlay from "react-loading-overlay";
+import LoadingOverlay from "react-loading-overlay";
 import {makeStyles} from "@material-ui/core/styles";
 
 import Form from "@rjsf/material-ui";
 
 const useStyles = makeStyles();
 
-export default function DatasetHurricane(props) {
+export default function Uploader(props) {
 	// const {uploaderSchema, uploaderUiSchema, ...other} = props;
 	const classes = useStyles();
 

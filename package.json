@@ -29,6 +29,8 @@
 	"dependencies": {
 		"@material-ui/core": "^4.11.0",
 		"@material-ui/icons": "^4.9.1",
+		"@rjsf/core": "^2.5.1",
+		"@rjsf/material-ui": "^2.5.1",
 		"babel-polyfill": "^6.26.0",
 		"classnames": "^2.2.6",
 		"jquery": "^3.6.0",
@@ -41,9 +43,7 @@
 		"redux": "~4.0.1",
 		"redux-thunk": "~2.3.0",
 		"universal-cookie": "~4.0.4",
-		"whatwg-fetch": "2.0.2",
-		"@rjsf/core": "^2.5.1",
-		"@rjsf/material-ui": "^2.5.1"
+		"whatwg-fetch": "2.0.2"
 	},
 	"devDependencies": {
 		"@babel/cli": "^7.0.0",
