@@ -41,7 +41,9 @@
 		"redux": "~4.0.1",
 		"redux-thunk": "~2.3.0",
 		"universal-cookie": "~4.0.4",
-		"whatwg-fetch": "2.0.2"
+		"whatwg-fetch": "2.0.2",
+		"@rjsf/core": "^2.5.1",
+		"@rjsf/material-ui": "^2.5.1"
 	},
 	"devDependencies": {
 		"@babel/cli": "^7.0.0",
