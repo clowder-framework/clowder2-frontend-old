@@ -12,7 +12,7 @@ import {createDataset} from "../../utils/dataset";
 const useStyles = makeStyles();
 
 export default function Uploader(props) {
-	const {uploaderSchema, uploaderUiSchema, widgets, ...other} = props;
+	const {uploaderSchema, uploaderUiSchema, widgets, select, ...other} = props;
 	const classes = useStyles();
 
 	const [disabled, setDisabled] = useState(true);
@@ -22,9 +22,7 @@ export default function Uploader(props) {
 	const onSave = async (formData) => {
 		setLoading(true);
 		const response = await createDataset(formData);
-		if (response !== {}){
-			console.log(response);
-		}
+		if (response !== {}) select(response["id"]);
 		setLoading(false);
 	};
 

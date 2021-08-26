@@ -130,7 +130,8 @@ export default function Dashboard(props) {
 			</Grid>
 			<Dialog open={open} onClose={()=>{setOpen(false);}} fullWidth={true} aria-labelledby="create-dataset">
 				<DialogTitle id="form-dialog-title">Create New Dataset</DialogTitle>
-				<Uploader uploaderSchema={datasetSchema}/>
+				{/*pass select to uploader so once upload succeeded, can jump to that dataset/file page*/}
+				<Uploader uploaderSchema={datasetSchema} select={selectDataset}/>
 			</Dialog>
 		</div>
 	);
