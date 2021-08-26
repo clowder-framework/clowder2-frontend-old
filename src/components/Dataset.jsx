@@ -1,10 +1,24 @@
 import React, {useState} from "react";
 import {makeStyles} from "@material-ui/core/styles";
-import {AppBar, Box, Button, Divider, Grid, ListItem, Menu, MenuItem, Tab, Tabs, Typography} from "@material-ui/core";
+import {
+	AppBar,
+	Box,
+	Button, Dialog,
+	DialogTitle,
+	Divider,
+	Grid,
+	ListItem,
+	Menu,
+	MenuItem,
+	Tab,
+	Tabs,
+	Typography
+} from "@material-ui/core";
 import {ClowderInput} from "./styledComponents/ClowderInput";
 import {ClowderButton} from "./styledComponents/ClowderButton";
 import DescriptionIcon from "@material-ui/icons/Description";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
+import Uploader from "./childComponents/Uploader";
 
 const useStyles = makeStyles((theme) => ({
 	appBar: {
@@ -61,9 +75,11 @@ const useStyles = makeStyles((theme) => ({
 export default function Dataset(props) {
 	const classes = useStyles();
 
-	const {files, thumbnails, about, selectFile, ...other} = props;
+	const {files, thumbnails, about, selectFile, datasetSchema, ...other} = props;
 
 	const [selectedTabIndex, setSelectedTabIndex] = useState(0);
+	const [open, setOpen] = React.useState(false);
+
 
 	const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -105,7 +121,7 @@ export default function Dataset(props) {
 									open={Boolean(anchorEl)}
 									onClose={handleOptionClose}
 								>
-									<MenuItem onClick={handleOptionClose} className={classes.optionMenuItem}>Add Files</MenuItem>
+									<MenuItem onClick={()=>{ setOpen(true); handleOptionClose();}} className={classes.optionMenuItem}>Add Files</MenuItem>
 									<MenuItem onClick={handleOptionClose} className={classes.optionMenuItem}>Download All</MenuItem>
 									<MenuItem onClick={handleOptionClose} className={classes.optionMenuItem}>Delete</MenuItem>
 									<MenuItem onClick={handleOptionClose} className={classes.optionMenuItem}>Follow</MenuItem>
@@ -193,6 +209,11 @@ export default function Dataset(props) {
 					<Divider light/>
 				</Grid>
 			</Grid>
+			<Dialog open={open} onClose={()=>{setOpen(false);}} fullWidth={true} aria-labelledby="form-dialog">
+				<DialogTitle id="form-dialog-title">Add Files</DialogTitle>
+				{/*pass select to uploader so once upload succeeded, can jump to that dataset/file page*/}
+				<Uploader uploaderSchema={datasetSchema} select={selectFile}/>
+			</Dialog>
 		</div>
 	);
 }

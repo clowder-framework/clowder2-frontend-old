@@ -190,15 +190,20 @@ export default function App(props) {
 				{
 					(() => {
 						if (selectedDatasetId === "") {
-							return <Dashboard datasets={datasets} selectDataset={selectDataset}
+							return <Dashboard datasets={datasets}
+											  selectDataset={selectDataset}
 											  thumbnails={datasetThumbnailList}
 											  previous={previous}
 											  next={next}
 											  datasetSchema={datasetSchema}
 							/>
 						} else if (selectedFileId === "") {
-							return <Dataset files={filesInDataset} selectFile={selectFile}
-											thumbnails={fileThumbnailList} about={datasetAbout}/>
+							return <Dataset files={filesInDataset}
+											selectFile={selectFile}
+											thumbnails={fileThumbnailList}
+											about={datasetAbout}
+											datasetSchema={datasetSchema}
+							/>
 						} else {
 							return fileMetadataList.map((fileMetadata) => {
 								if (selectedFileId === fileMetadata["id"]) {
