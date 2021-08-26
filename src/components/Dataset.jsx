@@ -1,9 +1,10 @@
 import React, {useState} from "react";
 import {makeStyles} from "@material-ui/core/styles";
-import {AppBar, Box, Divider, Grid, ListItem, Tab, Tabs, Typography} from "@material-ui/core";
+import {AppBar, Box, Button, Divider, Grid, ListItem, Menu, MenuItem, Tab, Tabs, Typography} from "@material-ui/core";
 import {ClowderInput} from "./styledComponents/ClowderInput";
 import {ClowderButton} from "./styledComponents/ClowderButton";
-import DescriptionIcon from '@material-ui/icons/Description';
+import DescriptionIcon from "@material-ui/icons/Description";
+import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 
 const useStyles = makeStyles((theme) => ({
 	appBar: {
@@ -16,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
 		fontSize: "16px",
 		color: "#495057",
 		textTransform: "capitalize",
+		maxWidth: "50px",
 	},
 	fileCard: {
 		background: "#FFFFFF",
@@ -39,6 +41,21 @@ const useStyles = makeStyles((theme) => ({
 		fontWeight: "normal",
 		color: "#212529"
 	},
+	optionButton:{
+		float: "right",
+		padding: "6px 12px",
+		width: "100px",
+		background: "#6C757D",
+		borderRadius: "4px",
+		color: "white",
+		textTransform: "capitalize"
+	},
+	optionMenuItem:{
+		fontWeight: "normal",
+		fontSize: "14px",
+		color: "#212529",
+		marginTop:"8px",
+	}
 }));
 
 export default function Dataset(props) {
@@ -48,8 +65,18 @@ export default function Dataset(props) {
 
 	const [selectedTabIndex, setSelectedTabIndex] = useState(0);
 
+	const [anchorEl, setAnchorEl] = React.useState(null);
+
 	const handleTabChange = (event, newTabIndex) => {
 		setSelectedTabIndex(newTabIndex);
+	};
+
+	const handleOptionClick = (event) => {
+		setAnchorEl(event.currentTarget);
+	};
+
+	const handleOptionClose = () => {
+		setAnchorEl(null);
 	};
 
 	return (
@@ -57,6 +84,7 @@ export default function Dataset(props) {
 			<Grid container spacing={4}>
 				<Grid item lg={8} xl={8} md={8} sm={8} xs={12}>
 					<AppBar className={classes.appBar} position="static">
+						{/*Tabs*/}
 						<Tabs value={selectedTabIndex} onChange={handleTabChange} aria-label="dataset tabs">
 							<Tab className={classes.tab} label="Files" {...a11yProps(0)} />
 							<Tab className={classes.tab} label="Metadata" {...a11yProps(1)} />
@@ -64,6 +92,27 @@ export default function Dataset(props) {
 							<Tab className={classes.tab} label="Visualizations" {...a11yProps(3)} />
 							<Tab className={classes.tab} label="Comments" {...a11yProps(4)} />
 						</Tabs>
+						{/*option menus*/}
+						<Box>
+								<Button aria-haspopup="true" onClick={handleOptionClick}
+										className={classes.optionButton} endIcon={<ArrowDropDownIcon />}>
+									Options
+								</Button>
+								<Menu
+									id="simple-menu"
+									anchorEl={anchorEl}
+									keepMounted
+									open={Boolean(anchorEl)}
+									onClose={handleOptionClose}
+								>
+									<MenuItem onClick={handleOptionClose} className={classes.optionMenuItem}>Add Files</MenuItem>
+									<MenuItem onClick={handleOptionClose} className={classes.optionMenuItem}>Download All</MenuItem>
+									<MenuItem onClick={handleOptionClose} className={classes.optionMenuItem}>Delete</MenuItem>
+									<MenuItem onClick={handleOptionClose} className={classes.optionMenuItem}>Follow</MenuItem>
+									<MenuItem onClick={handleOptionClose} className={classes.optionMenuItem}>Collaborators</MenuItem>
+									<MenuItem onClick={handleOptionClose} className={classes.optionMenuItem}>Extraction</MenuItem>
+								</Menu>
+							</Box>
 					</AppBar>
 					<TabPanel value={selectedTabIndex} index={0}>
 
