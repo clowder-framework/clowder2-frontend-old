@@ -1,7 +1,8 @@
 import React, {useState} from "react";
 import {makeStyles} from "@material-ui/core/styles";
-import {AppBar, Box, Link, Divider, Grid, ListItem, Tab, Tabs, Typography, Button} from "@material-ui/core";
+import {AppBar, Box, Link, Dialog, DialogTitle, Grid, ListItem, Tab, Tabs, Typography, Button} from "@material-ui/core";
 import BusinessCenterIcon from '@material-ui/icons/BusinessCenter';
+import Uploader from "./childComponents/Uploader";
 
 const useStyles = makeStyles((theme) => ({
 	appBar: {
@@ -42,9 +43,10 @@ const useStyles = makeStyles((theme) => ({
 export default function Dashboard(props) {
 	const classes = useStyles();
 
-	const {datasets, selectDataset, thumbnails, previous, next, ...other} = props;
+	const {datasets, selectDataset, thumbnails, previous, next, datasetSchema, ...other} = props;
 
 	const [selectedTabIndex, setSelectedTabIndex] = useState(0);
+	const [open, setOpen] = React.useState(false);
 
 	const handleTabChange = (event, newTabIndex) => {
 		setSelectedTabIndex(newTabIndex);
@@ -110,7 +112,7 @@ export default function Dashboard(props) {
 						<Typography className="title">Create your dataset</Typography>
 						<Typography className="content">Some quick example text to tell users why they should upload
 							their own data</Typography>
-						<Link href="" className="link">Create Dataset</Link>
+						<Link className="link" onClick={()=>{ setOpen(true); }}>Create Dataset</Link>
 					</Box>
 					<Box className="actionCard">
 						<Typography className="title">Explore more dataset</Typography>
@@ -126,6 +128,10 @@ export default function Dashboard(props) {
 					</Box>
 				</Grid>
 			</Grid>
+			<Dialog open={open} onClose={()=>{setOpen(false);}} fullWidth={true} aria-labelledby="create-dataset">
+				<DialogTitle id="form-dialog-title">Create New Dataset</DialogTitle>
+				<Uploader uploaderSchema={datasetSchema}/>
+			</Dialog>
 		</div>
 	);
 }

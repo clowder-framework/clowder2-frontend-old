@@ -7,6 +7,7 @@ import {downloadThumbnail} from "../utils/thumbnail";
 import Dashboard from "./Dashbard";
 import Dataset from "./Dataset";
 import File from "./File";
+import datasetSchema from "../schema/datasetSchema.json";
 
 
 const useStyles = makeStyles((theme) => ({}));
@@ -193,6 +194,7 @@ export default function App(props) {
 											  thumbnails={datasetThumbnailList}
 											  previous={previous}
 											  next={next}
+											  datasetSchema={datasetSchema}
 							/>
 						} else if (selectedFileId === "") {
 							return <Dataset files={filesInDataset} selectFile={selectFile}

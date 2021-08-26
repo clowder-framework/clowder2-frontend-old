@@ -2,7 +2,7 @@ import {getHeader} from "./common";
 import config from "../app.config";
 
 export async function createDataset(formData) {
-	let endpoint = `${config.hostname}/clowder/api/datasets?superAdmin=true`;
+	let endpoint = `${config.hostname}/clowder/api/datasets/createempty`;
 	let authHeader = getHeader();
 	authHeader.append('Accept', 'application/json');
 	authHeader.append('Content-Type', 'application/json');
@@ -18,6 +18,7 @@ export async function createDataset(formData) {
 	});
 
 	if (response.status === 200) {
+		// {id:xxx}
 		return response.json();
 	} else if (response.status === 401) {
 		// TODO handle error
