@@ -65,11 +65,13 @@ export function dataURItoFile(dataURI) {
 export async function upload(endpoint, formData, type='application/json') {
 	endpoint = `${config.hostname}/clowder/api/${endpoint}`;
 	let authHeader = getHeader();
-	authHeader.append('Accept', type);
-	authHeader.append('Content-Type', type);
-
 	let body;
-	if (type === "application/json") body = JSON.stringify(formData);
+
+	if (type === "application/json"){
+		authHeader.append('Accept', type);
+		authHeader.append('Content-Type', type);
+		body = JSON.stringify(formData);
+	}
 	else if (type === "multipart/form-data"){
 		body = new FormData();
 		formData.map((item) =>{
@@ -88,6 +90,7 @@ export async function upload(endpoint, formData, type='application/json') {
 
 	if (response.status === 200) {
 		// {id:xxx}
+		// {ids:[{id:xxx}, {id:xxx}]}
 		return response.json();
 	} else if (response.status === 401) {
 		// TODO handle error

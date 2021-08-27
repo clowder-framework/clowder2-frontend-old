@@ -22,7 +22,15 @@ export default function Uploader(props) {
 	const onSave = async (formData) => {
 		setLoading(true);
 		const response = await upload(endpoint, formData, postType);
-		if (response !== {}) select(response["id"]);
+		if (response !== {}){
+			if (response["id"] !== undefined){
+				select(response["id"]);
+			}
+			else if (response["ids"] !== undefined){
+				// select the first item;
+				select(response["ids"][0]["id"]);
+			}
+		}
 		setLoading(false);
 	};
 
