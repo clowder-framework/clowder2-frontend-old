@@ -8,7 +8,7 @@ import Dashboard from "./Dashbard";
 import Dataset from "./Dataset";
 import File from "./File";
 import datasetSchema from "../schema/datasetSchema.json";
-
+import fileSchema from "../schema/fileSchema.json";
 
 const useStyles = makeStyles((theme) => ({}));
 
@@ -202,7 +202,8 @@ export default function App(props) {
 											selectFile={selectFile}
 											thumbnails={fileThumbnailList}
 											about={datasetAbout}
-											datasetSchema={datasetSchema}
+											fileSchema={fileSchema}
+											selectedDatasetId = {selectedDatasetId}
 							/>
 						} else {
 							return fileMetadataList.map((fileMetadata) => {

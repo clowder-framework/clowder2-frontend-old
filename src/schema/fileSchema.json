@@ -1,0 +1,17 @@
+{
+  "type": "array",
+
+  "items": {
+	"type": "object",
+	"required": [
+	  "file"
+	],
+	"properties": {
+	  "file": {
+		"type": "string",
+		"format": "data-url",
+		"title": "Single file"
+	  }
+	}
+  }
+}

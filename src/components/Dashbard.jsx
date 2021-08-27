@@ -131,7 +131,8 @@ export default function Dashboard(props) {
 			<Dialog open={open} onClose={()=>{setOpen(false);}} fullWidth={true} aria-labelledby="create-dataset">
 				<DialogTitle id="form-dialog-title">Create New Dataset</DialogTitle>
 				{/*pass select to uploader so once upload succeeded, can jump to that dataset/file page*/}
-				<Uploader uploaderSchema={datasetSchema} select={selectDataset}/>
+				<Uploader uploaderSchema={datasetSchema} select={selectDataset} endpoint="datasets/createempty"
+						  postType="application/json"/>
 			</Dialog>
 		</div>
 	);

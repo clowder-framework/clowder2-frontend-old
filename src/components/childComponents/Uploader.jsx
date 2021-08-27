@@ -7,12 +7,12 @@ import {makeStyles} from "@material-ui/core/styles";
 
 import Form from "@rjsf/material-ui";
 
-import {createDataset} from "../../utils/dataset";
+import {upload} from "../../utils/common";
 
 const useStyles = makeStyles();
 
 export default function Uploader(props) {
-	const {uploaderSchema, uploaderUiSchema, widgets, select, ...other} = props;
+	const {uploaderSchema, uploaderUiSchema, widgets, select, endpoint, postType, ...other} = props;
 	const classes = useStyles();
 
 	const [disabled, setDisabled] = useState(true);
@@ -21,7 +21,7 @@ export default function Uploader(props) {
 
 	const onSave = async (formData) => {
 		setLoading(true);
-		const response = await createDataset(formData);
+		const response = await upload(endpoint, formData, postType);
 		if (response !== {}) select(response["id"]);
 		setLoading(false);
 	};

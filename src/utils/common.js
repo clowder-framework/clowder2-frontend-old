@@ -48,9 +48,11 @@ export async function downloadResource(url){
 		}
 }
 
-export function dataURItoFile(dataURI, filename="") {
-	if (filename === undefined || filename === "" || filename === null) filename = "hurricane-raster.tif";
-	let mime = dataURI.split(",")[0].match(/:(.*?);/)[1];
+export function dataURItoFile(dataURI) {
+	let metadata = dataURI.split(",")[0];
+	let mime = metadata.match(/:(.*?);/)[1];
+	let filename = metadata.match(/name=(.*?);/)[1];
+
 	let binary = atob(dataURI.split(",")[1]);
 	let array = [];
 	for (let i = 0; i < binary.length; i++) {
@@ -59,6 +61,43 @@ export function dataURItoFile(dataURI, filename="") {
 	const blob = new Blob([new Uint8Array(array)], {type: mime});
 	return new File([blob], filename, {type: mime, lastModified: new Date()});
 }
+
+export async function upload(endpoint, formData, type='application/json') {
+	endpoint = `${config.hostname}/clowder/api/${endpoint}`;
+	let authHeader = getHeader();
+	authHeader.append('Accept', type);
+	authHeader.append('Content-Type', type);
+
+	let body;
+	if (type === "application/json") body = JSON.stringify(formData);
+	else if (type === "multipart/form-data"){
+		body = new FormData();
+		formData.map((item) =>{
+			if (item["file"] !== undefined) body.append("file", dataURItoFile(item["file"]));
+			// TODO
+			else body.append("text", JSON.stringify(item))
+		});
+	}
+
+	let response = await fetch(endpoint, {
+		method: "POST",
+		mode: "cors",
+		headers: authHeader,
+		body: body,
+	});
+
+	if (response.status === 200) {
+		// {id:xxx}
+		return response.json();
+	} else if (response.status === 401) {
+		// TODO handle error
+		return {};
+	} else {
+		// TODO handle error
+		return {};
+	}
+}
+
 
 // get current username
 // export function getCurrUsername(){
