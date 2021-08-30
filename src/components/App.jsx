@@ -196,6 +196,7 @@ export default function App(props) {
 											about={datasetAbout}
 											fileSchema={fileSchema}
 											selectedDatasetId = {selectedDatasetId}
+											selectDataset={selectDataset}
 							/>
 						} else {
 							return fileMetadataList.map((fileMetadata) => {

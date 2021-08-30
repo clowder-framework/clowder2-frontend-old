@@ -75,7 +75,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Dataset(props) {
 	const classes = useStyles();
 
-	const {files, thumbnails, about, selectFile, selectedDatasetId, fileSchema, ...other} = props;
+	const {files, thumbnails, about, selectFile, selectedDatasetId, selectDataset, fileSchema, ...other} = props;
 
 	const [selectedTabIndex, setSelectedTabIndex] = useState(0);
 	const [open, setOpen] = React.useState(false);
@@ -214,7 +214,7 @@ export default function Dataset(props) {
 			<Dialog open={open} onClose={()=>{setOpen(false);}} fullWidth={true} aria-labelledby="form-dialog">
 				<DialogTitle id="form-dialog-title">Add Files</DialogTitle>
 				{/*pass select to uploader so once upload succeeded, can jump to that dataset/file page*/}
-				<Uploader uploaderSchema={fileSchema} select={selectFile}
+				<Uploader uploaderSchema={fileSchema} action={()=>{ selectDataset(selectedDatasetId); }}
 						  endpoint={`datasets/${selectedDatasetId}/files`}
 						  postType="multipart/form-data"/>
 			</Dialog>

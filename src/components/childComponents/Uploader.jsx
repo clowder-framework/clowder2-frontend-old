@@ -12,7 +12,7 @@ import {upload} from "../../utils/common";
 const useStyles = makeStyles();
 
 export default function Uploader(props) {
-	const {uploaderSchema, uploaderUiSchema, widgets, select, endpoint, postType, ...other} = props;
+	const {uploaderSchema, uploaderUiSchema, widgets, action, endpoint, postType, ...other} = props;
 	const classes = useStyles();
 
 	const [disabled, setDisabled] = useState(true);
@@ -24,11 +24,11 @@ export default function Uploader(props) {
 		const response = await upload(endpoint, formData, postType);
 		if (response !== {}){
 			if (response["id"] !== undefined){
-				select(response["id"]);
+				action(response["id"]);
 			}
 			else if (response["ids"] !== undefined){
 				// select the first item;
-				select(response["ids"][0]["id"]);
+				action(response["ids"][0]["id"]);
 			}
 		}
 		setLoading(false);
