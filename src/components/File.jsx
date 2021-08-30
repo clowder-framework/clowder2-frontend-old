@@ -115,6 +115,8 @@ export default function File(props) {
 								<Box className="infoCard">
 									<Typography className="title">About</Typography>
 									<Typography
+										className="content">File ID: {fileMetadata["id"]}</Typography>
+									<Typography
 										className="content">Type: {fileMetadata["content-type"]}</Typography>
 									<Typography className="content">File
 										size: {fileMetadata["size"]}</Typography>

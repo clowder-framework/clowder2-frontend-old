@@ -176,6 +176,8 @@ export default function Dataset(props) {
 						about !== undefined ?
 							<Box className="infoCard">
 								<Typography className="title">About</Typography>
+								<Typography className="content">Name: {about["name"]}</Typography>
+								<Typography className="content">Dataset ID: {about["id"]}</Typography>
 								<Typography className="content">Owner: {about["authorId"]}</Typography>
 								<Typography className="content">Description: {about["description"]}</Typography>
 								<Typography className="content">Created on: {about["created"]}</Typography>
