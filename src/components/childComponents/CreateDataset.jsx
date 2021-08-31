@@ -12,7 +12,7 @@ import {createDataset} from "../../utils/dataset";
 const useStyles = makeStyles();
 
 export default function CreateDataset(props) {
-	const {selectDataset, endpoint, postType, ...other} = props;
+	const {selectDataset, setOpen, ...other} = props;
 	const classes = useStyles();
 
 	const [disabled, setDisabled] = useState(true);
@@ -25,6 +25,7 @@ export default function CreateDataset(props) {
 			selectDataset(response["id"]);
 		}
 		setLoading(false);
+		setOpen(false);
 	};
 
 	return (
@@ -34,12 +35,10 @@ export default function CreateDataset(props) {
 				spinner
 				text="Saving..."
 			>
-				<Form schema={datasetSchema}
-					// uiSchema={uploaderUiSchema}
-					// widgets={widgets}
+				<Form schema={datasetSchema["schema"]} uiSchema={datasetSchema["uiSchema"]} // widgets={widgets}
 					  onSubmit={({formData}, e) => {onSave(formData);}}>
 					<Box className="inputGroup">
-						<Button variant="contained" type="submit">Create</Button>
+						<Button variant="contained" type="submit" className="form-button-block">Create</Button>
 					</Box>
 				</Form>
 			</LoadingOverlay>

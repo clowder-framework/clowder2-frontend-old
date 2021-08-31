@@ -9,11 +9,12 @@ import Form from "@rjsf/material-ui";
 
 import {uploadFile} from "../../utils/file.js";
 import fileSchema from "../../schema/fileSchema.json";
+import datasetSchema from "../../schema/datasetSchema.json";
 
 const useStyles = makeStyles();
 
 export default function UploadFile(props) {
-	const {selectedDatasetId, selectDataset, ...other} = props;
+	const {selectedDatasetId, selectDataset, setOpen, ...other} = props;
 	const classes = useStyles();
 
 	const [disabled, setDisabled] = useState(true);
@@ -27,6 +28,7 @@ export default function UploadFile(props) {
 			selectDataset(selectedDatasetId);
 		}
 		setLoading(false);
+		setOpen(false);
 	};
 
 	return (
@@ -36,10 +38,10 @@ export default function UploadFile(props) {
 				spinner
 				text="Saving..."
 			>
-				<Form schema={fileSchema}
+				<Form schema={fileSchema["schema"]} uiSchema={fileSchema["uiSchema"]}
 					  onSubmit={({formData}, e) => {onSave(formData);}}>
 					<Box className="inputGroup">
-						<Button variant="contained" type="submit">Upload</Button>
+						<Button variant="contained" type="submit" className="form-button-block">Upload</Button>
 					</Box>
 				</Form>
 			</LoadingOverlay>

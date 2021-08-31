@@ -1,17 +1,20 @@
 {
-  "type": "object",
-  "required": [
-	"name",
-	"description"
-  ],
-  "properties": {
-	"name": {
-	  "type": "string",
-	  "title": "Name"
-	},
-	"description": {
-	  "type": "string",
-	  "title": "Description"
+  "schema": {
+	"type": "object",
+	"required": [
+	  "name",
+	  "description"
+	],
+	"properties": {
+	  "name": {
+		"type": "string",
+		"title": "Name"
+	  },
+	  "description": {
+		"type": "string",
+		"title": "Description"
+	  }
 	}
-  }
+  },
+  "uiSchema": {}
 }

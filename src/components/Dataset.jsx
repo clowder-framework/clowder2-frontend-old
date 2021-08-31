@@ -214,7 +214,7 @@ export default function Dataset(props) {
 			<Dialog open={open} onClose={()=>{setOpen(false);}} fullWidth={true} aria-labelledby="form-dialog">
 				<DialogTitle id="form-dialog-title">Add Files</DialogTitle>
 				{/*pass select to uploader so once upload succeeded, can jump to that dataset/file page*/}
-				<UploadFile selectedDatasetId={selectedDatasetId} selectDataset={selectDataset}/>
+				<UploadFile selectedDatasetId={selectedDatasetId} selectDataset={selectDataset} setOpen={setOpen}/>
 			</Dialog>
 		</div>
 	);
