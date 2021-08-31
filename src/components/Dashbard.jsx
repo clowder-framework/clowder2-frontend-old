@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	fileCardActionBox:{
 		position:"absolute",
-		right:"10%",
+		right:"5%",
 		top: "40px",
 	},
 	fileCardActionItem:{

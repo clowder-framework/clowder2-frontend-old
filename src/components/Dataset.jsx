@@ -19,6 +19,9 @@ import {ClowderButton} from "./styledComponents/ClowderButton";
 import DescriptionIcon from "@material-ui/icons/Description";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import UploadFile from "./childComponents/UploadFile";
+import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
+import StarBorderIcon from "@material-ui/icons/StarBorder";
+import CloudDownloadOutlinedIcon from "@material-ui/icons/CloudDownloadOutlined";
 
 const useStyles = makeStyles((theme) => ({
 	appBar: {
@@ -32,6 +35,9 @@ const useStyles = makeStyles((theme) => ({
 		color: "#495057",
 		textTransform: "capitalize",
 		maxWidth: "50px",
+	},
+	fileCardOuterBox:{
+		position:"relative"
 	},
 	fileCard: {
 		background: "#FFFFFF",
@@ -49,11 +55,19 @@ const useStyles = makeStyles((theme) => ({
 		margin: "40px auto",
 		display: "block"
 	},
-	fileCardText: {
+	fileCardText:{
 		padding: "40px 20px",
-		fontSize: "16px",
-		fontWeight: "normal",
-		color: "#212529"
+		fontSize:"16px",
+		fontWeight:"normal",
+		color:"#212529"
+	},
+	fileCardActionBox:{
+		position:"absolute",
+		right:"5%",
+		top: "40px",
+	},
+	fileCardActionItem:{
+		display:"block"
 	},
 	optionButton:{
 		float: "right",
@@ -146,20 +160,33 @@ export default function Dataset(props) {
 										}
 									});
 									return (
-										<ListItem button className={classes.fileCard} key={file["id"]}
-												  onClick={() => selectFile(file["id"])}>
-											<Grid item xl={2} lg={2} md={2} sm={2} xs={12}>
-												{thumbnailComp}
-											</Grid>
-											<Grid item xl={10} lg={10} md={10} sm={10} xs={12}>
-												<Box className={classes.fileCardText}>
-													<Typography>File name: {file["filename"]}</Typography>
-													<Typography>File size: {file["size"]}</Typography>
-													<Typography>Created on: {file["date-created"]}</Typography>
-													<Typography>Content type: {file["contentType"]}</Typography>
+										<Box className={classes.fileCardOuterBox}>
+											<ListItem button className={classes.fileCard} key={file["id"]}
+													  onClick={() => selectFile(file["id"])}>
+												<Grid item xl={2} lg={2} md={2} sm={2} xs={12}>
+													{thumbnailComp}
+												</Grid>
+												<Grid item xl={10} lg={10} md={10} sm={10} xs={12}>
+													<Box className={classes.fileCardText}>
+														<Typography>File name: {file["filename"]}</Typography>
+														<Typography>File size: {file["size"]}</Typography>
+														<Typography>Created on: {file["date-created"]}</Typography>
+														<Typography>Content type: {file["contentType"]}</Typography>
+													</Box>
+												</Grid>
+											</ListItem>
+											<Box className={classes.fileCardActionBox}>
+												<Box className={classes.fileCardActionItem}>
+													<Button startIcon={<DeleteOutlineIcon />}>Delete</Button>
 												</Box>
-											</Grid>
-										</ListItem>
+												<Box className={classes.fileCardActionItem}>
+													<Button startIcon={<StarBorderIcon />}>Follow</Button>
+												</Box>
+												<Box className={classes.fileCardActionItem}>
+													<Button startIcon={<CloudDownloadOutlinedIcon />}>Download</Button>
+												</Box>
+											</Box>
+										</Box>
 									);
 								})
 								:
