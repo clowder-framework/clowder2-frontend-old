@@ -1,7 +1,11 @@
 import React, {useState} from "react";
 import {makeStyles} from "@material-ui/core/styles";
 import {AppBar, Box, Link, Dialog, DialogTitle, Grid, ListItem, Tab, Tabs, Typography, Button} from "@material-ui/core";
-import BusinessCenterIcon from '@material-ui/icons/BusinessCenter';
+import BusinessCenterIcon from "@material-ui/icons/BusinessCenter";
+import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
+import StarBorderIcon from "@material-ui/icons/StarBorder";
+import CloudDownloadOutlinedIcon from "@material-ui/icons/CloudDownloadOutlined";
+
 import CreateDataset from "./childComponents/CreateDataset";
 
 const useStyles = makeStyles((theme) => ({
@@ -16,6 +20,9 @@ const useStyles = makeStyles((theme) => ({
 		color: "#495057",
 		textTransform: "capitalize",
 	},
+	fileCardOuterBox:{
+		position:"relative"
+	},
 	fileCard:{
 		background: "#FFFFFF",
 		border: "1px solid #DFDFDF",
@@ -25,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 		"& > .MuiGrid-item":{
 			padding:0,
 			height:"150px",
-		}
+		},
 	},
 	fileCardImg:{
 		height: "50%",
@@ -38,6 +45,14 @@ const useStyles = makeStyles((theme) => ({
 		fontWeight:"normal",
 		color:"#212529"
 	},
+	fileCardActionBox:{
+		position:"absolute",
+		right:"10%",
+		top: "40px",
+	},
+	fileCardActionItem:{
+		display:"block"
+	}
 }));
 
 export default function Dashboard(props) {
@@ -81,19 +96,32 @@ export default function Dashboard(props) {
 										}
 									});
 									return (
-										<ListItem button className={classes.fileCard} key={dataset["id"]}
-												  onClick={() =>selectDataset(dataset["id"])}>
-											<Grid item xl={2} lg={2} md={2} sm={2} xs={12}>
-												{thumbnailComp}
-											</Grid>
-											<Grid item xl={10} lg={10} md={10} sm={10} xs={12}>
-												<Box className={classes.fileCardText}>
-													<Typography>Dataset name: {dataset["name"]}</Typography>
-													<Typography>Description: {dataset["description"]}</Typography>
-													<Typography>Created on: {dataset["created"]}</Typography>
+										<Box className={classes.fileCardOuterBox}>
+											<ListItem button className={classes.fileCard} key={dataset["id"]}
+													  onClick={() =>selectDataset(dataset["id"])}>
+												<Grid item xl={2} lg={2} md={2} sm={2} xs={12}>
+													{thumbnailComp}
+												</Grid>
+												<Grid item xl={10} lg={10} md={10} sm={10} xs={12}>
+													<Box className={classes.fileCardText}>
+														<Typography>Dataset name: {dataset["name"]}</Typography>
+														<Typography>Description: {dataset["description"]}</Typography>
+														<Typography>Created on: {dataset["created"]}</Typography>
+													</Box>
+												</Grid>
+											</ListItem>
+											<Box className={classes.fileCardActionBox}>
+												<Box className={classes.fileCardActionItem}>
+													<Button startIcon={<DeleteOutlineIcon />}>Delete</Button>
 												</Box>
-											</Grid>
-										</ListItem>
+												<Box className={classes.fileCardActionItem}>
+													<Button startIcon={<StarBorderIcon />}>Follow</Button>
+												</Box>
+												<Box className={classes.fileCardActionItem}>
+													<Button startIcon={<CloudDownloadOutlinedIcon />}>Download</Button>
+												</Box>
+											</Box>
+										</Box>
 									);
 								})
 								:
