@@ -62,46 +62,6 @@ export function dataURItoFile(dataURI) {
 	return new File([blob], filename, {type: mime, lastModified: new Date()});
 }
 
-export async function upload(endpoint, formData, type='application/json') {
-	endpoint = `${config.hostname}/clowder/api/${endpoint}`;
-	let authHeader = getHeader();
-	let body;
-
-	if (type === "application/json"){
-		authHeader.append('Accept', type);
-		authHeader.append('Content-Type', type);
-		body = JSON.stringify(formData);
-	}
-	else if (type === "multipart/form-data"){
-		body = new FormData();
-		formData.map((item) =>{
-			if (item["file"] !== undefined) body.append("file", dataURItoFile(item["file"]));
-			// TODO
-			else body.append("text", JSON.stringify(item))
-		});
-	}
-
-	let response = await fetch(endpoint, {
-		method: "POST",
-		mode: "cors",
-		headers: authHeader,
-		body: body,
-	});
-
-	if (response.status === 200) {
-		// {id:xxx}
-		// {ids:[{id:xxx}, {id:xxx}]}
-		return response.json();
-	} else if (response.status === 401) {
-		// TODO handle error
-		return {};
-	} else {
-		// TODO handle error
-		return {};
-	}
-}
-
-
 // get current username
 // export function getCurrUsername(){
 // 	if (process.env.DEPLOY_ENV === "local"){

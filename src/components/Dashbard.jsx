@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {makeStyles} from "@material-ui/core/styles";
 import {AppBar, Box, Link, Dialog, DialogTitle, Grid, ListItem, Tab, Tabs, Typography, Button} from "@material-ui/core";
 import BusinessCenterIcon from '@material-ui/icons/BusinessCenter';
-import Uploader from "./childComponents/Uploader";
+import CreateDataset from "./childComponents/CreateDataset";
 
 const useStyles = makeStyles((theme) => ({
 	appBar: {
@@ -131,8 +131,7 @@ export default function Dashboard(props) {
 			<Dialog open={open} onClose={()=>{setOpen(false);}} fullWidth={true} aria-labelledby="create-dataset">
 				<DialogTitle id="form-dialog-title">Create New Dataset</DialogTitle>
 				{/*pass select to uploader so once upload succeeded, can jump to that dataset/file page*/}
-				<Uploader uploaderSchema={datasetSchema} action={selectDataset} endpoint="datasets/createempty"
-						  postType="application/json"/>
+				<CreateDataset selectDataset={selectDataset}/>
 			</Dialog>
 		</div>
 	);

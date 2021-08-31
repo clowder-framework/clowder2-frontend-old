@@ -18,7 +18,7 @@ import {ClowderInput} from "./styledComponents/ClowderInput";
 import {ClowderButton} from "./styledComponents/ClowderButton";
 import DescriptionIcon from "@material-ui/icons/Description";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-import Uploader from "./childComponents/Uploader";
+import UploadFile from "./childComponents/UploadFile";
 
 const useStyles = makeStyles((theme) => ({
 	appBar: {
@@ -214,9 +214,7 @@ export default function Dataset(props) {
 			<Dialog open={open} onClose={()=>{setOpen(false);}} fullWidth={true} aria-labelledby="form-dialog">
 				<DialogTitle id="form-dialog-title">Add Files</DialogTitle>
 				{/*pass select to uploader so once upload succeeded, can jump to that dataset/file page*/}
-				<Uploader uploaderSchema={fileSchema} action={()=>{ selectDataset(selectedDatasetId); }}
-						  endpoint={`datasets/${selectedDatasetId}/files`}
-						  postType="multipart/form-data"/>
+				<UploadFile selectedDatasetId={selectedDatasetId} selectDataset={selectDataset}/>
 			</Dialog>
 		</div>
 	);

@@ -18,23 +18,26 @@ export async function fetchFileMetadata(id){
 	}
 }
 
-export async function uploadFile(){
-	let endpoint = `${config.hostname}/clowder/api/files?superAdmin=true`;
+export async function uploadFile(formData, selectedDatasetId) {
+	let endpoint = `${config.hostname}/clowder/api/datasets/${selectedDatasetId}/files`;
 	let authHeader = getHeader();
-	authHeader.append('Accept', 'application/json');
-	authHeader.append('Content-Type', 'application/json');
-
-	// upload attached file (data-url); then get the id
-	// use that id as "file_id" field
+	let body = new FormData();
+	formData.map((item) =>{
+		if (item["file"] !== undefined){
+			body.append("file", dataURItoFile(item["file"]));
+		}
+	});
 
 	let response = await fetch(endpoint, {
 		method: "POST",
 		mode: "cors",
 		headers: authHeader,
-		body: JSON.stringify(formData),
+		body: body,
 	});
 
 	if (response.status === 200) {
+		// {id:xxx}
+		// {ids:[{id:xxx}, {id:xxx}]}
 		return response.json();
 	} else if (response.status === 401) {
 		// TODO handle error
@@ -43,9 +46,4 @@ export async function uploadFile(){
 		// TODO handle error
 		return {};
 	}
-}
-
-export async function attachFile(payload, dataurl){
-	// need to convert data uri to blob then append
-	payload.append("file", dataURItoFile(dataurl["dataurl"], dataurl["filename"]));
 }
