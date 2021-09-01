@@ -37,6 +37,7 @@ export default function App(props) {
 		//dataset
 		listFilesInDataset, filesInDataset,
 		listDatasetAbout, datasetAbout,
+		deleteDataset,
 
 		//dashboard
 		listDatasets, datasets,
@@ -188,6 +189,7 @@ export default function App(props) {
 											  previous={previous}
 											  next={next}
 											  datasetSchema={datasetSchema}
+											  deleteDataset={deleteDataset}
 							/>
 						} else if (selectedFileId === "") {
 							return <Dataset files={filesInDataset}

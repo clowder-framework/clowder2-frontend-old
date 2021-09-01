@@ -9,7 +9,8 @@ import {
 import {
 	fetchFilesInDataset,
 	fetchDatasetAbout,
-	fetchDatasets
+	fetchDatasets,
+	deleteDataset
 } from "../actions/dataset";
 
 const mapStateToProps = (state) => {
@@ -19,7 +20,8 @@ const mapStateToProps = (state) => {
 		filePreviews: state.file.previews,
 		filesInDataset: state.dataset.files,
 		datasetAbout: state.dataset.about,
-		datasets: state.dataset.datasets
+		datasets: state.dataset.datasets,
+		status: state.dataset.status,
 	};
 };
 
@@ -42,6 +44,9 @@ const mapDispatchToProps = (dispatch) => {
 		},
 		listDatasets: (when, date, limit) =>{
 			dispatch(fetchDatasets(when, date, limit));
+		},
+		deleteDataset: (datasetId) => {
+			dispatch(deleteDataset(datasetId));
 		}
 	};
 };

@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Dashboard(props) {
 	const classes = useStyles();
 
-	const {datasets, selectDataset, thumbnails, previous, next, datasetSchema, ...other} = props;
+	const {datasets, selectDataset, deleteDataset, thumbnails, previous, next, datasetSchema, ...other} = props;
 
 	const [selectedTabIndex, setSelectedTabIndex] = useState(0);
 	const [open, setOpen] = React.useState(false);
@@ -112,7 +112,9 @@ export default function Dashboard(props) {
 											</ListItem>
 											<Box className={classes.fileCardActionBox}>
 												<Box className={classes.fileCardActionItem}>
-													<Button startIcon={<DeleteOutlineIcon />}>Delete</Button>
+													<Button startIcon={<DeleteOutlineIcon />}
+															onClick={()=>{deleteDataset(dataset["id"]);}}>
+													Delete</Button>
 												</Box>
 												<Box className={classes.fileCardActionItem}>
 													<Button startIcon={<StarBorderIcon />}>Follow</Button>
