@@ -88,8 +88,7 @@ export const DELETE_DATASET = "DELETE_DATASET";
 export function deleteDataset(datasetId){
 	let url = `${config.hostname}/clowder/api/datasets/${datasetId}?superAdmin=true`;
 	return (dispatch) => {
-		// return fetch(url, {mode:"cors", method:"DELETE", headers: getHeader()})
-		return fetch(url, {mode:"cors", method:"GET", headers: getHeader()})
+		return fetch(url, {mode:"cors", method:"DELETE", headers: getHeader()})
 		.then((response) => {
 			if (response.status === 200) {
 				response.json().then(json =>{
@@ -101,10 +100,12 @@ export function deleteDataset(datasetId){
 				});
 			}
 			else {
-				dispatch({
-					type: DELETE_DATASET,
-					datasetId: {"id": null, "status": json["status"]===undefined?json["status"]:"fail"},
-					receivedAt: Date.now(),
+				response.json().then(json => {
+					dispatch({
+						type: DELETE_DATASET,
+						datasetId: {"id": null, "status": json["status"] === undefined ? json["status"] : "fail"},
+						receivedAt: Date.now(),
+					});
 				});
 			}
 		});

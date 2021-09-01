@@ -89,7 +89,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Dataset(props) {
 	const classes = useStyles();
 
-	const {files, thumbnails, about, selectFile, selectedDatasetId, selectDataset, fileSchema, ...other} = props;
+	const {files, thumbnails, about, selectFile, selectedDatasetId, deleteDataset, selectDataset, fileSchema, ...other} = props;
 
 	const [selectedTabIndex, setSelectedTabIndex] = useState(0);
 	const [open, setOpen] = React.useState(false);
@@ -137,7 +137,12 @@ export default function Dataset(props) {
 								>
 									<MenuItem onClick={()=>{ setOpen(true); handleOptionClose();}} className={classes.optionMenuItem}>Add Files</MenuItem>
 									<MenuItem onClick={handleOptionClose} className={classes.optionMenuItem}>Download All</MenuItem>
-									<MenuItem onClick={handleOptionClose} className={classes.optionMenuItem}>Delete</MenuItem>
+									<MenuItem onClick={()=>{
+										deleteDataset(selectedDatasetId);
+										handleOptionClose();
+										// TODO go to the explore page
+									}
+									} className={classes.optionMenuItem}>Delete</MenuItem>
 									<MenuItem onClick={handleOptionClose} className={classes.optionMenuItem}>Follow</MenuItem>
 									<MenuItem onClick={handleOptionClose} className={classes.optionMenuItem}>Collaborators</MenuItem>
 									<MenuItem onClick={handleOptionClose} className={classes.optionMenuItem}>Extraction</MenuItem>
