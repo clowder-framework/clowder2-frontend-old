@@ -22,6 +22,7 @@ import UploadFile from "./childComponents/UploadFile";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import CloudDownloadOutlinedIcon from "@material-ui/icons/CloudDownloadOutlined";
+import {downloadDataset} from "../utils/dataset";
 
 const useStyles = makeStyles((theme) => ({
 	appBar: {
@@ -136,8 +137,20 @@ export default function Dataset(props) {
 									open={Boolean(anchorEl)}
 									onClose={handleOptionClose}
 								>
-									<MenuItem onClick={()=>{ setOpen(true); handleOptionClose();}} className={classes.optionMenuItem}>Add Files</MenuItem>
-									<MenuItem onClick={handleOptionClose} className={classes.optionMenuItem}>Download All</MenuItem>
+									<MenuItem className={classes.optionMenuItem}
+											  onClick={()=>{
+											  	setOpen(true);
+											  	handleOptionClose();
+											  }}>
+										Add Files
+									</MenuItem>
+									<MenuItem className={classes.optionMenuItem}
+											  onClick={() => {
+											  	downloadDataset(selectedDatasetId, about["name"]);
+											  	handleOptionClose();
+											  }}>
+										Download All
+									</MenuItem>
 									<MenuItem onClick={()=>{
 										deleteDataset(selectedDatasetId);
 										handleOptionClose();
