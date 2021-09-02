@@ -89,7 +89,8 @@ const useStyles = makeStyles((theme) => ({
 export default function Dataset(props) {
 	const classes = useStyles();
 
-	const {files, thumbnails, about, selectFile, selectedDatasetId, deleteDataset, selectDataset, fileSchema, ...other} = props;
+	const {files, deleteFile, thumbnails, about, selectFile, selectedDatasetId, deleteDataset, selectDataset,
+		fileSchema, ...other} = props;
 
 	const [selectedTabIndex, setSelectedTabIndex] = useState(0);
 	const [open, setOpen] = React.useState(false);
@@ -182,7 +183,8 @@ export default function Dataset(props) {
 											</ListItem>
 											<Box className={classes.fileCardActionBox}>
 												<Box className={classes.fileCardActionItem}>
-													<Button startIcon={<DeleteOutlineIcon />}>Delete</Button>
+													<Button startIcon={<DeleteOutlineIcon />}
+															onClick={()=>{deleteFile(file["id"]);}}>Delete</Button>
 												</Box>
 												<Box className={classes.fileCardActionItem}>
 													<Button startIcon={<StarBorderIcon />}>Follow</Button>

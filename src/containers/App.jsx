@@ -1,6 +1,7 @@
 import {connect} from "react-redux";
 import AppComponent from "../components/App";
 import {
+	deleteFile,
 	fetchFileExtractedMetadata,
 	fetchFileMetadataJsonld,
 	fetchFilePreviews
@@ -38,6 +39,9 @@ const mapDispatchToProps = (dispatch) => {
 		},
 		listFilesInDataset: (datasetId) => {
 			dispatch(fetchFilesInDataset(datasetId));
+		},
+		deleteFile: (fileId) => {
+			dispatch(deleteFile(fileId));
 		},
 		listDatasetAbout: (datasetId) => {
 			dispatch(fetchDatasetAbout(datasetId));

@@ -103,7 +103,7 @@ export function deleteDataset(datasetId){
 				response.json().then(json => {
 					dispatch({
 						type: DELETE_DATASET,
-						datasetId: {"id": null, "status": json["status"] === undefined ? json["status"] : "fail"},
+						dataset: {"id": null, "status": json["status"] === undefined ? json["status"] : "fail"},
 						receivedAt: Date.now(),
 					});
 				});

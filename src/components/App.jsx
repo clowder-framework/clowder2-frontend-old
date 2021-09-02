@@ -37,10 +37,10 @@ export default function App(props) {
 		//dataset
 		listFilesInDataset, filesInDataset,
 		listDatasetAbout, datasetAbout,
-		deleteDataset,
+		deleteFile,
 
 		//dashboard
-		listDatasets, datasets,
+		deleteDataset, listDatasets, datasets,
 
 		...other
 	} = props;
@@ -200,6 +200,7 @@ export default function App(props) {
 											selectedDatasetId = {selectedDatasetId}
 											selectDataset={selectDataset}
 											deleteDataset={deleteDataset}
+											deleteFile={deleteFile}
 							/>
 						} else {
 							return fileMetadataList.map((fileMetadata) => {
