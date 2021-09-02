@@ -172,7 +172,7 @@ export default function Dataset(props) {
 												<Grid item xl={2} lg={2} md={2} sm={2} xs={12}>
 													{thumbnailComp}
 												</Grid>
-												<Grid item xl={10} lg={10} md={10} sm={10} xs={12}>
+												<Grid item xl={8} lg={8} md={8} sm={8} xs={12}>
 													<Box className={classes.fileCardText}>
 														<Typography>File name: {file["filename"]}</Typography>
 														<Typography>File size: {file["size"]}</Typography>

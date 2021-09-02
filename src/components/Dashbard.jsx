@@ -7,6 +7,7 @@ import StarBorderIcon from "@material-ui/icons/StarBorder";
 import CloudDownloadOutlinedIcon from "@material-ui/icons/CloudDownloadOutlined";
 
 import CreateDataset from "./childComponents/CreateDataset";
+import {downloadDataset} from "../utils/dataset";
 
 const useStyles = makeStyles((theme) => ({
 	appBar: {
@@ -102,7 +103,7 @@ export default function Dashboard(props) {
 												<Grid item xl={2} lg={2} md={2} sm={2} xs={12}>
 													{thumbnailComp}
 												</Grid>
-												<Grid item xl={10} lg={10} md={10} sm={10} xs={12}>
+												<Grid item xl={8} lg={8} md={8} sm={8} xs={12}>
 													<Box className={classes.fileCardText}>
 														<Typography>Dataset name: {dataset["name"]}</Typography>
 														<Typography>Description: {dataset["description"]}</Typography>
@@ -120,7 +121,9 @@ export default function Dashboard(props) {
 													<Button startIcon={<StarBorderIcon/>}>Follow</Button>
 												</Box>
 												<Box className={classes.fileCardActionItem}>
-													<Button startIcon={<CloudDownloadOutlinedIcon/>}>Download</Button>
+													<Button startIcon={<CloudDownloadOutlinedIcon/>}
+															onClick={() => {downloadDataset(dataset["id"], dataset["name"]);}}>
+														Download</Button>
 												</Box>
 											</Box>
 										</Box>
