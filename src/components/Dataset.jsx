@@ -23,6 +23,7 @@ import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import CloudDownloadOutlinedIcon from "@material-ui/icons/CloudDownloadOutlined";
 import {downloadDataset} from "../utils/dataset";
+import {downloadFile} from "../utils/file";
 
 const useStyles = makeStyles((theme) => ({
 	appBar: {
@@ -203,7 +204,9 @@ export default function Dataset(props) {
 													<Button startIcon={<StarBorderIcon />}>Follow</Button>
 												</Box>
 												<Box className={classes.fileCardActionItem}>
-													<Button startIcon={<CloudDownloadOutlinedIcon />}>Download</Button>
+													<Button startIcon={<CloudDownloadOutlinedIcon />}
+															onClick={()=>{downloadFile(file["id"], file["filename"]);}}>
+														Download</Button>
 												</Box>
 											</Box>
 										</Box>

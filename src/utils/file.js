@@ -19,7 +19,7 @@ export async function fetchFileMetadata(id){
 }
 
 export async function uploadFile(formData, selectedDatasetId) {
-	let endpoint = `${config.hostname}/clowder/api/datasets/${selectedDatasetId}/files`;
+	let endpoint = `${config.hostname}/clowder/api/datasets/${selectedDatasetId}/files?superAdmin=true`;
 	let authHeader = getHeader();
 	let body = new FormData();
 	formData.map((item) =>{
@@ -46,4 +46,35 @@ export async function uploadFile(formData, selectedDatasetId) {
 		// TODO handle error
 		return {};
 	}
+}
+
+export async function downloadFile(fileId, filename=null){
+
+	if (!filename){
+		filename = `${fileId}.zip`;
+	}
+	let endpoint = `${config.hostname}/clowder/api/files/${fileId}/blob?superAdmin=true`;
+	let response = await fetch(endpoint, {method: "GET", mode: "cors", headers: await getHeader()});
+
+	if (response.status === 200) {
+		let blob = await response.blob();
+		if (window.navigator.msSaveOrOpenBlob) {
+			window.navigator.msSaveBlob(blob, filename);
+		} else {
+			let anchor = window.document.createElement("a");
+			anchor.href = window.URL.createObjectURL(blob);
+			anchor.download = filename;
+			document.body.appendChild(anchor);
+			anchor.click();
+			document.body.removeChild(anchor);
+		}
+	}
+	else if (response.status === 401) {
+		// TODO
+		console.log(response.json());
+	}
+	else {
+		console.log(response.json());
+	}
+
 }

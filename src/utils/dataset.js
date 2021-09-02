@@ -2,7 +2,7 @@ import {getHeader} from "./common";
 import config from "../app.config";
 
 export async function createDataset(formData) {
-	let endpoint = `${config.hostname}/clowder/api/datasets/createempty`;
+	let endpoint = `${config.hostname}/clowder/api/datasets/createempty?superAdmin=true`;
 
 	let authHeader = getHeader();
 	authHeader.append('Accept', 'application/json');
@@ -38,7 +38,7 @@ export async function downloadDataset(datasetId, filename=null){
 	else{
 		filename = `${datasetId}.zip`;
 	}
-	let endpoint = `${config.hostname}/clowder/api/datasets/${datasetId}/download`;
+	let endpoint = `${config.hostname}/clowder/api/datasets/${datasetId}/download?superAdmin=true`;
 	let response = await fetch(endpoint, {method: "GET", mode: "cors", headers: await getHeader()});
 
 	if (response.status === 200) {
