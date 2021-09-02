@@ -9,7 +9,6 @@ import Form from "@rjsf/material-ui";
 
 import {uploadFile} from "../../utils/file.js";
 import fileSchema from "../../schema/fileSchema.json";
-import datasetSchema from "../../schema/datasetSchema.json";
 
 const useStyles = makeStyles();
 
@@ -24,8 +23,12 @@ export default function UploadFile(props) {
 	const onSave = async (formData) => {
 		setLoading(true);
 		const response = await uploadFile(formData, selectedDatasetId);
-		if (response !== {} && response["ids"] !== undefined){
+		if (response !== {} && (response["id"] !== undefined || response["ids"] !== undefined)){
 			selectDataset(selectedDatasetId);
+		}
+		else{
+			// TODO display error message to show upload unsuccess
+			console.log("fail to upload files!");
 		}
 		setLoading(false);
 		setOpen(false);
