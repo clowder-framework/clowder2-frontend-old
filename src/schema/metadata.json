@@ -1,0 +1,41 @@
+{
+  "schema": {
+	"type": "object",
+	"required": [],
+	"properties": {
+	  "Abstract": {
+		"type": "string",
+		"title": "Abstract"
+	  },
+	  "Alternative Title": {
+		"type": "string",
+		"title": "Alternative Title"
+	  },
+	  "Audience": {
+		"type": "string",
+		"title": "Audience"
+	  },
+	  "DOI": {
+		"type": "string",
+		"title": "DOI"
+	  },
+	  "Date and Time": {
+		"type": "string",
+		"title": "Date and Time"
+	  },
+	  "Funding Institution": {
+		"type": "string",
+		"title": "Funding Institution"
+	  },
+	  "Grant Number": {
+		"type": "string",
+		"title": "Grant Number"
+	  },
+	  "Keywords": {
+		"type": "string",
+		"title": "Keywords"
+	  }
+	}
+  },
+  "uiSchema": {}
+}

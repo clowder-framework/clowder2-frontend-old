@@ -24,6 +24,7 @@ import StarBorderIcon from "@material-ui/icons/StarBorder";
 import CloudDownloadOutlinedIcon from "@material-ui/icons/CloudDownloadOutlined";
 import {downloadDataset} from "../utils/dataset";
 import {downloadFile} from "../utils/file";
+import MetadataTab from "./childComponents/MetadataTab";
 
 const useStyles = makeStyles((theme) => ({
 	appBar: {
@@ -92,7 +93,7 @@ export default function Dataset(props) {
 	const classes = useStyles();
 
 	const {files, deleteFile, thumbnails, about, selectFile, selectedDatasetId, deleteDataset, selectDataset,
-		fileSchema, ...other} = props;
+		datasetMetadataJsonld, fileSchema, ...other} = props;
 
 	const [selectedTabIndex, setSelectedTabIndex] = useState(0);
 	const [open, setOpen] = React.useState(false);
@@ -164,8 +165,8 @@ export default function Dataset(props) {
 								</Menu>
 							</Box>
 					</AppBar>
+					{/*files*/}
 					<TabPanel value={selectedTabIndex} index={0}>
-
 						{
 							files !== undefined && thumbnails !== undefined ?
 								files.map((file) => {
@@ -216,7 +217,19 @@ export default function Dataset(props) {
 								<></>
 						}
 					</TabPanel>
-					<TabPanel value={selectedTabIndex} index={1}></TabPanel>
+					{/*metadata*/}
+					<TabPanel value={selectedTabIndex} index={1}>
+						<MetadataTab />
+						{
+							datasetMetadataJsonld !== undefined && datasetMetadataJsonld.length > 0 ?
+								datasetMetadataJsonld.map((item) => {
+									return Object.keys(item["content"]).map((key) => {
+											return (<p>{key} - {JSON.stringify(item["content"][key])}</p>);
+										}
+									);
+								}) : <></>
+						}
+					</TabPanel>
 					<TabPanel value={selectedTabIndex} index={2}></TabPanel>
 					<TabPanel value={selectedTabIndex} index={3}></TabPanel>
 					<TabPanel value={selectedTabIndex} index={4}></TabPanel>

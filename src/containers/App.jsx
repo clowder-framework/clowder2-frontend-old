@@ -11,7 +11,7 @@ import {
 	fetchFilesInDataset,
 	fetchDatasetAbout,
 	fetchDatasets,
-	deleteDataset
+	deleteDataset, fetchDatasetMetadataJsonld
 } from "../actions/dataset";
 
 const mapStateToProps = (state) => {
@@ -21,6 +21,7 @@ const mapStateToProps = (state) => {
 		filePreviews: state.file.previews,
 		filesInDataset: state.dataset.files,
 		datasetAbout: state.dataset.about,
+		datasetMetadataJsonld: state.dataset.metadataJsonld,
 		datasets: state.dataset.datasets,
 		status: state.dataset.status,
 	};
@@ -45,6 +46,9 @@ const mapDispatchToProps = (dispatch) => {
 		},
 		listDatasetAbout: (datasetId) => {
 			dispatch(fetchDatasetAbout(datasetId));
+		},
+		listDatasetMetadataJsonld:(datasetId) => {
+			dispatch(fetchDatasetMetadataJsonld(datasetId));
 		},
 		listDatasets: (when, date, limit) =>{
 			dispatch(fetchDatasets(when, date, limit));

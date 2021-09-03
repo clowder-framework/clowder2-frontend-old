@@ -37,7 +37,7 @@ export default function App(props) {
 		//dataset
 		listFilesInDataset, filesInDataset,
 		listDatasetAbout, datasetAbout,
-		deleteFile,
+		deleteFile, listDatasetMetadataJsonld, datasetMetadataJsonld,
 
 		//dashboard
 		deleteDataset, listDatasets, datasets,
@@ -151,6 +151,7 @@ export default function App(props) {
 		// load dataset information
 		listFilesInDataset(selectedDatasetId);
 		listDatasetAbout(selectedDatasetId);
+		listDatasetMetadataJsonld(selectedDatasetId);
 	}
 
 	const selectFile = (selectedFileId) => {
@@ -196,6 +197,7 @@ export default function App(props) {
 											selectFile={selectFile}
 											thumbnails={fileThumbnailList}
 											about={datasetAbout}
+											datasetMetadataJsonld={datasetMetadataJsonld}
 											fileSchema={fileSchema}
 											selectedDatasetId = {selectedDatasetId}
 											selectDataset={selectDataset}
