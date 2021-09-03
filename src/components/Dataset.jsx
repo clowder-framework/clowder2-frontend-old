@@ -24,7 +24,8 @@ import StarBorderIcon from "@material-ui/icons/StarBorder";
 import CloudDownloadOutlinedIcon from "@material-ui/icons/CloudDownloadOutlined";
 import {downloadDataset} from "../utils/dataset";
 import {downloadFile} from "../utils/file";
-import MetadataTab from "./childComponents/MetadataTab";
+import CreateMetadata from "./childComponents/CreateMetadata";
+import Metadata from "./childComponents/Metadata";
 
 const useStyles = makeStyles((theme) => ({
 	appBar: {
@@ -219,14 +220,11 @@ export default function Dataset(props) {
 					</TabPanel>
 					{/*metadata*/}
 					<TabPanel value={selectedTabIndex} index={1}>
-						<MetadataTab />
+						{/*<CreateMetadata />*/}
 						{
 							datasetMetadataJsonld !== undefined && datasetMetadataJsonld.length > 0 ?
 								datasetMetadataJsonld.map((item) => {
-									return Object.keys(item["content"]).map((key) => {
-											return (<p>{key} - {JSON.stringify(item["content"][key])}</p>);
-										}
-									);
+									return <Metadata jsonld={item}/>
 								}) : <></>
 						}
 					</TabPanel>

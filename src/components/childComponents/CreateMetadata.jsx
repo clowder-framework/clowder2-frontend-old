@@ -9,7 +9,7 @@ import metadataSchema from "../../schema/metadata.json";
 
 const useStyles = makeStyles();
 
-export default function MetadataTab(props) {
+export default function CreateMetadata(props) {
 	const {...other} = props;
 	const classes = useStyles();
 

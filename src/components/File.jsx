@@ -8,6 +8,7 @@ import Audio from "./previewers/Audio";
 import Video from "./previewers/Video";
 import {downloadResource} from "../utils/common";
 import Thumbnail from "./previewers/Thumbnail";
+import Metadata from "./childComponents/Metadata";
 
 const useStyles = makeStyles((theme) => ({
 	appBar: {
@@ -95,10 +96,7 @@ export default function File(props) {
 							{
 								fileMetadataJsonld !== undefined && fileMetadataJsonld.length > 0 ?
 									fileMetadataJsonld.map((item) => {
-										return Object.keys(item["content"]).map((key) => {
-												return (<p>{key} - {JSON.stringify(item["content"][key])}</p>);
-											}
-										);
+										return <Metadata jsonld={item}/>
 									}) : <></>
 							}
 						</TabPanel>
