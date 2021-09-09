@@ -223,9 +223,7 @@ export default function Dataset(props) {
 						{/*<CreateMetadata />*/}
 						{
 							datasetMetadataJsonld !== undefined && datasetMetadataJsonld.length > 0 ?
-								datasetMetadataJsonld.map((item) => {
-									return <Metadata jsonld={item}/>
-								}) : <></>
+								<Metadata jsonld={datasetMetadataJsonld}/> : <></>
 						}
 					</TabPanel>
 					<TabPanel value={selectedTabIndex} index={2}></TabPanel>

@@ -1,15 +1,13 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import {Accordion, Box, AccordionDetails ,AccordionSummary , Typography, Link} from "@material-ui/core";
+import {makeStyles} from "@material-ui/core/styles";
+import {Accordion, Box, AccordionDetails, AccordionSummary, Typography, Link} from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
-		padding:"50px"
+		padding: "50px"
 	},
-	title:{
-
-	},
+	title: {},
 	heading: {
 		fontSize: theme.typography.pxToRem(15),
 		flexBasis: "33.33%",
@@ -34,30 +32,32 @@ export default function Metadata(props) {
 
 	return (
 		<Box className={classes.root}>
-			<Typography>Extracted by <Link href={jsonld["agent"]["extractor_id"]}>{jsonld["agent"]["name"]}
-			</Link> on {jsonld["created_at"]}</Typography>
-			{
-				Object.keys(jsonld["content"]).map((key, index) => {
-					return (
-							<Accordion expanded={expanded === `panel-${index.toString()}`}
-									   onChange={handleChange(`panel-${index.toString()}`)}>
-								<AccordionSummary
-									expandIcon={<ExpandMoreIcon />}
-									aria-controls={`panel-${index.toString()}-bh-content`}
-									id={`panel-${index.toString()}-bh-header`}
-								>
-									<Typography className={classes.heading}>{key}</Typography>
-									<Typography className={classes.secondaryHeading}>
-										{JSON.stringify(jsonld["content"][key])}</Typography>
-								</AccordionSummary>
-								<AccordionDetails>
-									<Typography>
-										action to show more information and delete
-									</Typography>
-								</AccordionDetails>
-							</Accordion>
-					);
-				})
+			{jsonld.map((item, index) => {
+				return (
+					<Accordion onChange={handleChange(`panel-${index.toString()}`)}>
+						<AccordionSummary
+							expandIcon={<ExpandMoreIcon/>}
+							aria-controls={`panel-${index.toString()}-bh-content`}
+							id={`panel-${index.toString()}-bh-header`}
+						>
+							<Typography>Extracted by <Link
+								href={item["agent"]["extractor_id"]}>{item["agent"]["name"]}</Link>
+								&nbsp;on {item["created_at"]}</Typography>
+						</AccordionSummary>
+						{
+							Object.keys(item["content"]).map((key, index) => {
+								return (
+									<AccordionDetails>
+										<Typography className={classes.heading}>{key}</Typography>
+										<Typography className={classes.secondaryHeading}>
+											{JSON.stringify(item["content"][key])}</Typography>
+									</AccordionDetails>
+								);
+							})
+						}
+					</Accordion>
+				)
+			})
 			}
 		</Box>
 	);

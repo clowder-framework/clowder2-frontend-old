@@ -93,11 +93,10 @@ export default function File(props) {
 							NA
 						</TabPanel>
 						<TabPanel value={selectedTabIndex} index={2}>
+							{/*<CreateMetadata />*/}
 							{
 								fileMetadataJsonld !== undefined && fileMetadataJsonld.length > 0 ?
-									fileMetadataJsonld.map((item) => {
-										return <Metadata jsonld={item}/>
-									}) : <></>
+									<Metadata jsonld={fileMetadataJsonld}/> : <></>
 							}
 						</TabPanel>
 						<TabPanel value={selectedTabIndex} index={3}>
