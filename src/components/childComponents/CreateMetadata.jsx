@@ -5,21 +5,19 @@ import {makeStyles} from "@material-ui/core/styles";
 
 import Form from "@rjsf/material-ui";
 import metadataSchema from "../../schema/metadata.json";
-// import {MetadataTab} from "../../utils/dataset";
+import {postMetadata} from "../../utils/metadata";
 
 const useStyles = makeStyles();
 
 export default function CreateMetadata(props) {
-	const {...other} = props;
+	const {resourceType, resourceId, listMetadataJsonld, ...other} = props;
 	const classes = useStyles();
 
-	const [disabled, setDisabled] = useState(true);
-
 	const onSave = async (formData) => {
-		// const response = await MetadataTab(formData);
-		// if (response !== {} && response["id"] !== undefined){
-		// 	selectDataset(response["id"]);
-		// }
+		const response = await postMetadata(resourceType, resourceId, formData)
+		if (response !== {}){
+			listMetadataJsonld(resourceId);
+		}
 	};
 
 	return (

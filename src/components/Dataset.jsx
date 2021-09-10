@@ -94,7 +94,7 @@ export default function Dataset(props) {
 	const classes = useStyles();
 
 	const {files, deleteFile, thumbnails, about, selectFile, selectedDatasetId, deleteDataset, selectDataset,
-		datasetMetadataJsonld, fileSchema, ...other} = props;
+		datasetMetadataJsonld, listDatasetMetadataJsonld, fileSchema, ...other} = props;
 
 	const [selectedTabIndex, setSelectedTabIndex] = useState(0);
 	const [open, setOpen] = React.useState(false);
@@ -220,7 +220,8 @@ export default function Dataset(props) {
 					</TabPanel>
 					{/*metadata*/}
 					<TabPanel value={selectedTabIndex} index={1}>
-						{/*<CreateMetadata />*/}
+						<CreateMetadata resourceType="datasets" resourceId={selectedDatasetId}
+										listMetadataJsonld={listDatasetMetadataJsonld}/>
 						{
 							datasetMetadataJsonld !== undefined && datasetMetadataJsonld.length > 0 ?
 								<Metadata jsonld={datasetMetadataJsonld}/> : <></>

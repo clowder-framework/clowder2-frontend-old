@@ -21,7 +21,8 @@
 	  },
 	  "Date and Time": {
 		"type": "string",
-		"title": "Date and Time"
+		"title": "Date and Time",
+		"format": "date-time"
 	  },
 	  "Funding Institution": {
 		"type": "string",

@@ -198,6 +198,7 @@ export default function App(props) {
 											thumbnails={fileThumbnailList}
 											about={datasetAbout}
 											datasetMetadataJsonld={datasetMetadataJsonld}
+											listDatasetMetadataJsonld={listDatasetMetadataJsonld}
 											fileSchema={fileSchema}
 											selectedDatasetId = {selectedDatasetId}
 											selectDataset={selectDataset}
