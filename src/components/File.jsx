@@ -9,6 +9,7 @@ import Video from "./previewers/Video";
 import {downloadResource} from "../utils/common";
 import Thumbnail from "./previewers/Thumbnail";
 import Metadata from "./childComponents/Metadata";
+import CreateMetadata from "./childComponents/CreateMetadata";
 
 const useStyles = makeStyles((theme) => ({
 	appBar: {
@@ -27,7 +28,8 @@ const useStyles = makeStyles((theme) => ({
 export default function File(props) {
 	const classes = useStyles();
 
-	const {fileMetadata, fileExtractedMetadata, fileMetadataJsonld, filePreviews, fileId, ...other} = props;
+	const {selectedFileId, fileMetadata, fileExtractedMetadata, fileMetadataJsonld, listFileMetadataJsonld,
+		filePreviews, fileId, ...other} = props;
 
 	const [selectedTabIndex, setSelectedTabIndex] = useState(0);
 	const [previews, setPreviews] = useState([]);
@@ -93,7 +95,8 @@ export default function File(props) {
 							NA
 						</TabPanel>
 						<TabPanel value={selectedTabIndex} index={2}>
-							{/*<CreateMetadata />*/}
+							<CreateMetadata resourceType="files" resourceId={selectedFileId}
+											listMetadataJsonld={listFileMetadataJsonld}/>
 							{
 								fileMetadataJsonld !== undefined && fileMetadataJsonld.length > 0 ?
 									<Metadata jsonld={fileMetadataJsonld}/> : <></>
