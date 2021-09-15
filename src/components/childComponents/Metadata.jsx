@@ -1,7 +1,18 @@
 import React from "react";
 import {makeStyles} from "@material-ui/core/styles";
-import {Accordion, Box, AccordionDetails, AccordionSummary, Typography, Link} from "@material-ui/core";
+import {
+	Accordion,
+	Box,
+	AccordionDetails,
+	AccordionSummary,
+	Typography,
+	Link,
+	FormControlLabel
+} from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import DeleteIcon from "@material-ui/icons/Delete";
+import {deleteMetadata} from "../../utils/metadata";
+import config from "../../app.config";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -23,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Metadata(props) {
 	const classes = useStyles();
-	const {jsonld, ...others} = props;
+	const {jsonld, resourceType, resourceId, listMetadataJsonld, ...others} = props;
 	const [expanded, setExpanded] = React.useState(false);
 
 	const handleChange = (panel) => (event, isExpanded) => {
@@ -40,9 +51,23 @@ export default function Metadata(props) {
 							aria-controls={`panel-${index.toString()}-bh-content`}
 							id={`panel-${index.toString()}-bh-header`}
 						>
-							<Typography>Extracted by <Link
-								href={item["agent"]["extractor_id"]}>{item["agent"]["name"]}</Link>
-								&nbsp;on {item["created_at"]}</Typography>
+							<FormControlLabel
+								aria-label="Delete"
+								onClick={async (event) => {
+									event.stopPropagation();
+
+									let extractorId = item["agent"]["extractor_id"].replace(/.*extractors\//g, "");
+									const status = await deleteMetadata(resourceType, resourceId, extractorId);
+									if (status === 200){ listMetadataJsonld(resourceId); }
+								}}
+								onFocus={(event) => event.stopPropagation()}
+								control={<DeleteIcon />}
+								style={{"marginLeft": "0"}}
+								label={<Typography>Extracted by <Link
+									href={item["agent"]["extractor_id"]}>{item["agent"]["name"]}</Link>
+									&nbsp;on {item["created_at"]}</Typography>}
+							/>
+
 						</AccordionSummary>
 						{
 							Object.keys(item["content"]).map((key, index) => {

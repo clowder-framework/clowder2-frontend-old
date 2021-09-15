@@ -27,3 +27,15 @@ export async function postMetadata(resourceType="datasets", id, formData) {
 		return {};
 	}
 }
+
+
+export async function deleteMetadata(resourceType, id, extractorId="https://clowder.ncsa.illinois.edu/clowder/extractors/siegfried/2.0") {
+	let endpoint = `${config.hostname}/clowder/api/${resourceType}/${id}/metadata.jsonld?superAdmin=true&extractor=${extractorId}`;
+	let response = await fetch(endpoint, {
+		method: "DELETE",
+		mode: "cors",
+		headers: getHeader(),
+	});
+
+	return response.status;
+}

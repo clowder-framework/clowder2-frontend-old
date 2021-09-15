@@ -220,11 +220,18 @@ export default function Dataset(props) {
 					</TabPanel>
 					{/*metadata*/}
 					<TabPanel value={selectedTabIndex} index={1}>
-						<CreateMetadata resourceType="datasets" resourceId={selectedDatasetId}
+						<CreateMetadata resourceType="datasets"
+										resourceId={selectedDatasetId}
 										listMetadataJsonld={listDatasetMetadataJsonld}/>
 						{
 							datasetMetadataJsonld !== undefined && datasetMetadataJsonld.length > 0 ?
-								<Metadata jsonld={datasetMetadataJsonld}/> : <></>
+								<Metadata jsonld={datasetMetadataJsonld}
+										  resourceType="datasets"
+										  resourceId={selectedDatasetId}
+										  listMetadataJsonld={listDatasetMetadataJsonld}
+								/>
+								:
+								<></>
 						}
 					</TabPanel>
 					<TabPanel value={selectedTabIndex} index={2}></TabPanel>

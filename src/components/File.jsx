@@ -95,11 +95,18 @@ export default function File(props) {
 							NA
 						</TabPanel>
 						<TabPanel value={selectedTabIndex} index={2}>
-							<CreateMetadata resourceType="files" resourceId={selectedFileId}
+							<CreateMetadata resourceType="files"
+											resourceId={selectedFileId}
 											listMetadataJsonld={listFileMetadataJsonld}/>
 							{
 								fileMetadataJsonld !== undefined && fileMetadataJsonld.length > 0 ?
-									<Metadata jsonld={fileMetadataJsonld}/> : <></>
+									<Metadata jsonld={fileMetadataJsonld}
+											  resourceType="files"
+											  resourceId={selectedFileId}
+											  listMetadataJsonld={listFileMetadataJsonld}
+									/>
+									:
+									<></>
 							}
 						</TabPanel>
 						<TabPanel value={selectedTabIndex} index={3}>

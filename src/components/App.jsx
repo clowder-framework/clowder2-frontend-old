@@ -208,15 +208,14 @@ export default function App(props) {
 						} else {
 							return fileMetadataList.map((fileMetadata) => {
 								if (selectedFileId === fileMetadata["id"]) {
-									return (
-										<File selectedFileId={selectedFileId}
-											  fileMetadata={fileMetadata["metadata"]}
-											  fileExtractedMetadata={fileExtractedMetadata}
-											  fileMetadataJsonld={fileMetadataJsonld}
-											  listFileMetadataJsonld={listFileMetadataJsonld}
-											  filePreviews={filePreviews}
-											  fileId={selectedFileId}/>
-									)
+									return <File selectedFileId={selectedFileId}
+												 fileMetadata={fileMetadata["metadata"]}
+												 fileExtractedMetadata={fileExtractedMetadata}
+												 fileMetadataJsonld={fileMetadataJsonld}
+												 listFileMetadataJsonld={listFileMetadataJsonld}
+												 filePreviews={filePreviews}
+												 fileId={selectedFileId}
+									/>
 								}
 								else{
 									return <></>;
