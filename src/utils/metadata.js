@@ -2,7 +2,7 @@ import {getHeader} from "./common";
 import config from "../app.config";
 
 export async function postMetadata(resourceType="datasets", id, formData) {
-	let endpoint = `${config.hostname}/clowder/api/${resourceType}/${id}/metadata`;
+	let endpoint = `${config.hostname}/clowder/api/${resourceType}/${id}/metadata.jsonld`;
 
 	let authHeader = getHeader();
 	authHeader.append('Accept', 'application/json');

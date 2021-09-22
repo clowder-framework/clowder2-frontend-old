@@ -63,7 +63,7 @@ export default function Metadata(props) {
 								onFocus={(event) => event.stopPropagation()}
 								control={<DeleteIcon />}
 								style={{"marginLeft": "0"}}
-								label={<Typography>Extracted by <Link
+								label={<Typography style={{"wordBreak":"break-all"}}>Extracted by <Link
 									href={item["agent"]["extractor_id"]}>{item["agent"]["name"]}</Link>
 									&nbsp;on {item["created_at"]}</Typography>}
 							/>
