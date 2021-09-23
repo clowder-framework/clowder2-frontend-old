@@ -77,8 +77,13 @@ export default function File(props) {
 						<TabPanel value={selectedTabIndex} index={0}>
 							{
 								previews.map((preview) =>{
-									return(<Suspense fallback={<div>loading...</div>}>
-											{previewerList[preview["previewType"]]}
+									return(
+										<Suspense fallback={<div>loading...</div>}>
+											{(()=>{
+													let Previewer = previewerList[preview["previewType"]];
+													return <Previewer configuration={preview} />;
+												})()
+											}
 										</Suspense>
 									);
 								})
