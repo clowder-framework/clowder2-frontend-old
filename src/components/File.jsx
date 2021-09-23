@@ -1,11 +1,15 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, Suspense} from "react";
 import config from "../app.config";
 import {AppBar, Box, Divider, Grid, Tab, Tabs, Typography} from "@material-ui/core"
 import {makeStyles} from "@material-ui/core/styles";
 import {ClowderInput} from "./styledComponents/ClowderInput";
 import {ClowderButton} from "./styledComponents/ClowderButton";
-import Audio from "./previewers/Audio";
-import Video from "./previewers/Video";
+
+const Audio = React.lazy(() => import('./previewers/Audio'));
+const Video = React.lazy(() => import('./previewers/Video'));
+// import Audio from "./previewers/Audio";
+// import Video from "./previewers/Video";
+
 import {downloadResource} from "../utils/common";
 import Thumbnail from "./previewers/Thumbnail";
 import Metadata from "./childComponents/Metadata";
@@ -79,10 +83,18 @@ export default function File(props) {
 							{
 								previews.map((preview) =>{
 									if (preview["previewType"] === "audio"){
-										return <Audio fileId={preview["fileid"]} audioSrc={preview["resource"]} />;
+										return (
+											<Suspense fallback={<div>Loading...</div>}>
+												<Audio fileId={preview["fileid"]} audioSrc={preview["resource"]} />
+											</Suspense>
+										);
 									}
 									else if (preview["previewType"] === "video"){
-										return <Video fileId={preview["fileid"]} videoSrc={preview["resource"]} />;
+										return (
+											<Suspense fallback={<div>Loading...</div>}>
+												<Video fileId={preview["fileid"]} videoSrc={preview["resource"]} />
+											</Suspense>
+										);
 									}
 									else if (preview["previewType"] === "thumbnail"){
 										return <Thumbnail fileId={preview["fileid"]} fileType={preview["fileType"]}
