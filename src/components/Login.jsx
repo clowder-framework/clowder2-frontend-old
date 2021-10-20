@@ -1,12 +1,10 @@
 import React, {Component} from "react";
 import {browserHistory} from "react-router";
-import {Avatar, Box, Button, Divider, GridList, GridListTile, Paper, TextField, Typography, Link} from "@material-ui/core";
+import {Avatar, Button, Divider, GridList, GridListTile, Paper, TextField, Typography, Link} from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import Cookies from "universal-cookie";
 import {withStyles} from "@material-ui/core/styles";
 import config from "../app.config";
 
-const cookies = new Cookies();
 const styles = theme => ({
 	resetPW:{
 		display:"block",
@@ -40,7 +38,6 @@ class Login extends Component {
 			passwordErrorText: "",
 			loginErrorText: "",
 			error: false,
-			origin: props.location.query["origin"],
 		};
 
 		this.changeUsername = this.changeUsername.bind(this);
@@ -94,13 +91,7 @@ class Login extends Component {
 			});
 		}
 		if (!this.props.loginError) {
-			if ( this.state.origin === undefined ){
-				browserHistory.push("/");
-			}
-			else{
-				browserHistory.push(this.state.origin);
-			}
-
+			browserHistory.push("/");
 		}
 
 	}
@@ -164,10 +155,10 @@ class Login extends Component {
 										onKeyPress={this.handleKeyPressed}
 									/>
 									<Link href={config.resetPwURL} className={classes.resetPW} target="_blank">Forgot password?</Link>
-									<Box className={classes.tos}>
-										<Typography variant="body2" style={{"display":"inline"}}>By continuing, you agree to our </Typography>
-										<Link href={config.tosURL} style={{"display":"inline"}} target="_blank">Terms of Service</Link>
-									</Box>
+									{/*<Box className={classes.tos}>*/}
+									{/*	<Typography variant="body2" style={{"display":"inline"}}>By continuing, you agree to our </Typography>*/}
+									{/*	<Link href={config.tosURL} style={{"display":"inline"}} target="_blank">Terms of Service</Link>*/}
+									{/*</Box>*/}
 									<Button
 										type="submit"
 										fullWidth
@@ -175,7 +166,7 @@ class Login extends Component {
 										color="primary"
 										onClick={this.login}
 									>Sign In</Button>
-									<Link href={config.signUpURL} className={classes.signUp} target="_blank">Don't have an account? Sign up.</Link>
+									<Link href="" className={classes.signUp} target="_blank">Don't have an account? Sign up.</Link>
 								</GridListTile>
 							</GridList>
 						</Paper>
