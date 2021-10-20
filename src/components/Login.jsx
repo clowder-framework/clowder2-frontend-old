@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {browserHistory} from "react-router";
-import {Avatar, Button, Divider, GridList, GridListTile, Paper, TextField, Typography, Link} from "@material-ui/core";
+import {Avatar, Button, Divider, ImageList, ImageListItem, Paper, TextField, Typography, Link} from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import {withStyles} from "@material-ui/core/styles";
 import config from "../app.config";
@@ -101,7 +101,7 @@ class Login extends Component {
 		const {classes} = this.props;
 
 		// if already login, redirect to homepage
-		let Authorization = cookies.get("Authorization");
+		let Authorization = localStorage.getItem("Authorization");
 		if (Authorization !== undefined && Authorization !== "" && Authorization !== null) {
 			browserHistory.push("/");
 			return null;
@@ -113,7 +113,6 @@ class Login extends Component {
 				<div>
 					<div className="center"
 						 style={{display: "block", margin: "auto", width: "500px", paddingTop: "10%"}}>
-						{/*TODO: Add loading spinner here*/}
 						<Paper style={{padding: 40}}>
 							<Avatar style={{margin: "auto"}}>
 								<LockOutlinedIcon/>
@@ -122,11 +121,11 @@ class Login extends Component {
 								Sign in
 							</Typography>
 							<Divider/>
-							<GridList cols={1} cellHeight="auto">
-								<GridListTile>
+							<ImageList cols={1} cellHeight="auto">
+								<ImageListItem>
 									<p style={{color: "red"}}>{this.state.loginErrorText} </p>
-								</GridListTile>
-								<GridListTile>
+								</ImageListItem>
+								<ImageListItem>
 									<TextField
 										variant="outlined"
 										margin="normal"
@@ -167,10 +166,9 @@ class Login extends Component {
 										onClick={this.login}
 									>Sign In</Button>
 									<Link href="" className={classes.signUp} target="_blank">Don't have an account? Sign up.</Link>
-								</GridListTile>
-							</GridList>
+								</ImageListItem>
+							</ImageList>
 						</Paper>
-						<Version/>
 					</div>
 				</div>
 			);
