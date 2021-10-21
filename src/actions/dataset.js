@@ -77,6 +77,11 @@ export function fetchDatasets(when, date, limit="5"){
 					dispatch(receiveDatasets(RECEIVE_DATASETS, json));
 				});
 			}
+			else if (response.status === 401){
+				// auth failed
+				localStorage.removeItem("Authorization");
+				dispatch(receiveDatasets(RECEIVE_DATASETS, []));
+			}
 			else {
 				dispatch(receiveDatasets(RECEIVE_DATASETS, []));
 			}
