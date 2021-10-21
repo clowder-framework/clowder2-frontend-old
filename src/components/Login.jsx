@@ -121,7 +121,7 @@ class Login extends Component {
 								Sign in
 							</Typography>
 							<Divider/>
-							<ImageList cols={1} cellHeight="auto">
+							<ImageList cols={1} rowHeight="auto">
 								<ImageListItem>
 									<p style={{color: "red"}}>{this.state.loginErrorText} </p>
 								</ImageListItem>

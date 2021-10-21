@@ -12,7 +12,7 @@ export function receiveFileExtractedMetadata(type, json){
 	};
 }
 export function fetchFileExtractedMetadata(id){
-	let url = `${config.hostname}/clowder/api/files/${id}/extracted_metadata?superAdmin=true`;
+	let url = `${config.hostname}/files/${id}/extracted_metadata?superAdmin=true`;
 	return (dispatch) => {
 		return fetch(url, {mode:"cors", headers: getHeader()})
 		.then((response) => {
@@ -39,7 +39,7 @@ export function receiveFileMetadataJsonld(type, json){
 	};
 }
 export function fetchFileMetadataJsonld(id){
-	let url = `${config.hostname}/clowder/api/files/${id}/metadata.jsonld?superAdmin=true`;
+	let url = `${config.hostname}/files/${id}/metadata.jsonld?superAdmin=true`;
 	return (dispatch) => {
 		return fetch(url, {mode:"cors", headers: getHeader()})
 		.then((response) => {
@@ -66,7 +66,7 @@ export function receiveFilePreviews(type, json){
 	};
 }
 export function fetchFilePreviews(id){
-	let url = `${config.hostname}/clowder/api/files/${id}/getPreviews?superAdmin=true`;
+	let url = `${config.hostname}/files/${id}/getPreviews?superAdmin=true`;
 	return (dispatch) => {
 		return fetch(url, {mode:"cors", headers: getHeader()})
 		.then((response) => {
@@ -84,7 +84,7 @@ export function fetchFilePreviews(id){
 
 export const DELETE_FILE = "DELETE_FILE";
 export function deleteFile(fileId){
-	let url = `${config.hostname}/clowder/api/files/${fileId}?superAdmin=true`;
+	let url = `${config.hostname}/files/${fileId}?superAdmin=true`;
 	return (dispatch) => {
 		return fetch(url, {mode:"cors", method:"DELETE", headers: getHeader()})
 		.then((response) => {
