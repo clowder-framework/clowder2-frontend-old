@@ -7,7 +7,7 @@ const cookies = new Cookies();
 
 //NOTE: This is only checking if a cookie is present, but not validating the cookie.
 export const isAuthorized = () => {
-	const authorization = cookies.get("Authorization");
+	const authorization = localStorage.getItem("Authorization");
 	return process.env.DEPLOY_ENV === "local" ||
 			(authorization !== undefined && authorization !== "" && authorization !==
 					null);
@@ -15,15 +15,14 @@ export const isAuthorized = () => {
 
 // construct header
 export function getHeader() {
-	const headers = new Headers({
-		"X-API-Key": config.apikey
-	});
+	// return authorization header with jwt token
+	let authorization = localStorage.getItem("Authorization");
 
-	return headers;
-
-		// const headers = new Headers({
-		// 	"Authorization": cookies.get("Authorization"),
-		// });
+	if (authorization) {
+		return { "Authorization": authorization};
+	} else {
+		return {};
+	}
 }
 
 export async function downloadResource(url){

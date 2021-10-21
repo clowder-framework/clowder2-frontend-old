@@ -1,6 +1,4 @@
 import config from "../app.config";
-import {getHeader} from "../utils/common";
-import {RECEIVE_FILE_EXTRACTED_METADATA, receiveFileExtractedMetadata} from "./file";
 
 export const userActions = {
 	login,
