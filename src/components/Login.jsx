@@ -3,27 +3,41 @@ import {withRouter} from "react-router-dom";
 import {Avatar, Button, Divider, ImageList, ImageListItem, Paper, TextField, Typography, Link} from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import {withStyles} from "@material-ui/core/styles";
-import config from "../app.config";
 import {isAuthorized} from "../utils/common";
 
 const styles = theme => ({
+	signinButton:{
+		backgroundColor: "#f7931d",
+		color:"#FFFFFF"
+	},
 	resetPW:{
 		display:"block",
 		textAlign:"right",
 		margin: "0 auto 10px auto",
-		fontFamily: theme.typography.body1.fontFamily
-	},
-	tos:{
-		fontSize: "12px",
-		fontFamily: theme.typography.body2.fontFamily,
-		margin:"20px auto 10px auto"
+		color: "#212529"
 	},
 	signUp:{
 		fontWeight: 500,
 		fontSize:"15px",
-		fontFamily: theme.typography.body1.fontFamily,
 		display:"block",
-		margin:"10px auto 5px auto"
+		margin:"10px auto 5px auto",
+		color: "#212529"
+	},
+	textField:{
+		"& .MuiFormLabel-root": {
+			color: "#212529"
+		},
+		"& .MuiOutlinedInput-root": {
+			"& fieldset": {
+				borderColor: "#212529",
+			},
+			"&:hover fieldset": {
+				borderColor: "#212529",
+			},
+			"&.Mui-focused fieldset": {
+				borderColor: "#212529",
+			},
+		},
 	}
 });
 
@@ -117,9 +131,6 @@ class Login extends Component {
 							<Avatar style={{margin: "auto"}}>
 								<LockOutlinedIcon/>
 							</Avatar>
-							<Typography component="h1" variant="h5">
-								Sign in
-							</Typography>
 							<Divider/>
 							<ImageList cols={1} rowHeight="auto">
 								<ImageListItem>
@@ -137,6 +148,7 @@ class Login extends Component {
 										name="username"
 										value={this.state.username}
 										onChange={this.changeUsername}
+										className={classes.textField}
 									/>
 									<TextField
 										variant="outlined"
@@ -152,14 +164,15 @@ class Login extends Component {
 										value={this.state.password}
 										onChange={this.changePassword}
 										onKeyPress={this.handleKeyPressed}
+										className={classes.textField}
 									/>
-									<Link href={config.resetPwURL} className={classes.resetPW} target="_blank">Forgot password?</Link>
+									<Link href="" className={classes.resetPW} target="_blank">Forgot password?</Link>
 									<Button
 										type="submit"
 										fullWidth
 										variant="contained"
-										color="primary"
 										onClick={this.login}
+										className={classes.signinButton}
 									>Sign In</Button>
 									<Link href="" className={classes.signUp} target="_blank">Don't have an account? Sign up.</Link>
 								</ImageListItem>
