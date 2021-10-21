@@ -10,7 +10,7 @@ export const isAuthorized = () => {
 	const authorization = localStorage.getItem("Authorization");
 	return process.env.DEPLOY_ENV === "local" ||
 			(authorization !== undefined && authorization !== "" && authorization !==
-					null);
+					null && authorization !== "bearer none");
 };
 
 // construct header

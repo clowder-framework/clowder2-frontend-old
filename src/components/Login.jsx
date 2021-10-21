@@ -1,9 +1,10 @@
 import React, {Component} from "react";
-import {browserHistory} from "react-router";
+import {withRouter} from "react-router-dom";
 import {Avatar, Button, Divider, ImageList, ImageListItem, Paper, TextField, Typography, Link} from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import {withStyles} from "@material-ui/core/styles";
 import config from "../app.config";
+import {isAuthorized} from "../utils/common";
 
 const styles = theme => ({
 	resetPW:{
@@ -91,7 +92,7 @@ class Login extends Component {
 			});
 		}
 		if (!this.props.loginError) {
-			browserHistory.push("/");
+			this.props.history.push("/");
 		}
 
 	}
@@ -101,9 +102,8 @@ class Login extends Component {
 		const {classes} = this.props;
 
 		// if already login, redirect to homepage
-		let Authorization = localStorage.getItem("Authorization");
-		if (Authorization !== undefined && Authorization !== "" && Authorization !== null) {
-			browserHistory.push("/");
+		if (isAuthorized()) {
+			this.props.history.push("/");
 			return null;
 		}
 
@@ -154,10 +154,6 @@ class Login extends Component {
 										onKeyPress={this.handleKeyPressed}
 									/>
 									<Link href={config.resetPwURL} className={classes.resetPW} target="_blank">Forgot password?</Link>
-									{/*<Box className={classes.tos}>*/}
-									{/*	<Typography variant="body2" style={{"display":"inline"}}>By continuing, you agree to our </Typography>*/}
-									{/*	<Link href={config.tosURL} style={{"display":"inline"}} target="_blank">Terms of Service</Link>*/}
-									{/*</Box>*/}
 									<Button
 										type="submit"
 										fullWidth
@@ -176,4 +172,4 @@ class Login extends Component {
 	}
 }
 
-export default withStyles(styles)(Login);
+export default withRouter(withStyles(styles)(Login));

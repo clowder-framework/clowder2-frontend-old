@@ -1,5 +1,5 @@
 import React from "react";
-import {BrowserRouter, Route, Redirect} from "react-router-dom";
+import {BrowserRouter, Route, Redirect, Switch} from "react-router-dom";
 import App from "./containers/App";
 import Login from "./containers/Login";
 import {isAuthorized} from "./utils/common";
@@ -15,9 +15,9 @@ export const PrivateRoute = ({ component: Component, ...rest }) => (
 
 export default (
 	<BrowserRouter>
-		<div>
+		<Switch>
 			<PrivateRoute exact path="/" component={App} />
 			<Route exact path="/login" component={Login} />
-		</div>
+		</Switch>
 	</BrowserRouter>
 );

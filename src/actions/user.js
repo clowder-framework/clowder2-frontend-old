@@ -29,7 +29,7 @@ export const LOGOUT = "LOGOUT";
 export function login(username, password) {
 	return async (dispatch) => {
 		const json = await loginHelper(username, password);
-		if (json["token"] !== undefined) {
+		if (json["token"] !== undefined && json["token"] !== "none") {
 			localStorage.setItem("Authorization", `bearer ${json["token"]}`);
 			return dispatch({
 				type: SET_USER,
