@@ -19,7 +19,7 @@ export function getHeader() {
 	let authorization = localStorage.getItem("Authorization");
 
 	if (authorization) {
-		return { "Authorization": authorization};
+		return new Headers({ "Authorization": authorization});
 	} else {
 		return {};
 	}

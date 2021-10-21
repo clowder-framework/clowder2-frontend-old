@@ -3,7 +3,7 @@ import config from "../app.config";
 
 
 export async function fetchFileMetadata(id){
-	let url = `${config.hostname}/clowder/api/files/${id}/metadata?superAdmin=true`;
+	let url = `${config.hostname}/files/${id}/metadata?superAdmin=true`;
 	let response = await fetch(url, {mode:"cors", headers: getHeader()});
 	if (response.status  === 200){
 		return await response.json();
@@ -19,7 +19,7 @@ export async function fetchFileMetadata(id){
 }
 
 export async function uploadFile(formData, selectedDatasetId) {
-	let endpoint = `${config.hostname}/clowder/api/datasets/${selectedDatasetId}/files?superAdmin=true`;
+	let endpoint = `${config.hostname}/datasets/${selectedDatasetId}/files?superAdmin=true`;
 	let authHeader = getHeader();
 	let body = new FormData();
 	formData.map((item) =>{
@@ -53,7 +53,7 @@ export async function downloadFile(fileId, filename=null){
 	if (!filename){
 		filename = `${fileId}.zip`;
 	}
-	let endpoint = `${config.hostname}/clowder/api/files/${fileId}/blob?superAdmin=true`;
+	let endpoint = `${config.hostname}/files/${fileId}/blob?superAdmin=true`;
 	let response = await fetch(endpoint, {method: "GET", mode: "cors", headers: await getHeader()});
 
 	if (response.status === 200) {
