@@ -131,6 +131,9 @@ class Login extends Component {
 							<Avatar style={{margin: "auto"}}>
 								<LockOutlinedIcon/>
 							</Avatar>
+							<Typography component="h1" variant="h5">
+								Sign in
+							</Typography>
 							<Divider/>
 							<ImageList cols={1} rowHeight="auto">
 								<ImageListItem>
