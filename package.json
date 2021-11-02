@@ -22,7 +22,8 @@
 		"build": "babel-node tools/build.js",
 		"test": "jest --coverage",
 		"test:watch": "npm run test -- --watch",
-		"analyze-bundle": "babel-node ./tools/analyzeBundle.js"
+		"analyze-bundle": "babel-node ./tools/analyzeBundle.js",
+	    "docs": "jsdoc -c jsdoc.conf.json"
 	},
 	"author": "NCSA",
 	"dependencies": {

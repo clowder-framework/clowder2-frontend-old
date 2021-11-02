@@ -41,3 +41,6 @@ dist
 
 # Mac files
 .DS_Store
+
+# Compiled docs for now
+doc
