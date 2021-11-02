@@ -23,7 +23,7 @@
 		"test": "jest --coverage",
 		"test:watch": "npm run test -- --watch",
 		"analyze-bundle": "babel-node ./tools/analyzeBundle.js",
-	    "docs": "jsdoc -c jsdoc.conf.json"
+		"docs": "jsdoc -c jsdoc.conf.json"
 	},
 	"author": "NCSA",
 	"dependencies": {
@@ -35,6 +35,7 @@
 		"classnames": "^2.2.6",
 		"jquery": "^3.6.0",
 		"jwt-decode": "^3.0.0",
+		"prop-types": "^15.7.2",
 		"react": "~16.14.0",
 		"react-dom": "~16.14.0",
 		"react-loading-overlay": "^1.0.1",
