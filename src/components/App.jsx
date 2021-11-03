@@ -18,9 +18,6 @@ const useStyles = makeStyles((theme) => ({}));
  * Component that explores datasets and files
  *
  * @component
- * return (
- *   <App />
- * )
  */
 function App(props) {
 	const classes = useStyles();
@@ -236,20 +233,75 @@ function App(props) {
 }
 
 App.propTypes = {
-		listFileExtractedMetadata: PropTypes.func,
-		fileExtractedMetadata: PropTypes.object,
-		listFileMetadataJsonld:PropTypes.func,
-		fileMetadataJsonld: PropTypes.object,
-		listFilePreviews: PropTypes.func,
-		filePreviews: PropTypes.array,
-		listFilesInDataset: PropTypes.func,
-		filesInDataset: PropTypes.array,
-		listDatasetAbout: PropTypes.func,
-		datasetAbout: PropTypes.object,
-		deleteFile: PropTypes.func,
-		deleteDataset: PropTypes.func,
-		listDatasets: PropTypes.func,
-		datasets: PropTypes.array
+	/**
+	 * Function to list file's extracted metadata given file id
+	 */
+	listFileExtractedMetadata: PropTypes.func,
+
+	/**
+	 * Extracted metadata from file
+	 */
+	fileExtractedMetadata: PropTypes.object,
+
+	/**
+	 * Function to list file's json-ld metadata given file id
+	 */
+	listFileMetadataJsonld:PropTypes.func,
+
+	/**
+	 * Json-ld format metadata
+	 */
+	fileMetadataJsonld: PropTypes.object,
+
+	/**
+	 * Function that list available File preivews
+	 */
+	listFilePreviews: PropTypes.func,
+
+	/**
+	 * File previews
+	 */
+	filePreviews: PropTypes.array,
+
+	/**
+	 * Function that lists all the files in a dataset
+	 */
+	listFilesInDataset: PropTypes.func,
+
+	/**
+	 * Files in a dataset
+	 */
+	filesInDataset: PropTypes.array,
+
+	/**
+	 * Function that show the description of a dataset
+	 */
+	listDatasetAbout: PropTypes.func,
+
+	/**
+	 * description of a dataset
+	 */
+	datasetAbout: PropTypes.object,
+
+	/**
+	 * Function that delete file by Id
+	 */
+	deleteFile: PropTypes.func,
+
+	/**
+	 * Function that delete dataset by id
+	 */
+	deleteDataset: PropTypes.func,
+
+	/**
+	 * Function that list all datasets with pagination
+	 */
+	listDatasets: PropTypes.func,
+
+	/**
+	 * Datasets
+	 */
+	datasets: PropTypes.array
 };
 
 export default App;
