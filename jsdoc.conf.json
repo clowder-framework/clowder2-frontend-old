@@ -8,10 +8,12 @@
 	"includePattern": ".+\\.js(doc|x)?$",
 	"excludePattern": "(^|\\/|\\\\)_"
   },
-  "plugins": ["plugins/markdown", "better-docs/component"],
+  "plugins": [
+	"plugins/markdown"
+  ],
   "templates": {
 	"better-docs": {
-	  "name": "My React components"
+	  "name": "CLOWDER 2.0 frontend"
 	}
   },
   "opts": {
