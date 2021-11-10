@@ -1,13 +1,12 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, Suspense} from "react";
 import config from "../app.config";
 import {AppBar, Box, Divider, Grid, Tab, Tabs, Typography} from "@material-ui/core"
 import {makeStyles} from "@material-ui/core/styles";
 import {ClowderInput} from "./styledComponents/ClowderInput";
 import {ClowderButton} from "./styledComponents/ClowderButton";
-import Audio from "./previewers/Audio";
-import Video from "./previewers/Video";
 import {downloadResource} from "../utils/common";
-import Thumbnail from "./previewers/Thumbnail";
+
+import previewerList from "../previewer.config";
 
 const useStyles = makeStyles((theme) => ({
 	appBar: {
@@ -75,16 +74,15 @@ export default function File(props) {
 						<TabPanel value={selectedTabIndex} index={0}>
 							{
 								previews.map((preview) =>{
-									if (preview["previewType"] === "audio"){
-										return <Audio fileId={preview["fileid"]} audioSrc={preview["resource"]} />;
-									}
-									else if (preview["previewType"] === "video"){
-										return <Video fileId={preview["fileid"]} videoSrc={preview["resource"]} />;
-									}
-									else if (preview["previewType"] === "thumbnail"){
-										return <Thumbnail fileId={preview["fileid"]} fileType={preview["fileType"]}
-														  imgSrc={preview["resource"]} />;
-									}
+									return(
+										<Suspense fallback={<div>loading...</div>}>
+											{(()=>{
+													let Previewer = previewerList[preview["previewType"]];
+													return <Previewer configuration={preview} />;
+												})()
+											}
+										</Suspense>
+									);
 								})
 							}
 						</TabPanel>
