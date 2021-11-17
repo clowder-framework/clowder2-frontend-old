@@ -35,6 +35,7 @@ import {TabPanel} from "./childComponents/TabComponent";
 import {a11yProps} from "./childComponents/TabComponent";
 import TopBar from "./childComponents/TopBar";
 import {Breadcrumbs} from "./childComponents/BreadCrumb";
+import {UploadFile} from "./childComponents/UploadFile";
 
 const useStyles = makeStyles(() => ({
 	appBar: {
@@ -346,7 +347,7 @@ export const Dataset = (): JSX.Element => {
 					<Dialog open={open} onClose={()=>{setOpen(false);}} fullWidth={true} aria-labelledby="form-dialog">
 						<DialogTitle id="form-dialog-title">Add Files</DialogTitle>
 						{/*TODO: pass select to uploader so once upload succeeded, can jump to that dataset/file page*/}
-						{/*<UploadFile selectedDatasetId={datasetId} selectDataset={selectDataset} setOpen={setOpen}/>*/}
+						<UploadFile selectedDatasetId={datasetId} setOpen={setOpen}/>
 					</Dialog>
 				</div>
 			</div>
