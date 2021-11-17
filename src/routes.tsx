@@ -8,8 +8,8 @@ import {File as FileComponent} from "./components/File";
 const Routes = (
 	<Switch>
 		<Route exact path="/" component={Dashboard} />
-		<Route path="/dataset/:datasetId" component={DatasetComponent} />
-		<Route path="/file/:fileId" component={FileComponent} />
+		<Route path="/datasets/:datasetId" component={DatasetComponent} />
+		<Route path="/files/:fileId" component={FileComponent} />
 	</Switch>
 );
 

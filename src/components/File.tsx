@@ -9,7 +9,7 @@ import Video from "./previewers/Video";
 import {downloadResource} from "../utils/common";
 import Thumbnail from "./previewers/Thumbnail";
 import {PreviewConfiguration, RootState} from "../types/data";
-import {useParams} from "react-router-dom";
+import {useParams, useLocation} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 
 import {TabPanel} from "./childComponents/TabComponent";
@@ -34,12 +34,16 @@ export const File = (): JSX.Element => {
 	const classes = useStyles();
 
 	// path parameter
-	let { fileId } = useParams();
+	let { fileId } = useParams<{fileId?: string}>();
+
+	// query paramter get dataset id
+	const search = useLocation().search;
+	let datasetId = new URLSearchParams(search).get("dataset");
 
 	const dispatch = useDispatch();
-	const listFileMetadataJsonld = (fileId:string) => dispatch(fetchFileMetadataJsonld(fileId));
-	const listFilePreviews = (fileId:string) => dispatch(fetchFilePreviews(fileId));
-	const listFileMetadata = (fileId:string) => dispatch(fetchFileMetadata(fileId));
+	const listFileMetadataJsonld = (fileId:string|undefined) => dispatch(fetchFileMetadataJsonld(fileId));
+	const listFilePreviews = (fileId:string|undefined) => dispatch(fetchFilePreviews(fileId));
+	const listFileMetadata = (fileId:string|undefined) => dispatch(fetchFileMetadata(fileId));
 	const fileMetadata = useSelector((state:RootState) => state.file.fileMetadata);
 	const fileMetadataJsonld = useSelector((state:RootState) => state.file.metadataJsonld);
 	const filePreviews = useSelector((state:RootState) => state.file.previews);

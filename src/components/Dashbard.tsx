@@ -133,7 +133,7 @@ export const Dashboard = (): JSX.Element => {
 
 	const selectDataset = (selectedDatasetId: string) => {
 		// Redirect to dataset route with dataset Id
-		history.push(`/dataset/${selectedDatasetId}`);
+		history.push(`/datasets/${selectedDatasetId}`);
 	}
 
 	return (

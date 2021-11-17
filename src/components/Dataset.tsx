@@ -102,17 +102,17 @@ export const Dataset = (): JSX.Element => {
 	const classes = useStyles();
 
 	// path parameter
-	let { datasetId } = useParams();
+	let { datasetId } = useParams<{datasetId?: string}>();
 
 	// use history hook to redirect/navigate between routes
 	let history = useHistory();
 
 	// Redux connect equivalent
 	const dispatch = useDispatch();
-	const deleteDataset = (datasetId:string) => dispatch(datasetDeleted(datasetId));
-	const deleteFile = (fileId:string) => dispatch(fileDeleted(fileId));
-	const listFilesInDataset = (datasetId:string) => dispatch(fetchFilesInDataset(datasetId));
-	const listDatasetAbout= (datasetId:string) => dispatch(fetchDatasetAbout(datasetId));
+	const deleteDataset = (datasetId:string|undefined) => dispatch(datasetDeleted(datasetId));
+	const deleteFile = (fileId:string|undefined) => dispatch(fileDeleted(fileId));
+	const listFilesInDataset = (datasetId:string|undefined) => dispatch(fetchFilesInDataset(datasetId));
+	const listDatasetAbout= (datasetId:string|undefined) => dispatch(fetchDatasetAbout(datasetId));
 
 	// mapStateToProps
 	const filesInDataset = useSelector((state:RootState) => state.dataset.files);
@@ -160,8 +160,8 @@ export const Dataset = (): JSX.Element => {
 	}, [filesInDataset])
 
 	const selectFile = (selectedFileId: string) => {
-		// Redirect to dataset route with dataset Id
-		history.push(`/file/${selectedFileId}`);
+		// Redirect to file route with file Id and dataset id
+		history.push(`/files/${selectedFileId}?dataset=${datasetId}`);
 	}
 
 	// const selectDataset = (selectedDatasetId: string) => {
