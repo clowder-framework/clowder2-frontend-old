@@ -112,6 +112,7 @@ export interface DatasetState{
 }
 
 export interface FileState{
+	fileMetadata: FileMetadata;
 	extractedMetadata: ExtractedMetadata;
 	metadataJsonld: MetadataJsonld[];
 	previews: FilePreview[];

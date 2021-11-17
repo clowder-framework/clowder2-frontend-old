@@ -101,6 +101,7 @@ const useStyles = makeStyles(() => ({
 export const Dataset = (): JSX.Element => {
 	const classes = useStyles();
 
+	// path parameter
 	let { datasetId } = useParams();
 
 	// Redux connect equivalent
@@ -127,7 +128,8 @@ export const Dataset = (): JSX.Element => {
 		listDatasetAbout(datasetId);
 	}, []);
 
-	// get metadata of each files; because we need the thumbnail of each file!!!
+	// TODO these code will go away in v2 dont worry about understanding them
+	// TODO get metadata of each files; because we need the thumbnail of each file!!!
 	useEffect(() => {
 
 		(async () => {

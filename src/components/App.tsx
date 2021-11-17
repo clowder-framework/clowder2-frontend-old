@@ -198,15 +198,15 @@ export const App = (): JSX.Element => {
 							// 				  deleteDataset={deleteDataset}
 							// />
 						} else if (selectedFileId === "") {
-							return <Dataset files={filesInDataset}
-											selectFile={selectFile}
-											thumbnails={fileThumbnailList}
-											about={datasetAbout}
-											selectedDatasetId = {selectedDatasetId}
-											selectDataset={selectDataset}
-											deleteDataset={deleteDataset}
-											deleteFile={deleteFile}
-							/>
+							// return <Dataset files={filesInDataset}
+							// 				selectFile={selectFile}
+							// 				thumbnails={fileThumbnailList}
+							// 				about={datasetAbout}
+							// 				selectedDatasetId = {selectedDatasetId}
+							// 				selectDataset={selectDataset}
+							// 				deleteDataset={deleteDataset}
+							// 				deleteFile={deleteFile}
+							// />
 						} else {
 							return fileMetadataList.map((fileMetadata) => {
 								if (selectedFileId === fileMetadata["id"]) {

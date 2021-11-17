@@ -8,7 +8,13 @@ import Audio from "./previewers/Audio";
 import Video from "./previewers/Video";
 import {downloadResource} from "../utils/common";
 import Thumbnail from "./previewers/Thumbnail";
-import {FileMetadata, FilePreview, MetadataJsonld, PreviewConfiguration} from "../types/data";
+import {PreviewConfiguration, RootState} from "../types/data";
+import {useParams} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+
+import {TabPanel} from "./childComponents/TabComponent";
+import {a11yProps} from "./childComponents/TabComponent";
+import {fetchFileMetadata, fetchFileMetadataJsonld, fetchFilePreviews} from "../actions/file";
 
 const useStyles = makeStyles(() => ({
 	appBar: {
@@ -24,19 +30,31 @@ const useStyles = makeStyles(() => ({
 	}
 }));
 
-type FileProps = {
-	fileMetadata: FileMetadata,
-	fileMetadataJsonld: MetadataJsonld[],
-	filePreviews: FilePreview[],
-};
-
-export const File: React.FC<FileProps> = (props:FileProps) => {
+export const File = (): JSX.Element => {
 	const classes = useStyles();
 
-	const {fileMetadata, fileMetadataJsonld, filePreviews} = props;
+	// path parameter
+	let { fileId } = useParams();
+
+	const dispatch = useDispatch();
+	const listFileMetadataJsonld = (fileId:string) => dispatch(fetchFileMetadataJsonld(fileId));
+	const listFilePreviews = (fileId:string) => dispatch(fetchFilePreviews(fileId));
+	const listFileMetadata = (fileId:string) => dispatch(fetchFileMetadata(fileId));
+	const fileMetadata = useSelector((state:RootState) => state.file.fileMetadata);
+	const fileMetadataJsonld = useSelector((state:RootState) => state.file.metadataJsonld);
+	const filePreviews = useSelector((state:RootState) => state.file.previews);
 
 	const [selectedTabIndex, setSelectedTabIndex] = useState(0);
 	const [previews, setPreviews] = useState([]);
+
+	// component did mount
+	useEffect(() => {
+		// load file information
+		listFileMetadataJsonld(fileId);
+		listFilePreviews(fileId);
+		listFileMetadata(fileId);
+	}, []);
+
 
 	useEffect(() => {
 		(async () => {
@@ -169,31 +187,4 @@ export const File: React.FC<FileProps> = (props:FileProps) => {
 				</Grid>
 			</div>
 	);
-}
-
-function TabPanel(props:any) {
-	const {children, value, index, ...other} = props;
-
-	return (
-		<div
-			role="tabpanel"
-			hidden={value !== index}
-			id={`file-tabpanel-${index}`}
-			aria-labelledby={`file-tab-${index}`}
-			{...other}
-		>
-			{value === index && (
-				<Box p={3}>
-					<Typography>{children}</Typography>
-				</Box>
-			)}
-		</div>
-	);
-}
-
-function a11yProps(index:number) {
-	return {
-		id: `file-tab-${index}`,
-		"aria-controls": `file-tabpanel-${index}`,
-	};
 }
