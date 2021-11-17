@@ -25,8 +25,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 type BreadCrumbProps = {
-	paths: any,
-	goToPath: any
+	paths: any
 }
 export const Breadcrumbs: React.FC<BreadCrumbProps> = (props:BreadCrumbProps) => {
 	const classes = useStyles();

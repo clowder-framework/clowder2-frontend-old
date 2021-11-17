@@ -13,8 +13,7 @@ import {useHistory} from "react-router-dom";
 
 
 type UploadFileProps ={
-	selectedDatasetId: string,
-	selectDataset: (selectedDatasetId: string) => void,
+	selectedDatasetId: string|undefined,
 	setOpen:(open:boolean) => void,
 }
 
