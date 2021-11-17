@@ -1,6 +1,23 @@
 import {getHeader, dataURItoFile} from "./common";
 import config from "../app.config";
 
+// TODO this need to go away in v2; same function already in redux
+// TODO this exist because on dataset page we need to call multiple files id to collect their thumbnail
+export async function fetchFileMetadata(id){
+	let url = `${config.hostname}/clowder/api/files/${id}/metadata?superAdmin=true`;
+	let response = await fetch(url, {mode:"cors", headers: getHeader()});
+	if (response.status  === 200){
+		return await response.json();
+	}
+	else if  (response.status  === 401){
+		// TODO handle error
+		return {};
+	}
+	else {
+		// TODO handle error
+		return {};
+	}
+}
 
 export async function uploadFile(formData, selectedDatasetId) {
 	let endpoint = `${config.hostname}/clowder/api/datasets/${selectedDatasetId}/files?superAdmin=true`;

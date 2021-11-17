@@ -25,7 +25,7 @@ import CloudDownloadOutlinedIcon from "@material-ui/icons/CloudDownloadOutlined"
 import {downloadDataset} from "../utils/dataset";
 import {downloadFile, fetchFileMetadata} from "../utils/file";
 import {FileMetadataList, RootState, Thumbnail} from "../types/data";
-import { useParams } from "react-router-dom";
+import {useHistory, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {downloadThumbnail} from "../utils/thumbnail";
 import {datasetDeleted, fetchDatasetAbout, fetchFilesInDataset} from "../actions/dataset";
@@ -104,6 +104,9 @@ export const Dataset = (): JSX.Element => {
 	// path parameter
 	let { datasetId } = useParams();
 
+	// use history hook to redirect/navigate between routes
+	let history = useHistory();
+
 	// Redux connect equivalent
 	const dispatch = useDispatch();
 	const deleteDataset = (datasetId:string) => dispatch(datasetDeleted(datasetId));
@@ -157,8 +160,8 @@ export const Dataset = (): JSX.Element => {
 	}, [filesInDataset])
 
 	const selectFile = (selectedFileId: string) => {
-		// // pass that id to file component
-		// setSelectedFileId(selectedFileId);
+		// Redirect to dataset route with dataset Id
+		history.push(`/file/${selectedFileId}`);
 	}
 
 	// const selectDataset = (selectedDatasetId: string) => {

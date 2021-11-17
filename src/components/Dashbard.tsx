@@ -17,6 +17,7 @@ import TopBar from "./childComponents/TopBar";
 
 import {TabPanel} from "./childComponents/TabComponent";
 import {a11yProps} from "./childComponents/TabComponent";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles(() => ({
 	appBar: {
@@ -69,6 +70,9 @@ export const Dashboard = (): JSX.Element => {
 
 	const classes = useStyles();
 
+	// use history hook to redirect/navigate between routes
+	let history = useHistory();
+
 	// Redux connect equivalent
 	const dispatch = useDispatch();
 	const deleteDataset = (datasetId:string) => dispatch(datasetDeleted(datasetId));
@@ -87,7 +91,7 @@ export const Dashboard = (): JSX.Element => {
 		listDatasets("", "", limit);
 	}, []);
 
-	// fetch thumbnails from each individual dataset/id calls; this logic will go away moving to v2
+	// fetch thumbnails from each individual dataset/id calls
 	useEffect(() => {
 		(async () => {
 			if (datasets !== undefined && datasets.length > 0) {
@@ -111,10 +115,10 @@ export const Dashboard = (): JSX.Element => {
 		})();
 	}, [datasets])
 
+	// switch tabs
 	const handleTabChange = (_event: React.ChangeEvent<{}>, newTabIndex: number) => {
 		setSelectedTabIndex(newTabIndex);
 	};
-
 
 	// pagination
 	const previous = () => {
@@ -128,8 +132,8 @@ export const Dashboard = (): JSX.Element => {
 	}
 
 	const selectDataset = (selectedDatasetId: string) => {
-		// TODO: Redirect to dataset route with dataset Id
-		// pass that id to dataset component
+		// Redirect to dataset route with dataset Id
+		history.push(`/dataset/${selectedDatasetId}`);
 	}
 
 	return (
