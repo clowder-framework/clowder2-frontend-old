@@ -17,7 +17,8 @@ import TopBar from "./childComponents/TopBar";
 
 import {TabPanel} from "./childComponents/TabComponent";
 import {a11yProps} from "./childComponents/TabComponent";
-import { useHistory } from "react-router-dom";
+import {useHistory} from "react-router-dom";
+import {Breadcrumbs} from "./childComponents/BreadCrumb";
 
 const useStyles = makeStyles(() => ({
 	appBar: {
@@ -75,9 +76,9 @@ export const Dashboard = (): JSX.Element => {
 
 	// Redux connect equivalent
 	const dispatch = useDispatch();
-	const deleteDataset = (datasetId:string) => dispatch(datasetDeleted(datasetId));
-	const listDatasets = (when:string, date:string, limit:number) => dispatch(fetchDatasets(when, date, limit));
-	const datasets = useSelector((state:RootState) => state.dataset.datasets);
+	const deleteDataset = (datasetId: string) => dispatch(datasetDeleted(datasetId));
+	const listDatasets = (when: string, date: string, limit: number) => dispatch(fetchDatasets(when, date, limit));
+	const datasets = useSelector((state: RootState) => state.dataset.datasets);
 
 	const [datasetThumbnailList, setDatasetThumbnailList] = useState<any>([]);
 	const [limit,] = useState<number>(5);
@@ -97,7 +98,7 @@ export const Dashboard = (): JSX.Element => {
 			if (datasets !== undefined && datasets.length > 0) {
 
 				// TODO change the type any to something else
-				let datasetThumbnailListTemp:any = [];
+				let datasetThumbnailListTemp: any = [];
 				await Promise.all(datasets.map(async (dataset) => {
 					// add thumbnails
 					if (dataset["thumbnail"] !== null && dataset["thumbnail"] !== undefined) {
@@ -136,10 +137,19 @@ export const Dashboard = (): JSX.Element => {
 		history.push(`/datasets/${selectedDatasetId}`);
 	}
 
+	// for breadcrumb
+	const paths = [
+		{
+			"name": "Explore",
+			"url": "/",
+		}
+	];
+
 	return (
 		<div>
 			<TopBar/>
 			<div className="outer-container">
+				<Breadcrumbs paths={paths}/>
 				<div className="inner-container">
 					<Grid container spacing={4}>
 						<Grid item lg={8} xl={8} md={8} sm={8} xs={12}>
@@ -159,7 +169,7 @@ export const Dashboard = (): JSX.Element => {
 										datasets.map((dataset) => {
 											let thumbnailComp = <BusinessCenterIcon className={classes.fileCardImg}
 																					style={{fontSize: "5em"}}/>;
-											datasetThumbnailList.map((thumbnail:Thumbnail) => {
+											datasetThumbnailList.map((thumbnail: Thumbnail) => {
 												if (dataset["id"] !== undefined && thumbnail["id"] !== undefined &&
 													thumbnail["thumbnail"] !== null && thumbnail["thumbnail"] !== undefined &&
 													dataset["id"] === thumbnail["id"]) {
@@ -178,7 +188,8 @@ export const Dashboard = (): JSX.Element => {
 															<Box className={classes.fileCardText}>
 																<Typography>Dataset name: {dataset["name"]}</Typography>
 																<Typography>Description: {dataset["description"]}</Typography>
-																<Typography>Created on: {dataset["created"]}</Typography>
+																<Typography>Created
+																	on: {dataset["created"]}</Typography>
 															</Box>
 														</Grid>
 													</ListItem>
@@ -218,7 +229,8 @@ export const Dashboard = (): JSX.Element => {
 						<Grid item lg={4} md={4} xl={4} sm={4} xs={12}>
 							<Box className="actionCard">
 								<Typography className="title">Create your dataset</Typography>
-								<Typography className="content">Some quick example text to tell users why they should upload
+								<Typography className="content">Some quick example text to tell users why they should
+									upload
 									their own data</Typography>
 								<Link className="link" onClick={() => {
 									setOpen(true);
@@ -226,13 +238,15 @@ export const Dashboard = (): JSX.Element => {
 							</Box>
 							<Box className="actionCard">
 								<Typography className="title">Explore more dataset</Typography>
-								<Typography className="content">Some quick example text to tell users why they should follow
+								<Typography className="content">Some quick example text to tell users why they should
+									follow
 									more people</Typography>
 								<Link href="" className="link">Go to Explore</Link>
 							</Box>
 							<Box className="actionCard">
 								<Typography className="title">Want to learn more about Clowder?</Typography>
-								<Typography className="content">Some quick example text to tell users why they should read
+								<Typography className="content">Some quick example text to tell users why they should
+									read
 									the tutorial</Typography>
 								<Link href="" className="link">Show me Tutorial</Link>
 							</Box>
