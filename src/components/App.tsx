@@ -189,14 +189,14 @@ export const App = (): JSX.Element => {
 				{
 					(() => {
 						if (selectedDatasetId === "") {
-							return <Dashboard datasets={datasets}
-											  selectDataset={selectDataset}
-											  thumbnails={datasetThumbnailList}
-											  previous={previous}
-											  next={next}
-											  datasetSchema={datasetSchema}
-											  deleteDataset={deleteDataset}
-							/>
+							// return <Dashboard datasets={datasets}
+							// 				  selectDataset={selectDataset}
+							// 				  thumbnails={datasetThumbnailList}
+							// 				  previous={previous}
+							// 				  next={next}
+							// 				  datasetSchema={datasetSchema}
+							// 				  deleteDataset={deleteDataset}
+							// />
 						} else if (selectedFileId === "") {
 							return <Dataset files={filesInDataset}
 											selectFile={selectFile}

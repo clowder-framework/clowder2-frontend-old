@@ -99,6 +99,11 @@ interface AttatchTo{
 	url: string;
 }
 
+export interface Thumbnail{
+	id: string;
+	thumbnail: string;
+}
+
 export interface DatasetState{
 	files: File[];
 	datasets: Dataset[];
