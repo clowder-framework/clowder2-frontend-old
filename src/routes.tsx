@@ -7,8 +7,8 @@ import {Dataset as DatasetComponent} from "./components/Dataset";
 
 const Routes = (
 	<Switch>
-		<Route path="/dataset/:id" component={DatasetComponent} />
-		<Route path="/" component={Dashboard} />
+		<Route exact path="/" component={Dashboard} />
+		<Route path="/dataset/:datasetId" component={DatasetComponent} />
 	</Switch>
 );
 

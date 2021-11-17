@@ -28,7 +28,7 @@ import {FileMetadataList, RootState, Thumbnail} from "../types/data";
 import { useParams } from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {downloadThumbnail} from "../utils/thumbnail";
-import {datasetDeleted} from "../actions/dataset";
+import {datasetDeleted, fetchDatasetAbout, fetchFilesInDataset} from "../actions/dataset";
 import {fileDeleted} from "../actions/file";
 
 import {TabPanel} from "./childComponents/TabComponent";
@@ -101,13 +101,16 @@ const useStyles = makeStyles(() => ({
 export const Dataset = (): JSX.Element => {
 	const classes = useStyles();
 
-	let { id } = useParams();
-	console.log(id);
+	let { datasetId } = useParams();
 
 	// Redux connect equivalent
 	const dispatch = useDispatch();
 	const deleteDataset = (datasetId:string) => dispatch(datasetDeleted(datasetId));
 	const deleteFile = (fileId:string) => dispatch(fileDeleted(fileId));
+	const listFilesInDataset = (datasetId:string) => dispatch(fetchFilesInDataset(datasetId));
+	const listDatasetAbout= (datasetId:string) => dispatch(fetchDatasetAbout(datasetId));
+
+	// mapStateToProps
 	const filesInDataset = useSelector((state:RootState) => state.dataset.files);
 	const about = useSelector((state:RootState) => state.dataset.about);
 
@@ -118,6 +121,11 @@ export const Dataset = (): JSX.Element => {
 	const [fileThumbnailList, setFileThumbnailList] = useState<any>([]);
 	// const [fileMetadataList, setFileMetadataList] = useState<FileMetadataList[]>([]);
 
+	// component did mount list all files in dataset
+	useEffect(() => {
+		listFilesInDataset(datasetId);
+		listDatasetAbout(datasetId);
+	}, []);
 
 	// get metadata of each files; because we need the thumbnail of each file!!!
 	useEffect(() => {
