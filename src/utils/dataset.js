@@ -5,8 +5,8 @@ export async function createDataset(formData) {
 	let endpoint = `${config.hostname}/clowder/api/datasets/createempty?superAdmin=true`;
 
 	let authHeader = getHeader();
-	authHeader.append('Accept', 'application/json');
-	authHeader.append('Content-Type', 'application/json');
+	authHeader.append("Accept", "application/json");
+	authHeader.append("Content-Type", "application/json");
 
 	let body = JSON.stringify(formData);
 
@@ -29,13 +29,12 @@ export async function createDataset(formData) {
 	}
 }
 
-export async function downloadDataset(datasetId, filename=null){
+export async function downloadDataset(datasetId, filename = null) {
 
-	if (filename){
+	if (filename) {
 		filename = filename.replace(/\s+/g, "_");
 		filename = `${filename}.zip`;
-	}
-	else{
+	} else {
 		filename = `${datasetId}.zip`;
 	}
 	let endpoint = `${config.hostname}/clowder/api/datasets/${datasetId}/download?superAdmin=true`;
@@ -53,12 +52,10 @@ export async function downloadDataset(datasetId, filename=null){
 			anchor.click();
 			document.body.removeChild(anchor);
 		}
-	}
-	else if (response.status === 401) {
+	} else if (response.status === 401) {
 		// TODO
 		console.log(response.json());
-	}
-	else {
+	} else {
 		console.log(response.json());
 	}
 

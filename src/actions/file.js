@@ -15,16 +15,16 @@ export function fetchFileExtractedMetadata(id){
 	let url = `${config.hostname}/clowder/api/files/${id}/extracted_metadata?superAdmin=true`;
 	return (dispatch) => {
 		return fetch(url, {mode:"cors", headers: getHeader()})
-		.then((response) => {
-			if (response.status === 200) {
-				response.json().then(json =>{
-					dispatch(receiveFileExtractedMetadata(RECEIVE_FILE_EXTRACTED_METADATA, json));
-				});
-			}
-			else {
-				dispatch(receiveFileExtractedMetadata(RECEIVE_FILE_EXTRACTED_METADATA, []));
-			}
-		});
+			.then((response) => {
+				if (response.status === 200) {
+					response.json().then(json =>{
+						dispatch(receiveFileExtractedMetadata(RECEIVE_FILE_EXTRACTED_METADATA, json));
+					});
+				}
+				else {
+					dispatch(receiveFileExtractedMetadata(RECEIVE_FILE_EXTRACTED_METADATA, []));
+				}
+			});
 	};
 }
 
@@ -42,16 +42,16 @@ export function fetchFileMetadataJsonld(id){
 	let url = `${config.hostname}/clowder/api/files/${id}/metadata.jsonld?superAdmin=true`;
 	return (dispatch) => {
 		return fetch(url, {mode:"cors", headers: getHeader()})
-		.then((response) => {
-			if (response.status === 200) {
-				response.json().then(json =>{
-					dispatch(receiveFileMetadataJsonld(RECEIVE_FILE_METADATA_JSONLD, json));
-				});
-			}
-			else {
-				dispatch(receiveFileMetadataJsonld(RECEIVE_FILE_METADATA_JSONLD, []));
-			}
-		});
+			.then((response) => {
+				if (response.status === 200) {
+					response.json().then(json =>{
+						dispatch(receiveFileMetadataJsonld(RECEIVE_FILE_METADATA_JSONLD, json));
+					});
+				}
+				else {
+					dispatch(receiveFileMetadataJsonld(RECEIVE_FILE_METADATA_JSONLD, []));
+				}
+			});
 	};
 }
 
@@ -69,16 +69,16 @@ export function fetchFilePreviews(id){
 	let url = `${config.hostname}/clowder/api/files/${id}/getPreviews?superAdmin=true`;
 	return (dispatch) => {
 		return fetch(url, {mode:"cors", headers: getHeader()})
-		.then((response) => {
-			if (response.status === 200) {
-				response.json().then(json =>{
-					dispatch(receiveFilePreviews(RECEIVE_PREVIEWS, json));
-				});
-			}
-			else {
-				dispatch(receiveFileMetadataJsonld(RECEIVE_PREVIEWS, []));
-			}
-		});
+			.then((response) => {
+				if (response.status === 200) {
+					response.json().then(json =>{
+						dispatch(receiveFilePreviews(RECEIVE_PREVIEWS, json));
+					});
+				}
+				else {
+					dispatch(receiveFileMetadataJsonld(RECEIVE_PREVIEWS, []));
+				}
+			});
 	};
 }
 
@@ -87,25 +87,25 @@ export function fileDeleted(fileId){
 	let url = `${config.hostname}/clowder/api/files/${fileId}?superAdmin=true`;
 	return (dispatch) => {
 		return fetch(url, {mode:"cors", method:"DELETE", headers: getHeader()})
-		.then((response) => {
-			if (response.status === 200) {
-				response.json().then(json =>{
-					dispatch({
-						type: DELETE_FILE,
-						file: {"id": fileId, "status": json["status"]===undefined?json["status"]:"success"},
-						receivedAt: Date.now(),
+			.then((response) => {
+				if (response.status === 200) {
+					response.json().then(json =>{
+						dispatch({
+							type: DELETE_FILE,
+							file: {"id": fileId, "status": json["status"]===undefined?json["status"]:"success"},
+							receivedAt: Date.now(),
+						});
 					});
-				});
-			}
-			else {
-				response.json().then(json => {
-					dispatch({
-						type: DELETE_FILE,
-						file: {"id": null, "status": json["status"] === undefined ? json["status"] : "fail"},
-						receivedAt: Date.now(),
+				}
+				else {
+					response.json().then(json => {
+						dispatch({
+							type: DELETE_FILE,
+							file: {"id": null, "status": json["status"] === undefined ? json["status"] : "fail"},
+							receivedAt: Date.now(),
+						});
 					});
-				});
-			}
-		});
+				}
+			});
 	};
 }
