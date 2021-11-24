@@ -52,7 +52,7 @@ export function fetchFileMetadata(id){
 				dispatch(receiveFileMetadata(RECEIVE_FILE_METADATA, []));
 			}
 		});
-	}
+	};
 }
 
 export const RECEIVE_FILE_METADATA_JSONLD = "RECEIVE_FILE_METADATA_JSONLD";
