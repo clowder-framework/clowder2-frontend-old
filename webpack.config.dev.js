@@ -40,7 +40,8 @@ export default {
 			__DEV__: true
 		}),
 		new ESLintPlugin({
-			extensions:["ts","js","tsx","jsx"],
+			extensions: ["ts","tsx","js","jsx"],
+			exclude: ["node_modules", "dist", "build"]
 		}),
 		new webpack.HotModuleReplacementPlugin(),
 		new webpack.NoEmitOnErrorsPlugin(),

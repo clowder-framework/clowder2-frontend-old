@@ -35,6 +35,7 @@ export default {
 	plugins: [
 		new ESLintPlugin({
 			extensions:["ts","js","tsx","jsx"],
+			exclude: ["node_modules", "dist", "build"]
 		}),
 
 		// Hash the files using MD5 so that their names change when the content changes.
