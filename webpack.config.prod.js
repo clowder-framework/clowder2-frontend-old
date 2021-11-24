@@ -7,7 +7,6 @@ import HtmlWebpackPlugin from "html-webpack-plugin";
 import autoprefixer from "autoprefixer";
 import path from "path";
 import TerserPlugin from "terser-webpack-plugin";
-import ESLintPlugin from "eslint-webpack-plugin";
 
 // eslint-disable-next-line no-console
 console.log(`the current CLOWDER_REMOTE_HOSTNAME environment variable is ${  process.env.CLOWDER_REMOTE_HOSTNAME}`);
@@ -33,10 +32,13 @@ export default {
 		filename: "[name].[chunkhash].js"
 	},
 	plugins: [
+		// NOTE: `npm run preinstall` currently runs eslint
+		/*
 		new ESLintPlugin({
 			extensions:["ts","js","tsx","jsx"],
 			exclude: ["node_modules", "dist", "build"]
 		}),
+		*/
 
 		// Hash the files using MD5 so that their names change when the content changes.
 		new WebpackMd5Hash(),
