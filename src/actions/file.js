@@ -12,7 +12,7 @@ export function receiveFileExtractedMetadata(type, json){
 	};
 }
 export function fetchFileExtractedMetadata(id){
-	let url = `${config.hostname}/clowder/api/files/${id}/extracted_metadata?superAdmin=true`;
+	const url = `${config.hostname}/clowder/api/files/${id}/extracted_metadata?superAdmin=true`;
 	return (dispatch) => {
 		return fetch(url, {mode:"cors", headers: getHeader()})
 			.then((response) => {
@@ -39,19 +39,19 @@ export function receiveFileMetadata(type, json){
 	};
 }
 export function fetchFileMetadata(id){
-	let url = `${config.hostname}/clowder/api/files/${id}/metadata?superAdmin=true`;
+	const url = `${config.hostname}/clowder/api/files/${id}/metadata?superAdmin=true`;
 	return (dispatch) => {
 		return fetch(url, {mode:"cors", headers: getHeader()})
-		.then((response) => {
-			if (response.status === 200) {
-				response.json().then(json =>{
-					dispatch(receiveFileMetadata(RECEIVE_FILE_METADATA, json));
-				});
-			}
-			else {
-				dispatch(receiveFileMetadata(RECEIVE_FILE_METADATA, []));
-			}
-		});
+			.then((response) => {
+				if (response.status === 200) {
+					response.json().then(json =>{
+						dispatch(receiveFileMetadata(RECEIVE_FILE_METADATA, json));
+					});
+				}
+				else {
+					dispatch(receiveFileMetadata(RECEIVE_FILE_METADATA, []));
+				}
+			});
 	};
 }
 
@@ -66,7 +66,7 @@ export function receiveFileMetadataJsonld(type, json){
 	};
 }
 export function fetchFileMetadataJsonld(id){
-	let url = `${config.hostname}/clowder/api/files/${id}/metadata.jsonld?superAdmin=true`;
+	const url = `${config.hostname}/clowder/api/files/${id}/metadata.jsonld?superAdmin=true`;
 	return (dispatch) => {
 		return fetch(url, {mode:"cors", headers: getHeader()})
 			.then((response) => {
@@ -93,7 +93,7 @@ export function receiveFilePreviews(type, json){
 	};
 }
 export function fetchFilePreviews(id){
-	let url = `${config.hostname}/clowder/api/files/${id}/getPreviews?superAdmin=true`;
+	const url = `${config.hostname}/clowder/api/files/${id}/getPreviews?superAdmin=true`;
 	return (dispatch) => {
 		return fetch(url, {mode:"cors", headers: getHeader()})
 			.then((response) => {
@@ -111,7 +111,7 @@ export function fetchFilePreviews(id){
 
 export const DELETE_FILE = "DELETE_FILE";
 export function fileDeleted(fileId){
-	let url = `${config.hostname}/clowder/api/files/${fileId}?superAdmin=true`;
+	const url = `${config.hostname}/clowder/api/files/${fileId}?superAdmin=true`;
 	return (dispatch) => {
 		return fetch(url, {mode:"cors", method:"DELETE", headers: getHeader()})
 			.then((response) => {

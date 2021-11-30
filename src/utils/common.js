@@ -26,8 +26,8 @@ export function getHeader() {
 }
 
 export async function downloadResource(url) {
-	let authHeader = getHeader();
-	let response = await fetch(url, {
+	const authHeader = getHeader();
+	const response = await fetch(url, {
 		method: "GET",
 		mode: "cors",
 		headers: authHeader,
@@ -46,12 +46,12 @@ export async function downloadResource(url) {
 }
 
 export function dataURItoFile(dataURI) {
-	let metadata = dataURI.split(",")[0];
-	let mime = metadata.match(/:(.*?);/)[1];
-	let filename = metadata.match(/name=(.*?);/)[1];
+	const metadata = dataURI.split(",")[0];
+	const mime = metadata.match(/:(.*?);/)[1];
+	const filename = metadata.match(/name=(.*?);/)[1];
 
-	let binary = atob(dataURI.split(",")[1]);
-	let array = [];
+	const binary = atob(dataURI.split(",")[1]);
+	const array = [];
 	for (let i = 0; i < binary.length; i++) {
 		array.push(binary.charCodeAt(i));
 	}

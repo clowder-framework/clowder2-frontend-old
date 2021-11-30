@@ -14,7 +14,7 @@ export function receiveFilesInDataset(type, json) {
 }
 
 export function fetchFilesInDataset(id) {
-	let url = `${config.hostname}/clowder/api/datasets/${id}/files?superAdmin=true`;
+	const url = `${config.hostname}/clowder/api/datasets/${id}/files?superAdmin=true`;
 	return (dispatch) => {
 		return fetch(url, {mode: "cors", headers: getHeader()})
 			.then((response) => {
@@ -42,7 +42,7 @@ export function receiveDatasetAbout(type, json) {
 }
 
 export function fetchDatasetAbout(id) {
-	let url = `${config.hostname}/clowder/api/datasets/${id}?superAdmin=true`;
+	const url = `${config.hostname}/clowder/api/datasets/${id}?superAdmin=true`;
 	return (dispatch) => {
 		return fetch(url, {mode: "cors", headers: getHeader()})
 			.then((response) => {
@@ -90,7 +90,7 @@ export function fetchDatasets(when, date, limit = 5) {
 export const DELETE_DATASET = "DELETE_DATASET";
 
 export function datasetDeleted(datasetId) {
-	let url = `${config.hostname}/clowder/api/datasets/${datasetId}?superAdmin=true`;
+	const url = `${config.hostname}/clowder/api/datasets/${datasetId}?superAdmin=true`;
 	return (dispatch) => {
 		return fetch(url, {mode: "cors", method: "DELETE", headers: getHeader()})
 			.then((response) => {
