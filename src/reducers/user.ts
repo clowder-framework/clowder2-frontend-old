@@ -1,8 +1,13 @@
 import {SET_USER, LOGIN_ERROR, LOGOUT} from "../actions/user";
+import {UserState} from "../types/data";
+import {DataAction} from "../types/action";
 
-const defaultState = {Authorization: null, loginError: false};
+const defaultState: UserState = {
+	Authorization: null,
+	loginError: false
+};
 
-const user = (state = defaultState, action) => {
+const user = (state = defaultState, action: DataAction) => {
 	switch(action.type) {
 	case SET_USER:
 		return Object.assign({}, state, {Authorization: action.Authorization, loginError: false});

@@ -30,9 +30,9 @@ export async function createDataset(formData) {
 	}
 }
 
-export async function downloadDataset(datasetId, filename = null) {
+export async function downloadDataset(datasetId, filename = "") {
 
-	if (filename) {
+	if (filename !== "") {
 		filename = filename.replace(/\s+/g, "_");
 		filename = `${filename}.zip`;
 	} else {

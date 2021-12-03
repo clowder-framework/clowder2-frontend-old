@@ -69,7 +69,7 @@ export function receiveDatasets(type, json) {
 	};
 }
 
-export function fetchDatasets(when, date, limit="5"){
+export function fetchDatasets(when, date, limit=5){
 	let url = `${config.hostname}/datasets?superAdmin=true&limit=${limit}`;
 	if (date) url = `${url}&date=${date}`;
 	if (when) url = `${url}&when=${when}`;
@@ -94,7 +94,7 @@ export function fetchDatasets(when, date, limit="5"){
 }
 
 export const DELETE_DATASET = "DELETE_DATASET";
-export function deleteDataset(datasetId){
+export function datasetDeleted(datasetId){
 	const url = `${config.hostname}/datasets/${datasetId}?superAdmin=true`;
 	return (dispatch) => {
 		return fetch(url, {mode: "cors", method: "DELETE", headers: getHeader()})

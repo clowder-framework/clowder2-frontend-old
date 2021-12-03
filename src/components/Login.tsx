@@ -1,8 +1,8 @@
 import React, {useState} from "react";
-import {useHistory, withRouter} from "react-router-dom";
+import {useHistory} from "react-router-dom";
 import {Avatar, Button, Divider, ImageList, ImageListItem, Paper, TextField, Typography, Link} from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import {makeStyles, withStyles} from "@material-ui/core/styles";
+import {makeStyles} from "@material-ui/core/styles";
 import {isAuthorized} from "../utils/common";
 import {useDispatch, useSelector} from "react-redux";
 import {login as loginAction} from "../actions/user";
@@ -55,8 +55,7 @@ export const File = (): JSX.Element => {
 	if (isAuthorized()) { history.push("/");}
 
 	const dispatch = useDispatch();
-	const loginAction = (username:string, password:string) => dispatch(dispatch(loginAction(username, password));
-	const Authorization = useSelector((state:RootState) => state.user.Authorization);
+	const login = (username:string, password:string) => dispatch(dispatch(loginAction(username, password));
 	const loginError = useSelector((state:RootState) => state.user.loginError);
 
 	const [username, setUsername] = useState("");
@@ -66,16 +65,16 @@ export const File = (): JSX.Element => {
 	const [error, setError] = useState(false);
 
 
-	const handleKeyPressed= (event) => {
-		if (event.charCode === 13) { login();}
+	const handleKeyPressed= (event: React.KeyboardEvent<{}>) => {
+		if (event.code === "Enter") { handleLoginButtonClick();}
 	}
 
-	const changeUsername = (event) => {
+	const changeUsername = (event: React.ChangeEvent<{}>) => {
 		setUsername(event.target.value);
 		setLoginErrorText("");
 	}
 
-	const changePassword = (event) => {
+	const changePassword = (event: React.KeyboardEvent<{}>) => {
 		let password = event.target.value;
 
 		if (password.length <= 6) {
@@ -89,18 +88,18 @@ export const File = (): JSX.Element => {
 		}
 
 		setPassword(password);
-		if (event.charCode === 13) {
-			login(event);
+		if (event.code === "Enter") {
+			handleLoginButtonClick(event);
 		}
 	}
 
-	 const login = () => {
-		await loginAction(username, password);
+	 const handleLoginButtonClick = () => {
+		await login(username, password);
 		if (loginError) {
 			setLoginErrorText("Username/Password is not correct. Try again");
 		}
 		if (!loginError) {
-			this.props.history.push("/");
+			history.push("/");
 		}
 
 	}
@@ -156,7 +155,7 @@ export const File = (): JSX.Element => {
 								type="submit"
 								fullWidth
 								variant="contained"
-								onClick={login}
+								onClick={handleLoginButtonClick}
 								className={classes.signinButton}
 							>Sign In</Button>
 							<Link href="" className={classes.signUp} target="_blank">Don't have an account? Sign up.</Link>
