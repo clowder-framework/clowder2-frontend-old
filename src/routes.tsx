@@ -18,6 +18,9 @@ export const PrivateRoute = ({ component: Component, ...rest }) => (
 
 const Routes = (
 	<Switch>
+
+	</Switch>
+	<Switch>
 		<PrivateRoute exact path="/" component={Dashboard} />
 		<PrivateRoute path="/datasets/:datasetId" component={DatasetComponent} />
 		<PrivateRoute path="/files/:fileId" component={FileComponent} />

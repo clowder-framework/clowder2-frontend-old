@@ -45,7 +45,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 
-export const File = (): JSX.Element => {
+export const Login = (): JSX.Element => {
 
 	const classes = useStyles();
 
@@ -55,7 +55,7 @@ export const File = (): JSX.Element => {
 	if (isAuthorized()) { history.push("/");}
 
 	const dispatch = useDispatch();
-	const login = (username:string, password:string) => dispatch(dispatch(loginAction(username, password));
+	const login = (username:string, password:string) => dispatch(loginAction(username, password));
 	const loginError = useSelector((state:RootState) => state.user.loginError);
 
 	const [username, setUsername] = useState("");
@@ -64,17 +64,16 @@ export const File = (): JSX.Element => {
 	const [loginErrorText, setLoginErrorText] = useState("");
 	const [error, setError] = useState(false);
 
-
 	const handleKeyPressed= (event: React.KeyboardEvent<{}>) => {
 		if (event.code === "Enter") { handleLoginButtonClick();}
 	}
 
-	const changeUsername = (event: React.ChangeEvent<{}>) => {
+	const changeUsername = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setUsername(event.target.value);
 		setLoginErrorText("");
 	}
 
-	const changePassword = (event: React.KeyboardEvent<{}>) => {
+	const changePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
 		let password = event.target.value;
 
 		if (password.length <= 6) {
@@ -88,21 +87,21 @@ export const File = (): JSX.Element => {
 		}
 
 		setPassword(password);
-		if (event.code === "Enter") {
-			handleLoginButtonClick(event);
-		}
+		// if (event.target. === "Enter") {
+		// 	handleLoginButtonClick();
+		// }
 	}
 
-	 const handleLoginButtonClick = () => {
-		await login(username, password);
-		if (loginError) {
-			setLoginErrorText("Username/Password is not correct. Try again");
-		}
-		if (!loginError) {
-			history.push("/");
-		}
+	 const handleLoginButtonClick = async () => {
+		 await login(username, password);
+		 if (loginError) {
+			 setLoginErrorText("Username/Password is not correct. Try again");
+		 }
+		 if (!loginError) {
+			 history.push("/");
+		 }
 
-	}
+	 }
 
 	return (
 		<div>
@@ -158,7 +157,7 @@ export const File = (): JSX.Element => {
 								onClick={handleLoginButtonClick}
 								className={classes.signinButton}
 							>Sign In</Button>
-							<Link href="" className={classes.signUp} target="_blank">Don't have an account? Sign up.</Link>
+							<Link href="" className={classes.signUp} target="_blank">Don&apos;t have an account? Sign up.</Link>
 						</ImageListItem>
 					</ImageList>
 				</Paper>
