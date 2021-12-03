@@ -65,16 +65,16 @@ export const Login = (): JSX.Element => {
 	const [error, setError] = useState(false);
 
 	const handleKeyPressed= (event: React.KeyboardEvent<{}>) => {
-		if (event.code === "Enter") { handleLoginButtonClick();}
-	}
+		if (event.key === "Enter") { handleLoginButtonClick();}
+	};
 
 	const changeUsername = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setUsername(event.target.value);
 		setLoginErrorText("");
-	}
+	};
 
 	const changePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
-		let password = event.target.value;
+		const password = event.target.value;
 
 		if (password.length <= 6) {
 			setError(true);
@@ -87,10 +87,7 @@ export const Login = (): JSX.Element => {
 		}
 
 		setPassword(password);
-		// if (event.target. === "Enter") {
-		// 	handleLoginButtonClick();
-		// }
-	}
+	};
 
 	 const handleLoginButtonClick = async () => {
 		 await login(username, password);
@@ -101,7 +98,7 @@ export const Login = (): JSX.Element => {
 			 history.push("/");
 		 }
 
-	 }
+	 };
 
 	return (
 		<div>

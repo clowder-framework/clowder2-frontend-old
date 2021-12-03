@@ -48,9 +48,9 @@ export async function uploadFile(formData, selectedDatasetId) {
 	}
 }
 
-export async function downloadFile(fileId, filename = null) {
+export async function downloadFile(fileId, filename = "") {
 
-	if (!filename) {
+	if (filename === "") {
 		filename = `${fileId}.zip`;
 	}
 	const endpoint = `${config.hostname}/files/${fileId}/blob?superAdmin=true`;

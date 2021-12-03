@@ -1,5 +1,5 @@
 import React from "react";
-import {Route, Redirect, Switch} from "react-router-dom";
+import {Route, Redirect, Switch, BrowserRouter} from "react-router-dom";
 
 import {Dashboard} from "./components/Dashbard";
 import {Dataset as DatasetComponent} from "./components/Dataset";
@@ -8,6 +8,7 @@ import {Login as LoginComponent} from "./components/Login";
 
 import {isAuthorized} from "./utils/common";
 
+// @ts-ignore
 export const PrivateRoute = ({ component: Component, ...rest }) => (
 	<Route {...rest} render={props => (
 		isAuthorized()
@@ -17,15 +18,15 @@ export const PrivateRoute = ({ component: Component, ...rest }) => (
 );
 
 const Routes = (
-	<Switch>
+	<BrowserRouter>
+		<Switch>
+			<PrivateRoute exact path="/" component={Dashboard} />
+			<PrivateRoute path="/datasets/:datasetId" component={DatasetComponent} />
+			<PrivateRoute path="/files/:fileId" component={FileComponent} />
+			<Route exact path="/login" component={LoginComponent} />
+		</Switch>
+	</BrowserRouter>
 
-	</Switch>
-	<Switch>
-		<PrivateRoute exact path="/" component={Dashboard} />
-		<PrivateRoute path="/datasets/:datasetId" component={DatasetComponent} />
-		<PrivateRoute path="/files/:fileId" component={FileComponent} />
-		<Route exact path="/login" component={LoginComponent} />
-	</Switch>
 );
 
 

@@ -110,7 +110,7 @@ export function fetchFilePreviews(id){
 }
 
 export const DELETE_FILE = "DELETE_FILE";
-export function deleteFile(fileId){
+export function fileDeleted(fileId){
 	const url = `${config.hostname}/files/${fileId}?superAdmin=true`;
 	return (dispatch) => {
 		return fetch(url, {mode:"cors", method:"DELETE", headers: getHeader()})
