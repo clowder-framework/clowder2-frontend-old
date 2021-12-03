@@ -9,9 +9,9 @@ export const PrivateRoute = ({ component: Component, ...rest }) => (
 	<Route {...rest} render={props => (
 		isAuthorized()
 			? <Component {...props} />
-			: <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+			: <Redirect to={{ pathname: "/login", state: { from: props.location } }} />
 	)} />
-)
+);
 
 export default (
 	<BrowserRouter>

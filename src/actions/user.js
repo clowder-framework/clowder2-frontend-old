@@ -6,8 +6,8 @@ export const userActions = {
 };
 
 export async function loginHelper(username, password) {
-	let url = `${config.hostname}/token`;
-	let data = {"name": username, "password": password};
+	const url = `${config.hostname}/token`;
+	const data = {"name": username, "password": password};
 	const tokenRequest = await fetch(url, {
 		method:"POST",
 		mode:"cors",

@@ -2,6 +2,7 @@ import webpack from "webpack";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import autoprefixer from "autoprefixer";
 import path from "path";
+import ESLintPlugin from "eslint-webpack-plugin";
 
 
 // eslint-disable-next-line no-console
@@ -10,7 +11,8 @@ console.log(`the current CLOWDER_REMOTE_HOSTNAME environment variable is ${  pro
 export default {
 	mode:"development",
 	resolve: {
-		extensions: [".js", ".jsx", ".json"]
+		modules:["node_modules", "src"],
+		extensions: [".js", ".jsx", ".json", ".ts", ".tsx"]
 	},
 	devtool: "source-map",
 	entry: [
@@ -18,7 +20,7 @@ export default {
 		"whatwg-fetch",
 		"./src/webpack-public-path",
 		"webpack-hot-middleware/client?reload=true",
-		path.resolve(__dirname, "src/index.js"),
+		path.resolve(__dirname, "src/index.tsx"),
 		// "ol/ol.css",
 		// "ol-layerswitcher/src/ol-layerswitcher.css",
 	],
@@ -36,6 +38,10 @@ export default {
 				"APIKEY": JSON.stringify(process.env.APIKEY)
 			},
 			__DEV__: true
+		}),
+		new ESLintPlugin({
+			extensions: ["ts","tsx","js","jsx"],
+			exclude: ["node_modules", "dist", "build"]
 		}),
 		new webpack.HotModuleReplacementPlugin(),
 		new webpack.NoEmitOnErrorsPlugin(),
@@ -62,7 +68,7 @@ export default {
 	],
 	module: {
 		rules: [
-			{test: /\.jsx?$/, exclude: /node_modules/, loaders: ["babel-loader"]},
+			{test: /\.[tj]sx?$/, exclude: /node_modules/, loaders: ["babel-loader"]},
 			{test: /\.eot(\?v=\d+.\d+.\d+)?$/, loader: "file-loader"},
 			{
 				test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
@@ -84,5 +90,5 @@ export default {
 			},
 			// {test: /\.json$/, loader: "json-loader"}
 		]
-	}
+	},
 };

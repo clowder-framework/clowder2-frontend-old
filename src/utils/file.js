@@ -1,34 +1,34 @@
 import {getHeader, dataURItoFile} from "./common";
 import config from "../app.config";
 
+// TODO this need to go away in v2; same function already in redux
+// TODO this exist because on dataset page we need to call multiple files id to collect their thumbnail
 
 export async function fetchFileMetadata(id){
-	let url = `${config.hostname}/files/${id}/metadata?superAdmin=true`;
-	let response = await fetch(url, {mode:"cors", headers: getHeader()});
+	const url = `${config.hostname}/files/${id}/metadata?superAdmin=true`;
+	const response = await fetch(url, {mode:"cors", headers: getHeader()});
 	if (response.status  === 200){
 		return await response.json();
-	}
-	else if  (response.status  === 401){
+	} else if (response.status === 401) {
 		// TODO handle error
 		return {};
-	}
-	else {
+	} else {
 		// TODO handle error
 		return {};
 	}
 }
 
 export async function uploadFile(formData, selectedDatasetId) {
-	let endpoint = `${config.hostname}/datasets/${selectedDatasetId}/files?superAdmin=true`;
-	let authHeader = getHeader();
-	let body = new FormData();
+	const endpoint = `${config.hostname}/datasets/${selectedDatasetId}/files?superAdmin=true`;
+	const authHeader = getHeader();
+	const body = new FormData();
 	formData.map((item) =>{
 		if (item["file"] !== undefined){
 			body.append("file", dataURItoFile(item["file"]));
 		}
 	});
 
-	let response = await fetch(endpoint, {
+	const response = await fetch(endpoint, {
 		method: "POST",
 		mode: "cors",
 		headers: authHeader,
@@ -48,32 +48,30 @@ export async function uploadFile(formData, selectedDatasetId) {
 	}
 }
 
-export async function downloadFile(fileId, filename=null){
+export async function downloadFile(fileId, filename = null) {
 
-	if (!filename){
+	if (!filename) {
 		filename = `${fileId}.zip`;
 	}
-	let endpoint = `${config.hostname}/files/${fileId}/blob?superAdmin=true`;
-	let response = await fetch(endpoint, {method: "GET", mode: "cors", headers: await getHeader()});
+	const endpoint = `${config.hostname}/files/${fileId}/blob?superAdmin=true`;
+	const response = await fetch(endpoint, {method: "GET", mode: "cors", headers: await getHeader()});
 
 	if (response.status === 200) {
-		let blob = await response.blob();
+		const blob = await response.blob();
 		if (window.navigator.msSaveOrOpenBlob) {
 			window.navigator.msSaveBlob(blob, filename);
 		} else {
-			let anchor = window.document.createElement("a");
+			const anchor = window.document.createElement("a");
 			anchor.href = window.URL.createObjectURL(blob);
 			anchor.download = filename;
 			document.body.appendChild(anchor);
 			anchor.click();
 			document.body.removeChild(anchor);
 		}
-	}
-	else if (response.status === 401) {
+	} else if (response.status === 401) {
 		// TODO
 		console.log(response.json());
-	}
-	else {
+	} else {
 		console.log(response.json());
 	}
 

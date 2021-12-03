@@ -3,15 +3,15 @@ import config from "../app.config";
 
 export async function createDataset(formData) {
 	// let endpoint = `${config.hostname}/datasets/createempty?superAdmin=true`;
-	let endpoint = `${config.hostname}/datasets?superAdmin=true`;
+	const endpoint = `${config.hostname}/datasets?superAdmin=true`;
 
-	let authHeader = getHeader();
-	authHeader.append('Accept', 'application/json');
-	authHeader.append('Content-Type', 'application/json');
+	const authHeader = getHeader();
+	authHeader.append("Accept", "application/json");
+	authHeader.append("Content-Type", "application/json");
 
-	let body = JSON.stringify(formData);
+	const body = JSON.stringify(formData);
 
-	let response = await fetch(endpoint, {
+	const response = await fetch(endpoint, {
 		method: "POST",
 		mode: "cors",
 		headers: authHeader,
@@ -30,36 +30,33 @@ export async function createDataset(formData) {
 	}
 }
 
-export async function downloadDataset(datasetId, filename=null){
+export async function downloadDataset(datasetId, filename = null) {
 
-	if (filename){
+	if (filename) {
 		filename = filename.replace(/\s+/g, "_");
 		filename = `${filename}.zip`;
-	}
-	else{
+	} else {
 		filename = `${datasetId}.zip`;
 	}
-	let endpoint = `${config.hostname}/datasets/${datasetId}/download?superAdmin=true`;
-	let response = await fetch(endpoint, {method: "GET", mode: "cors", headers: await getHeader()});
+	const endpoint = `${config.hostname}/datasets/${datasetId}/download?superAdmin=true`;
+	const response = await fetch(endpoint, {method: "GET", mode: "cors", headers: await getHeader()});
 
 	if (response.status === 200) {
-		let blob = await response.blob();
+		const blob = await response.blob();
 		if (window.navigator.msSaveOrOpenBlob) {
 			window.navigator.msSaveBlob(blob, filename);
 		} else {
-			let anchor = window.document.createElement("a");
+			const anchor = window.document.createElement("a");
 			anchor.href = window.URL.createObjectURL(blob);
 			anchor.download = filename;
 			document.body.appendChild(anchor);
 			anchor.click();
 			document.body.removeChild(anchor);
 		}
-	}
-	else if (response.status === 401) {
+	} else if (response.status === 401) {
 		// TODO
 		console.log(response.json());
-	}
-	else {
+	} else {
 		console.log(response.json());
 	}
 
