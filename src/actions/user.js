@@ -6,7 +6,7 @@ export const userActions = {
 };
 
 export async function loginHelper(username, password) {
-	const url = `${config.hostname}/token`;
+	const url = `${config.hostname}/login`;
 	const data = {"name": username, "password": password};
 	const tokenRequest = await fetch(url, {
 		method:"POST",
@@ -29,6 +29,8 @@ export const LOGOUT = "LOGOUT";
 export function login(username, password) {
 	return async (dispatch) => {
 		const json = await loginHelper(username, password);
+		localStorage.removeItem("Authorization");
+
 		if (json["token"] !== undefined && json["token"] !== "none") {
 			localStorage.setItem("Authorization", `bearer ${json["token"]}`);
 			return dispatch({
@@ -37,7 +39,8 @@ export function login(username, password) {
 			});
 		} else {
 			return dispatch({
-				type: LOGIN_ERROR
+				type: LOGIN_ERROR,
+				Authorization: "",
 			});
 		}
 	};
