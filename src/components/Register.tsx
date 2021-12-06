@@ -59,6 +59,7 @@ export const Register = (): JSX.Element => {
 	const [password, setPassword] = useState("");
 	const [passwordConfirm, setPasswordConfirm] = useState("");
 	const [passwordErrorText, setPasswordErrorText] = useState("");
+	const [passwordConfirmErrorText, setPasswordConfirmErrorText] = useState("");
 	const [registerErrorText, setRegisterErrorText] = useState("");
 	const [error, setError] = useState(false);
 
@@ -68,9 +69,9 @@ export const Register = (): JSX.Element => {
 	};
 
 	const changePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const password = event.target.value;
+		const pw = event.target.value;
 
-		if (password.length <= 6) {
+		if (pw.length <= 6) {
 			setError(true);
 			setPasswordErrorText("Your password must be at least 6 characters long");
 			setRegisterErrorText("");
@@ -80,23 +81,23 @@ export const Register = (): JSX.Element => {
 			setRegisterErrorText("");
 		}
 
-		setPassword(password);
+		setPassword(pw);
 	};
 
 	const changePasswordConfirm = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const password = event.target.value;
+		const pw = event.target.value;
 
-		if (password.length <= 6) {
+		if (pw !== password) {
 			setError(true);
-			setPasswordErrorText("Your password must be at least 6 characters long");
+			setPasswordConfirmErrorText("Your password confirmation does not match!");
 			setRegisterErrorText("");
 		} else {
 			setError(false);
-			setPasswordErrorText("");
+			setPasswordConfirmErrorText("");
 			setRegisterErrorText("");
 		}
 
-		setPasswordConfirm(password);
+		setPasswordConfirm(pw);
 	};
 
 	const handleRegisterButtonClick = async () => {
@@ -111,7 +112,7 @@ export const Register = (): JSX.Element => {
 			}
 		}
 		else{
-			setPasswordErrorText("The password confirmation does not match!");
+			setPasswordConfirmErrorText("The password confirmation does not match!");
 		}
 
 	};
@@ -169,9 +170,9 @@ export const Register = (): JSX.Element => {
 								id="password-confirm"
 								label="Password Confirmation"
 								name="password-confirm"
-								type="password-confirm"
+								type="password"
 								error={error}
-								helperText={passwordErrorText}
+								helperText={passwordConfirmErrorText}
 								value={passwordConfirm}
 								onChange={changePasswordConfirm}
 								className={classes.textField}
@@ -183,6 +184,7 @@ export const Register = (): JSX.Element => {
 								variant="contained"
 								onClick={handleRegisterButtonClick}
 								className={classes.signinButton}
+								disabled={!(password === passwordConfirm && password !== "")}
 							>Register</Button>
 							<Link href="/login" className={classes.signUp}>Alreday have an account? Log In.</Link>
 						</ImageListItem>
