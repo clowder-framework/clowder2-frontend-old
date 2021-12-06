@@ -5,8 +5,11 @@ export const userActions = {
 	logout
 };
 
-export async function loginHelper(username, password) {
-	const url = `${config.hostname}/login`;
+export async function loginHelper(username, password, register=false) {
+	let url = config.hostname;
+	if (register) { url = `${url}/users`;}
+	else { url = `${url}/login`;}
+
 	const data = {"name": username, "password": password};
 	const tokenRequest = await fetch(url, {
 		method:"POST",
@@ -24,11 +27,13 @@ export async function loginHelper(username, password) {
 
 export const LOGIN_ERROR = "LOGIN_ERROR";
 export const SET_USER = "SET_USER";
+export const REGISTER_USER = "REGISTER_USER";
+export const REGISTER_ERROR = "REGISTER_ERROR";
 export const LOGOUT = "LOGOUT";
 
 export function login(username, password) {
 	return async (dispatch) => {
-		const json = await loginHelper(username, password);
+		const json = await loginHelper(username, password, false);
 		localStorage.removeItem("Authorization");
 
 		if (json["token"] !== undefined && json["token"] !== "none") {
@@ -41,6 +46,21 @@ export function login(username, password) {
 			return dispatch({
 				type: LOGIN_ERROR,
 				Authorization: "",
+			});
+		}
+	};
+}
+
+export function register(username, password) {
+	return async (dispatch) => {
+		const json = await loginHelper(username, password, true);
+		if (json !== undefined) {
+			return dispatch({
+				type: REGISTER_USER,
+			});
+		} else {
+			return dispatch({
+				type: REGISTER_ERROR,
 			});
 		}
 	};

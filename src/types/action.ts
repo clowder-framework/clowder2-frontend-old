@@ -57,6 +57,14 @@ interface LOGOUT{
 	type: "LOGOUT",
 }
 
+interface REGISTER_ERROR{
+	type: "REGISTER_ERROR"
+}
+
+interface REGISTER_USER{
+	type: "REGISTER_USER"
+}
+
 export type DataAction =
 	| RECEIVE_FILES_IN_DATASET
 	| DELETE_FILE
@@ -70,4 +78,6 @@ export type DataAction =
 	| SET_USER
 	| LOGIN_ERROR
 	| LOGOUT
+	| REGISTER_ERROR
+	| REGISTER_USER
 	;

@@ -3,9 +3,8 @@ import {useHistory} from "react-router-dom";
 import {Avatar, Button, Divider, ImageList, ImageListItem, Paper, TextField, Typography, Link} from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import {makeStyles} from "@material-ui/core/styles";
-import {isAuthorized} from "../utils/common";
 import {useDispatch, useSelector} from "react-redux";
-import {login as loginAction} from "../actions/user";
+import {register as registerAction} from "../actions/user";
 import {RootState} from "../types/data";
 
 const useStyles = makeStyles(() => ({
@@ -45,32 +44,27 @@ const useStyles = makeStyles(() => ({
 }));
 
 
-export const Login = (): JSX.Element => {
+export const Register = (): JSX.Element => {
 
 	const classes = useStyles();
 
-	// if already login, redirect to homepage
 	// use history hook to redirect/navigate between routes
 	const history = useHistory();
-	if (isAuthorized()) { history.push("/");}
 
 	const dispatch = useDispatch();
-	const login = (username:string, password:string) => dispatch(loginAction(username, password));
-	const loginError = useSelector((state:RootState) => state.user.loginError);
+	const register = (username:string, password:string) => dispatch(registerAction(username, password));
+	const registerError = useSelector((state:RootState) => state.user.registerError);
 
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
+	const [passwordConfirm, setPasswordConfirm] = useState("");
 	const [passwordErrorText, setPasswordErrorText] = useState("");
-	const [loginErrorText, setLoginErrorText] = useState("");
+	const [registerErrorText, setRegisterErrorText] = useState("");
 	const [error, setError] = useState(false);
-
-	const handleKeyPressed= (event: React.KeyboardEvent<{}>) => {
-		if (event.key === "Enter") { handleLoginButtonClick();}
-	};
 
 	const changeUsername = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setUsername(event.target.value);
-		setLoginErrorText("");
+		setRegisterErrorText("");
 	};
 
 	const changePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,26 +73,48 @@ export const Login = (): JSX.Element => {
 		if (password.length <= 6) {
 			setError(true);
 			setPasswordErrorText("Your password must be at least 6 characters long");
-			setLoginErrorText("");
+			setRegisterErrorText("");
 		} else {
 			setError(false);
 			setPasswordErrorText("");
-			setLoginErrorText("");
+			setRegisterErrorText("");
 		}
 
 		setPassword(password);
 	};
 
-	 const handleLoginButtonClick = async () => {
-		 await login(username, password);
-		 if (loginError) {
-			 setLoginErrorText("Username/Password is not correct. Try again");
-		 }
-		 if (!loginError) {
-			 history.push("/");
-		 }
+	const changePasswordConfirm = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const password = event.target.value;
 
-	 };
+		if (password.length <= 6) {
+			setError(true);
+			setPasswordErrorText("Your password must be at least 6 characters long");
+			setRegisterErrorText("");
+		} else {
+			setError(false);
+			setPasswordErrorText("");
+			setRegisterErrorText("");
+		}
+
+		setPasswordConfirm(password);
+	};
+
+	const handleRegisterButtonClick = async () => {
+		if (password === passwordConfirm){
+			await register(username, password);
+			if (registerError) {
+				setRegisterErrorText("You cannot register!");
+			}
+			if (!registerError) {
+				// Successful register will redirect to login page
+				history.push("/login");
+			}
+		}
+		else{
+			setPasswordErrorText("The password confirmation does not match!");
+		}
+
+	};
 
 	return (
 		<div>
@@ -109,12 +125,12 @@ export const Login = (): JSX.Element => {
 						<LockOutlinedIcon/>
 					</Avatar>
 					<Typography component="h1" variant="h5">
-						Sign in
+						Register
 					</Typography>
 					<Divider/>
 					<ImageList cols={1} rowHeight="auto">
 						<ImageListItem>
-							<p style={{color: "red"}}>{loginErrorText} </p>
+							<p style={{color: "red"}}>{registerErrorText} </p>
 						</ImageListItem>
 						<ImageListItem>
 							<TextField
@@ -143,7 +159,21 @@ export const Login = (): JSX.Element => {
 								helperText={passwordErrorText}
 								value={password}
 								onChange={changePassword}
-								onKeyPress={handleKeyPressed}
+								className={classes.textField}
+							/>
+							<TextField
+								variant="outlined"
+								margin="normal"
+								required
+								fullWidth
+								id="password-confirm"
+								label="Password Confirmation"
+								name="password-confirm"
+								type="password-confirm"
+								error={error}
+								helperText={passwordErrorText}
+								value={passwordConfirm}
+								onChange={changePasswordConfirm}
 								className={classes.textField}
 							/>
 							<Link href="" className={classes.resetPW} target="_blank">Forgot password?</Link>
@@ -151,10 +181,10 @@ export const Login = (): JSX.Element => {
 								type="submit"
 								fullWidth
 								variant="contained"
-								onClick={handleLoginButtonClick}
+								onClick={handleRegisterButtonClick}
 								className={classes.signinButton}
-							>Sign In</Button>
-							<Link href="/register" className={classes.signUp}>Don&apos;t have an account? Sign up.</Link>
+							>Register</Button>
+							<Link href="/login" className={classes.signUp}>Alreday have an account? Log In.</Link>
 						</ImageListItem>
 					</ImageList>
 				</Paper>
