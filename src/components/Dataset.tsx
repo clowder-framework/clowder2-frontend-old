@@ -315,19 +315,19 @@ export const Dataset = (): JSX.Element => {
 										<Typography className="title">About</Typography>
 										{
 											editingName ? <>:
-													<ClowderInput required={true} onChange={(event) => {
-														const { value } = event.target;
-														setNewDatasetName(value);
-													}} defaultValue={about["name"]}/>
-													<Button onClick={() => {
-														V2.DatasetsService.editDatasetApiV2DatasetsDatasetIdPut(about["id"]).then(json => {
-															// TODO: Dispatch response back to Redux
-															console.log("PUT Dataset Response:", json);
-															setEditingName(false);
-														});
-													}}>Save</Button>
-													<Button onClick={() => setEditingName(false)}>Cancel</Button>
-												</> :
+												<ClowderInput required={true} onChange={(event) => {
+													const { value } = event.target;
+													setNewDatasetName(value);
+												}} defaultValue={about["name"]}/>
+												<Button onClick={() => {
+													V2.DatasetsService.editDatasetApiV2DatasetsDatasetIdPut(about["id"]).then(json => {
+														// TODO: Dispatch response back to Redux
+														console.log("PUT Dataset Response:", json);
+														setEditingName(false);
+													});
+												}}>Save</Button>
+												<Button onClick={() => setEditingName(false)}>Cancel</Button>
+											</> :
 												<Typography className="content">Name: {about["name"]}
 													<Button onClick={() => setEditingName(true)} size={"small"}>Edit</Button>
 												</Typography>
