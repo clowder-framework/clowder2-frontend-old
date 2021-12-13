@@ -320,7 +320,7 @@ export const Dataset = (): JSX.Element => {
 														setNewDatasetName(value);
 													}} defaultValue={about["name"]}/>
 													<Button onClick={() => {
-														V2.DatasetsService.editDatasetApiV2DatasetsDatasetIdPut(about["id"]).then(json => {
+														V2.DatasetsService.editDatasetApiV2DatasetsDatasetIdPut(about["id"]).then((json: any) => {
 															// TODO: Dispatch response back to Redux
 															console.log("PUT Dataset Response:", json);
 															setEditingName(false);
