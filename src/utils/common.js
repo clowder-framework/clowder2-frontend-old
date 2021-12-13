@@ -1,40 +1,40 @@
 import Cookies from "universal-cookie";
-import config from "../app.config";
+import {V2} from "../openapi";
 
 const cookies = new Cookies();
 
 
 //NOTE: This is only checking if a cookie is present, but not validating the cookie.
 export const isAuthorized = () => {
-	const authorization = cookies.get("Authorization");
+	const authorization = localStorage.getItem("Authorization") || "bearer none";
+	V2.OpenAPI.TOKEN = authorization.replace("bearer ", "");
 	return process.env.DEPLOY_ENV === "local" ||
 		(authorization !== undefined && authorization !== "" && authorization !==
-			null);
+					null && authorization !== "bearer none");
 };
 
 // construct header
 export function getHeader() {
-	const headers = new Headers({
-		"X-API-Key": config.apikey
-	});
-
-	return headers;
-
-	// const headers = new Headers({
-	// 	"Authorization": cookies.get("Authorization"),
-	// });
+	// return authorization header with jwt token
+	const authorization = localStorage.getItem("Authorization") || "bearer none";
+	V2.OpenAPI.TOKEN = authorization.replace("bearer ", "");
+	if (authorization) {
+		return new Headers({ "Authorization": authorization});
+	} else {
+		return {};
+	}
 }
 
 export async function downloadResource(url) {
-	let authHeader = getHeader();
-	let response = await fetch(url, {
+	const authHeader = getHeader();
+	const response = await fetch(url, {
 		method: "GET",
 		mode: "cors",
 		headers: authHeader,
 	});
 
 	if (response.status === 200) {
-		let blob = await response.blob();
+		const blob = await response.blob();
 		return window.URL.createObjectURL(blob);
 	} else if (response.status === 401) {
 		// TODO handle error
@@ -46,12 +46,12 @@ export async function downloadResource(url) {
 }
 
 export function dataURItoFile(dataURI) {
-	let metadata = dataURI.split(",")[0];
-	let mime = metadata.match(/:(.*?);/)[1];
-	let filename = metadata.match(/name=(.*?);/)[1];
+	const metadata = dataURI.split(",")[0];
+	const mime = metadata.match(/:(.*?);/)[1];
+	const filename = metadata.match(/name=(.*?);/)[1];
 
-	let binary = atob(dataURI.split(",")[1]);
-	let array = [];
+	const binary = atob(dataURI.split(",")[1]);
+	const array = [];
 	for (let i = 0; i < binary.length; i++) {
 		array.push(binary.charCodeAt(i));
 	}

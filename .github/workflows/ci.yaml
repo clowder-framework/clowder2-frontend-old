@@ -95,23 +95,23 @@ jobs:
       - name: Build image
         uses: elgohr/Publish-Docker-Github-Action@3.04
         with:
-          name: clowder-framework/clowder2-react-frontend
+          name: clowder/clowder-react
           no_push: true
 
-#    # TODO this will publish to NCSA
-#    - name: Publish to NCSA Hub
-#      #if: github.event_name != 'pull_request' && github.repository == env.MAIN_REPO
-#      if: github.repository == env.MAIN_REPO
-#      uses: elgohr/Publish-Docker-Github-Action@3.04
-#      env:
-#        BRANCH: ${{ env.GITHUB_BRANCH }}
-#        VERSION: ${{ env.VERSION }}
-#        BUILDNUMBER: ${{ github.run_number }}
-#        GITSHA1: ${{ github.sha  }}
-#      with:
-#        registry: hub.ncsa.illinois.edu
-#        name: clowder-framework/clowder2-react-frontend
-#        username: ${{ secrets.HUB_USERNAME }}
-#        password: ${{ secrets.HUB_PASSWORD }}
-#        tags: "${{ env.TAGS }}"
-#        buildargs: BRANCH,VERSION,BUILDNUMBER,GITSHA1
+      # this will publish to NCSA
+      - name: Publish to NCSA Hub
+        #if: github.event_name != 'pull_request' && github.repository == env.MAIN_REPO
+        if: github.repository == env.MAIN_REPO
+        uses: elgohr/Publish-Docker-Github-Action@3.04
+        env:
+          BRANCH: ${{ env.GITHUB_BRANCH }}
+          VERSION: ${{ env.VERSION }}
+          BUILDNUMBER: ${{ github.run_number }}
+          GITSHA1: ${{ github.sha  }}
+        with:
+          registry: hub.ncsa.illinois.edu
+          name: clowder/clowder-react
+          username: ${{ secrets.HUB_USERNAME }}
+          password: ${{ secrets.HUB_PASSWORD }}
+          tags: "${{ env.TAGS }}"
+          buildargs: BRANCH,VERSION,BUILDNUMBER,GITSHA1

@@ -1,51 +1,45 @@
 import {getHeader} from "./common";
 import config from "../app.config";
 
+import { V2 } from "../openapi/";
+
 export async function createDataset(formData) {
-	let endpoint = `${config.hostname}/clowder/api/datasets/createempty?superAdmin=true`;
+	// let endpoint = `${config.hostname}/datasets/createempty?superAdmin=true`;
+	//const endpoint = `${config.hostname}/datasets?superAdmin=true`;
+	//const authHeader = getHeader();
+	/*authHeader.append("Accept", "application/json");
+	authHeader.append("Content-Type", "application/json");*/
 
-	let authHeader = getHeader();
-	authHeader.append("Accept", "application/json");
-	authHeader.append("Content-Type", "application/json");
-
-	let body = JSON.stringify(formData);
-
-	let response = await fetch(endpoint, {
-		method: "POST",
-		mode: "cors",
-		headers: authHeader,
-		body: body,
+	return V2.DatasetsService.saveDatasetApiV2DatasetsPost(formData).catch(reason => {
+		if (reason.status === 401) {
+			console.error("Failed to create dataset: Not authenticated: ", reason);
+			return {};
+		} else {
+			console.error("Failed to create dataset: ", reason);
+			return {};
+		}
+	}).then(dataset => {
+		return dataset;
 	});
-
-	if (response.status === 200) {
-		// {id:xxx}
-		return response.json();
-	} else if (response.status === 401) {
-		// TODO handle error
-		return {};
-	} else {
-		// TODO handle error
-		return {};
-	}
 }
 
-export async function downloadDataset(datasetId, filename = null) {
+export async function downloadDataset(datasetId, filename = "") {
 
-	if (filename) {
+	if (filename !== "") {
 		filename = filename.replace(/\s+/g, "_");
 		filename = `${filename}.zip`;
 	} else {
 		filename = `${datasetId}.zip`;
 	}
-	let endpoint = `${config.hostname}/clowder/api/datasets/${datasetId}/download?superAdmin=true`;
-	let response = await fetch(endpoint, {method: "GET", mode: "cors", headers: await getHeader()});
+	const endpoint = `${config.hostname}/datasets/${datasetId}/download?superAdmin=true`;
+	const response = await fetch(endpoint, {method: "GET", mode: "cors", headers: await getHeader()});
 
 	if (response.status === 200) {
-		let blob = await response.blob();
+		const blob = await response.blob();
 		if (window.navigator.msSaveOrOpenBlob) {
 			window.navigator.msSaveBlob(blob, filename);
 		} else {
-			let anchor = window.document.createElement("a");
+			const anchor = window.document.createElement("a");
 			anchor.href = window.URL.createObjectURL(blob);
 			anchor.download = filename;
 			document.body.appendChild(anchor);
