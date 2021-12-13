@@ -1,5 +1,6 @@
 import {getHeader, dataURItoFile} from "./common";
 import config from "../app.config";
+import {V2} from "../openapi";
 
 // TODO this need to go away in v2; same function already in redux
 // TODO this exist because on dataset page we need to call multiple files id to collect their thumbnail
@@ -19,33 +20,25 @@ export async function fetchFileMetadata(id){
 }
 
 export async function uploadFile(formData, selectedDatasetId) {
-	const endpoint = `${config.hostname}/datasets/${selectedDatasetId}/files?superAdmin=true`;
-	const authHeader = getHeader();
-	const body = new FormData();
+
+	const formDataBody = new FormData();
 	formData.map((item) =>{
 		if (item["file"] !== undefined){
-			body.append("file", dataURItoFile(item["file"]));
+			formDataBody.append("file", dataURItoFile(item["file"]));
 		}
 	});
 
-	const response = await fetch(endpoint, {
-		method: "POST",
-		mode: "cors",
-		headers: authHeader,
-		body: body,
+	return V2.FilesService.saveFileApiV2FilesDatasetIdPost(selectedDatasetId, formDataBody).catch(reason => {
+		if (reason.status === 401) {
+			console.error("Failed to create file: Not authenticated: ", reason);
+			return {};
+		} else {
+			console.error("Failed to create file: ", reason);
+			return {};
+		}
+	}).then(file => {
+		return file;
 	});
-
-	if (response.status === 200) {
-		// {id:xxx}
-		// {ids:[{id:xxx}, {id:xxx}]}
-		return response.json();
-	} else if (response.status === 401) {
-		// TODO handle error
-		return {};
-	} else {
-		// TODO handle error
-		return {};
-	}
 }
 
 export async function downloadFile(fileId, filename = "") {

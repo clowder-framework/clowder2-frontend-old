@@ -1,5 +1,7 @@
 import config from "../app.config";
 import {getHeader} from "../utils/common";
+import {V2} from "../openapi";
+import {RECEIVE_DATASET_ABOUT, receiveDatasetAbout} from "./dataset";
 
 export const RECEIVE_FILE_EXTRACTED_METADATA = "RECEIVE_FILE_EXTRACTED_METADATA";
 export function receiveFileExtractedMetadata(type, json){
@@ -39,19 +41,12 @@ export function receiveFileMetadata(type, json){
 	};
 }
 export function fetchFileMetadata(id){
-	const url = `${config.hostname}/clowder/api/files/${id}/metadata?superAdmin=true`;
 	return (dispatch) => {
-		return fetch(url, {mode:"cors", headers: getHeader()})
-			.then((response) => {
-				if (response.status === 200) {
-					response.json().then(json =>{
-						dispatch(receiveFileMetadata(RECEIVE_FILE_METADATA, json));
-					});
-				}
-				else {
-					dispatch(receiveFileMetadata(RECEIVE_FILE_METADATA, []));
-				}
-			});
+		return V2.FilesService.getFileSummaryApiV2FilesFileIdSummaryGet(id).catch(reason => {
+			dispatch(receiveFileMetadata(RECEIVE_FILE_METADATA, []));
+		}).then(json => {
+			dispatch(receiveFileMetadata(RECEIVE_FILE_METADATA, json));
+		});
 	};
 }
 
@@ -111,28 +106,19 @@ export function fetchFilePreviews(id){
 
 export const DELETE_FILE = "DELETE_FILE";
 export function fileDeleted(fileId){
-	const url = `${config.hostname}/files/${fileId}?superAdmin=true`;
 	return (dispatch) => {
-		return fetch(url, {mode:"cors", method:"DELETE", headers: getHeader()})
-			.then((response) => {
-				if (response.status === 200) {
-					response.json().then(json =>{
-						dispatch({
-							type: DELETE_FILE,
-							file: {"id": fileId, "status": json["status"]===undefined?json["status"]:"success"},
-							receivedAt: Date.now(),
-						});
-					});
-				}
-				else {
-					response.json().then(json => {
-						dispatch({
-							type: DELETE_FILE,
-							file: {"id": null, "status": json["status"] === undefined ? json["status"] : "fail"},
-							receivedAt: Date.now(),
-						});
-					});
-				}
+		return V2.FilesService.deleteFileApiV2FilesFileIdDelete(fileId).catch(reason => {
+			dispatch({
+				type: DELETE_FILE,
+				file: {"id": null, "status": reason["status"] === undefined ? reason["status"] : "fail"},
+				receivedAt: Date.now(),
 			});
+		}).then(json => {
+			dispatch({
+				type: DELETE_FILE,
+				file: {"id": fileId, "status": json["status"]===undefined? json["status"]:"success"},
+				receivedAt: Date.now(),
+			});
+		});
 	};
 }
