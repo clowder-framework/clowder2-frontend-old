@@ -1,13 +1,11 @@
 import Cookies from "universal-cookie";
-import {V2} from "../openapi";
 
 const cookies = new Cookies();
 
 
 //NOTE: This is only checking if a cookie is present, but not validating the cookie.
 export const isAuthorized = () => {
-	const authorization = localStorage.getItem("Authorization") || "bearer none";
-	V2.OpenAPI.TOKEN = authorization.replace("bearer ", "");
+	const authorization = localStorage.getItem("Authorization");
 	return process.env.DEPLOY_ENV === "local" ||
 			(authorization !== undefined && authorization !== "" && authorization !==
 					null && authorization !== "bearer none");
@@ -16,8 +14,8 @@ export const isAuthorized = () => {
 // construct header
 export function getHeader() {
 	// return authorization header with jwt token
-	const authorization = localStorage.getItem("Authorization") || "bearer none";
-	V2.OpenAPI.TOKEN = authorization.replace("bearer ", "");
+	const authorization = localStorage.getItem("Authorization");
+
 	if (authorization) {
 		return new Headers({ "Authorization": authorization});
 	} else {
