@@ -109,7 +109,7 @@ export const File = (): JSX.Element => {
 			"url":`/datasets/${datasetId}`
 		},
 		{
-			"name":fileMetadata["filename"],
+			"name":fileMetadata["name"],
 			"url":`/files/${fileId}`
 		}
 	];
@@ -181,9 +181,9 @@ export const File = (): JSX.Element => {
 										<Typography className="content">Uploaded
 												on: {fileMetadata["date-created"]}</Typography>
 										<Typography className="content">Uploaded
-												as: {fileMetadata["filename"]}</Typography>
+												as: {fileMetadata["name"]}</Typography>
 										<Typography className="content">Uploaded
-												by: {fileMetadata["authorId"]}</Typography>
+												by: {fileMetadata["creator"]}</Typography>
 										<Typography
 											className="content">Status: {fileMetadata["status"]}</Typography>
 									</Box> : <></>
@@ -191,10 +191,10 @@ export const File = (): JSX.Element => {
 							<Divider light/>
 							<Box className="infoCard">
 								<Typography className="title">Statistics</Typography>
-								<Typography className="content">Views: 10</Typography>
-								<Typography className="content">Last viewed: Jun 07, 2021 21:49:09</Typography>
-								<Typography className="content">Downloads: 0</Typography>
-								<Typography className="content">Last downloaded: Never</Typography>
+								<Typography className="content">Views: {fileMetadata["views"]}</Typography>
+								{/*<Typography className="content">Last viewed: Jun 07, 2021 21:49:09</Typography>*/}
+								<Typography className="content">Downloads: {fileMetadata["downloads"]}</Typography>
+								{/*<Typography className="content">Last downloaded: Never</Typography>*/}
 							</Box>
 							<Divider light/>
 							<Box className="infoCard">

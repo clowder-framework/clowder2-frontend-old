@@ -20,10 +20,10 @@ export async function fetchFileMetadata(id) {
 
 export async function uploadFile(formData, selectedDatasetId) {
 
-	const formDataBody = new FormData();
+	const formDataBody = {};
 	formData.map((item) => {
 		if (item["file"] !== undefined) {
-			formDataBody.append("file", dataURItoFile(item["file"]));
+			formDataBody["file"] = dataURItoFile(item["file"]);
 		}
 	});
 

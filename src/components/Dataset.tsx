@@ -275,7 +275,7 @@ export const Dataset = (): JSX.Element => {
 														</Grid>
 														<Grid item xl={8} lg={8} md={8} sm={8} xs={12}>
 															<Box className={classes.fileCardText}>
-																<Typography>File name: {file["filename"]}</Typography>
+																<Typography>File name: {file["name"]}</Typography>
 																<Typography>File size: {file["size"]}</Typography>
 																<Typography>Created on: {file["date-created"]}</Typography>
 																<Typography>Content type: {file["contentType"]}</Typography>
