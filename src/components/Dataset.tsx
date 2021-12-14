@@ -292,7 +292,7 @@ export const Dataset = (): JSX.Element => {
 														</Box>
 														<Box className={classes.fileCardActionItem}>
 															<Button startIcon={<CloudDownloadOutlinedIcon />}
-																onClick={()=>{downloadFile(file["id"], file["filename"]);}}>
+																onClick={()=>{downloadFile(file["id"], file["name"]);}}>
 																Download</Button>
 														</Box>
 													</Box>

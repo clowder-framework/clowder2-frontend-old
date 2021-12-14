@@ -20,14 +20,15 @@ export async function fetchFileMetadata(id) {
 
 export async function uploadFile(formData, selectedDatasetId) {
 
-	const formDataBody = {};
-	formData.map((item) => {
-		if (item["file"] !== undefined) {
-			formDataBody["file"] = dataURItoFile(item["file"]);
-		}
-	});
+	// const formDataBody = {};
+	// formData.map((item) => {
+	// 	if (item["file"] !== undefined) {
+	// 		formDataBody["file"] = dataURItoFile(item["file"]);
+	// 	}
+	// });
 
-	return V2.FilesService.saveFileApiV2FilesDatasetIdPost(selectedDatasetId, formDataBody).catch(reason => {
+	formData["file"] = dataURItoFile(formData["file"]);
+	return V2.FilesService.saveFileApiV2FilesDatasetIdPost(selectedDatasetId, formData).catch(reason => {
 		if (reason.status === 401) {
 			console.error("Failed to create file: Not authenticated: ", reason);
 			return {};
