@@ -1,29 +1,28 @@
-import {getHeader, dataURItoFile} from "./common";
-import config from "../app.config";
+import {dataURItoFile} from "./common";
 import {V2} from "../openapi";
 
 // TODO this need to go away in v2; same function already in redux
 // TODO this exist because on dataset page we need to call multiple files id to collect their thumbnail
 
-export async function fetchFileMetadata(id){
-	const url = `${config.hostname}/files/${id}/metadata?superAdmin=true`;
-	const response = await fetch(url, {mode:"cors", headers: getHeader()});
-	if (response.status  === 200){
-		return await response.json();
-	} else if (response.status === 401) {
-		// TODO handle error
-		return {};
-	} else {
-		// TODO handle error
-		return {};
-	}
+export async function fetchFileMetadata(id) {
+	return V2.FilesService.getFileSummaryApiV2FilesFileIdSummaryGet(id).catch(reason => {
+		if (reason.status === 401) {
+			console.error("Failed to get file summary: Not authenticated: ", reason);
+			return {};
+		} else {
+			console.error("Failed to get file summary: ", reason);
+			return {};
+		}
+	}).then(fileSummary => {
+		return fileSummary;
+	});
 }
 
 export async function uploadFile(formData, selectedDatasetId) {
 
 	const formDataBody = new FormData();
-	formData.map((item) =>{
-		if (item["file"] !== undefined){
+	formData.map((item) => {
+		if (item["file"] !== undefined) {
 			formDataBody.append("file", dataURItoFile(item["file"]));
 		}
 	});
@@ -46,26 +45,27 @@ export async function downloadFile(fileId, filename = "") {
 	if (filename === "") {
 		filename = `${fileId}.zip`;
 	}
-	const endpoint = `${config.hostname}/files/${fileId}/blob?superAdmin=true`;
-	const response = await fetch(endpoint, {method: "GET", mode: "cors", headers: await getHeader()});
 
-	if (response.status === 200) {
-		const blob = await response.blob();
-		if (window.navigator.msSaveOrOpenBlob) {
-			window.navigator.msSaveBlob(blob, filename);
+	V2.FilesService.downloadFileApiV2FilesFileIdGet(fileId).catch(reason => {
+		if (reason.status === 401) {
+			console.error("Failed to download file: Not authenticated: ", reason);
+			return {};
 		} else {
-			const anchor = window.document.createElement("a");
-			anchor.href = window.URL.createObjectURL(blob);
-			anchor.download = filename;
-			document.body.appendChild(anchor);
-			anchor.click();
-			document.body.removeChild(anchor);
+			console.error("Failed to download file: ", reason);
+			return {};
 		}
-	} else if (response.status === 401) {
-		// TODO
-		console.log(response.json());
-	} else {
-		console.log(response.json());
-	}
-
+	})
+		.then(response => response.blob())
+		.then(blob => {
+			if (window.navigator.msSaveOrOpenBlob) {
+				window.navigator.msSaveBlob(blob, filename);
+			} else {
+				const anchor = window.document.createElement("a");
+				anchor.href = window.URL.createObjectURL(blob);
+				anchor.download = filename;
+				document.body.appendChild(anchor);
+				anchor.click();
+				document.body.removeChild(anchor);
+			}
+		});
 }
