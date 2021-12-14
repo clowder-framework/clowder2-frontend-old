@@ -15,18 +15,12 @@ export function receiveFilesInDataset(type, json) {
 }
 
 export function fetchFilesInDataset(id){
-	const url = `${config.hostname}/datasets/${id}/files?superAdmin=true`;
 	return (dispatch) => {
-		return fetch(url, {mode: "cors", headers: getHeader()})
-			.then((response) => {
-				if (response.status === 200) {
-					response.json().then(json => {
-						dispatch(receiveFilesInDataset(RECEIVE_FILES_IN_DATASET, json));
-					});
-				} else {
-					dispatch(receiveFilesInDataset(RECEIVE_FILES_IN_DATASET, []));
-				}
-			});
+		return V2.DatasetsService.getDatasetFilesApiV2DatasetsDatasetIdFilesGet(id).catch(reason => {
+			dispatch(receiveFilesInDataset(RECEIVE_FILES_IN_DATASET, []));
+		}).then(json => {
+			dispatch(receiveFilesInDataset(RECEIVE_FILES_IN_DATASET, json));
+		});
 	};
 }
 
