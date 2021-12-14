@@ -28,7 +28,7 @@ const dataset = (state = defaultState, action: DataAction) => {
 	case CREATE_FILE:
 		return Object.assign({}, state, {
 			files: [...state.files, action.file]
-		})
+		});
 	case RECEIVE_DATASET_ABOUT:
 		return Object.assign({}, state, {about: action.about});
 	case RECEIVE_DATASETS:
