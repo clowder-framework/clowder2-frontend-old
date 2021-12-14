@@ -325,7 +325,7 @@ export const Dataset = (): JSX.Element => {
 														console.log("PUT Dataset Response:", json);
 														setEditingName(false);
 													});
-												}}>Save</Button>
+												}} disabled={true}>Save</Button>
 												<Button onClick={() => setEditingName(false)}>Cancel</Button>
 											</> :
 												<Typography className="content">Name: {about["name"]}
