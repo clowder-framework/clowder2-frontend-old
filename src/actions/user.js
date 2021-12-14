@@ -1,4 +1,3 @@
-import config from "../app.config";
 import {V2} from "../openapi";
 
 export const userActions = {
@@ -11,12 +10,14 @@ export async function loginHelper(username, password, register = false) {
 	if (register) {
 		return V2.UsersService.saveUserApiV2UsersPost(data).catch(reason => {
 			console.error("Failed to register a user! ", reason);
+			logout();
 			return {};
 		})
 			.then(user => {return user;});
 	} else {
 		return V2.LoginService.loginApiV2LoginPost(data).catch(reason => {
 			console.error("Failed to login a user! ", reason);
+			logout();
 			return {};
 		})
 			.then(user => {return user;});

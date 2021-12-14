@@ -2,11 +2,13 @@ import {getHeader} from "./common";
 import config from "../app.config";
 
 import { V2 } from "../openapi/";
+import {logout} from "../actions/user";
 
 export async function createDataset(formData) {
 	return V2.DatasetsService.saveDatasetApiV2DatasetsPost(formData).catch(reason => {
 		if (reason.status === 401) {
 			console.error("Failed to create dataset: Not authenticated: ", reason);
+			logout();
 			return {};
 		} else {
 			console.error("Failed to create dataset: ", reason);
@@ -43,6 +45,7 @@ export async function downloadDataset(datasetId, filename = "") {
 	} else if (response.status === 401) {
 		// TODO
 		console.log(response.json());
+		logout();
 	} else {
 		console.log(response.json());
 	}

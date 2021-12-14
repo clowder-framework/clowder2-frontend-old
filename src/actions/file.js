@@ -2,6 +2,7 @@ import config from "../app.config";
 import {getHeader} from "../utils/common";
 import {V2} from "../openapi";
 import {RECEIVE_DATASET_ABOUT, receiveDatasetAbout} from "./dataset";
+import {logout} from "./user";
 
 export const RECEIVE_FILE_EXTRACTED_METADATA = "RECEIVE_FILE_EXTRACTED_METADATA";
 export function receiveFileExtractedMetadata(type, json){
@@ -43,6 +44,10 @@ export function receiveFileMetadata(type, json){
 export function fetchFileMetadata(id){
 	return (dispatch) => {
 		return V2.FilesService.getFileSummaryApiV2FilesFileIdSummaryGet(id).catch(reason => {
+			if (reason.status === 401){
+				console.log("Unauthorized!");
+				logout();
+			}
 			dispatch(receiveFileMetadata(RECEIVE_FILE_METADATA, []));
 		}).then(json => {
 			dispatch(receiveFileMetadata(RECEIVE_FILE_METADATA, json));
@@ -108,6 +113,10 @@ export const DELETE_FILE = "DELETE_FILE";
 export function fileDeleted(fileId){
 	return (dispatch) => {
 		return V2.FilesService.deleteFileApiV2FilesFileIdDelete(fileId).catch(reason => {
+			if (reason.status === 401){
+				console.log("Unauthorized!");
+				logout();
+			}
 			dispatch({
 				type: DELETE_FILE,
 				file: {"id": null, "status": reason["status"] === undefined ? reason["status"] : "fail"},
