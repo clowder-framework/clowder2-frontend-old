@@ -1,5 +1,5 @@
 import config from "../app.config";
-import {getHeader} from "../utils/common";
+import {dataURItoFile, getHeader} from "../utils/common";
 import {V2} from "../openapi";
 import {RECEIVE_DATASET_ABOUT, receiveDatasetAbout} from "./dataset";
 import {logout} from "./user";
@@ -126,6 +126,30 @@ export function fileDeleted(fileId){
 			dispatch({
 				type: DELETE_FILE,
 				file: {"id": fileId, "status": json["status"]===undefined? json["status"]:"success"},
+				receivedAt: Date.now(),
+			});
+		});
+	};
+}
+
+export const CREATE_FILE = "CREATE_FILE";
+export function fileCreated(formData, selectedDatasetId){
+	return (dispatch) => {
+		formData["file"] = dataURItoFile(formData["file"]);
+		return V2.FilesService.saveFileApiV2FilesDatasetIdPost(selectedDatasetId, formData).catch(reason => {
+			if (reason.status === 401) {
+				console.error("Failed to create file: Not authenticated: ", reason);
+				logout();
+			}
+			dispatch({
+				type: CREATE_FILE,
+				file: {},
+				receivedAt: Date.now(),
+			});
+		}).then(file => {
+			dispatch({
+				type: CREATE_FILE,
+				file: file,
 				receivedAt: Date.now(),
 			});
 		});

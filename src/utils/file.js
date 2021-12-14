@@ -1,4 +1,4 @@
-import {dataURItoFile, getHeader} from "./common";
+import {getHeader} from "./common";
 import {V2} from "../openapi";
 import config from "../app.config";
 import {logout} from "../actions/user";
@@ -18,22 +18,6 @@ export async function fetchFileMetadata(id) {
 		}
 	}).then(fileSummary => {
 		return fileSummary;
-	});
-}
-
-export async function uploadFile(formData, selectedDatasetId) {
-	formData["file"] = dataURItoFile(formData["file"]);
-	return V2.FilesService.saveFileApiV2FilesDatasetIdPost(selectedDatasetId, formData).catch(reason => {
-		if (reason.status === 401) {
-			console.error("Failed to create file: Not authenticated: ", reason);
-			logout();
-			return {};
-		} else {
-			console.error("Failed to create file: ", reason);
-			return {};
-		}
-	}).then(file => {
-		return file;
 	});
 }
 
