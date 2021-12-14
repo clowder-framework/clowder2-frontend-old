@@ -288,7 +288,7 @@ export const Dataset = (): JSX.Element => {
 																onClick={()=>{deleteFile(file["id"]);}}>Delete</Button>
 														</Box>
 														<Box className={classes.fileCardActionItem}>
-															<Button startIcon={<StarBorderIcon />}>Follow</Button>
+															<Button startIcon={<StarBorderIcon />} disabled={true}>Follow</Button>
 														</Box>
 														<Box className={classes.fileCardActionItem}>
 															<Button startIcon={<CloudDownloadOutlinedIcon />}

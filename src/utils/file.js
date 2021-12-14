@@ -1,5 +1,6 @@
-import {dataURItoFile} from "./common";
+import {dataURItoFile, getHeader} from "./common";
 import {V2} from "../openapi";
+import config from "../app.config";
 
 // TODO this need to go away in v2; same function already in redux
 // TODO this exist because on dataset page we need to call multiple files id to collect their thumbnail
@@ -19,14 +20,6 @@ export async function fetchFileMetadata(id) {
 }
 
 export async function uploadFile(formData, selectedDatasetId) {
-
-	// const formDataBody = {};
-	// formData.map((item) => {
-	// 	if (item["file"] !== undefined) {
-	// 		formDataBody["file"] = dataURItoFile(item["file"]);
-	// 	}
-	// });
-
 	formData["file"] = dataURItoFile(formData["file"]);
 	return V2.FilesService.saveFileApiV2FilesDatasetIdPost(selectedDatasetId, formData).catch(reason => {
 		if (reason.status === 401) {
@@ -46,27 +39,49 @@ export async function downloadFile(fileId, filename = "") {
 	if (filename === "") {
 		filename = `${fileId}.zip`;
 	}
+	const endpoint = `${config.hostname}/api/v2/files/${fileId}`;
+	const response = await fetch(endpoint, {method: "GET", mode: "cors", headers: await getHeader()});
 
-	V2.FilesService.downloadFileApiV2FilesFileIdGet(fileId).catch(reason => {
-		if (reason.status === 401) {
-			console.error("Failed to download file: Not authenticated: ", reason);
-			return {};
+	if (response.status === 200) {
+		const blob = await response.blob();
+		if (window.navigator.msSaveOrOpenBlob) {
+			window.navigator.msSaveBlob(blob, filename);
 		} else {
-			console.error("Failed to download file: ", reason);
-			return {};
+			const anchor = window.document.createElement("a");
+			anchor.href = window.URL.createObjectURL(blob);
+			anchor.download = filename;
+			document.body.appendChild(anchor);
+			anchor.click();
+			document.body.removeChild(anchor);
 		}
-	})
-		.then(response => response.blob())
-		.then(blob => {
-			if (window.navigator.msSaveOrOpenBlob) {
-				window.navigator.msSaveBlob(blob, filename);
-			} else {
-				const anchor = window.document.createElement("a");
-				anchor.href = window.URL.createObjectURL(blob);
-				anchor.download = filename;
-				document.body.appendChild(anchor);
-				anchor.click();
-				document.body.removeChild(anchor);
-			}
-		});
+	} else if (response.status === 401) {
+		// TODO
+		console.log(response.json());
+	} else {
+		console.log(response.json());
+	}
+
+	// TODO this doesn't work. I think on swagger.json it needs a flag x-is-file to be able to get the response as a blob
+	// V2.FilesService.downloadFileApiV2FilesFileIdGet(fileId).catch(reason => {
+	// 	if (reason.status === 401) {
+	// 		console.error("Failed to download file: Not authenticated: ", reason);
+	// 		return {};
+	// 	} else {
+	// 		console.error("Failed to download file: ", reason);
+	// 		return {};
+	// 	}
+	// })
+	// 	.then(response => response.blob())
+	// 	.then(blob => {
+	// 		if (window.navigator.msSaveOrOpenBlob) {
+	// 			window.navigator.msSaveBlob(blob, filename);
+	// 		} else {
+	// 			const anchor = window.document.createElement("a");
+	// 			anchor.href = window.URL.createObjectURL(blob);
+	// 			anchor.download = filename;
+	// 			document.body.appendChild(anchor);
+	// 			anchor.click();
+	// 			document.body.removeChild(anchor);
+	// 		}
+	// 	});
 }
