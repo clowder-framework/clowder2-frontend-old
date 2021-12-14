@@ -314,7 +314,9 @@ export const Dataset = (): JSX.Element => {
 									<Box className="infoCard">
 										<Typography className="title">About</Typography>
 										{
-											editingName ? <>:
+											// FIXME: "Update Dataset" endpoint is missing body parameter
+
+											/*editingName ? <>:
 													<ClowderInput required={true} onChange={(event) => {
 														const { value } = event.target;
 														setNewDatasetName(value);
@@ -330,7 +332,7 @@ export const Dataset = (): JSX.Element => {
 												</> :
 												<Typography className="content">Name: {about["name"]}
 													<Button onClick={() => setEditingName(true)} size={"small"}>Edit</Button>
-												</Typography>
+												</Typography>*/
 										}
 										<Typography className="content">Dataset ID: {about["id"]}</Typography>
 										<Typography className="content">Owner: {about["authorId"]}</Typography>
