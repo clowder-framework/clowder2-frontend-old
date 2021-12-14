@@ -82,6 +82,29 @@ export function fetchDatasets(when, date, limit=5){
 	};
 }
 
+export const CREATE_DATASET = "CREATE_DATASET";
+export function datasetCreated(formData){
+	return (dispatch) =>{
+		return V2.DatasetsService.saveDatasetApiV2DatasetsPost(formData).catch(reason => {
+			if (reason.status === 401) {
+				console.error("Failed to create dataset: Not authenticated: ", reason);
+				logout();
+			}
+			dispatch({
+				type: CREATE_DATASET,
+				dataset: {},
+				receivedAt: Date.now(),
+			});
+		}).then(dataset => {
+			dispatch({
+				type: CREATE_DATASET,
+				dataset: dataset,
+				receivedAt: Date.now(),
+			});
+		});
+	};
+}
+
 export const DELETE_DATASET = "DELETE_DATASET";
 export function datasetDeleted(datasetId){
 	return (dispatch) => {

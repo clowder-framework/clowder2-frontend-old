@@ -248,7 +248,7 @@ export const Dashboard = (): JSX.Element => {
 								<Typography className="content">Some quick example text to tell users why they should
 									read
 									the tutorial</Typography>
-								<Link href="" className="link">Show me Tutorial</Link>
+								<Link href="https://clowderframework.org/" className="link" target="_blank">Show me Tutorial</Link>
 							</Box>
 						</Grid>
 					</Grid>
