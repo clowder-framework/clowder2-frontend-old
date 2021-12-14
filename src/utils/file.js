@@ -5,7 +5,7 @@ import {logout} from "../actions/user";
 
 // TODO this need to go away in v2; same function already in redux
 // TODO this exist because on dataset page we need to call multiple files id to collect their thumbnail
-
+// TODO fixme when thumbnail is available in V2
 export async function fetchFileMetadata(id) {
 	return V2.FilesService.getFileSummaryApiV2FilesFileIdSummaryGet(id).catch(reason => {
 		if (reason.status === 401) {
@@ -22,7 +22,6 @@ export async function fetchFileMetadata(id) {
 }
 
 export async function downloadFile(fileId, filename = "") {
-
 	if (filename === "") {
 		filename = `${fileId}.zip`;
 	}
@@ -49,7 +48,7 @@ export async function downloadFile(fileId, filename = "") {
 		console.log(response.json());
 	}
 
-	// TODO this doesn't work. I think on swagger.json it needs a flag x-is-file to be able to get the response as a blob
+	// TODO FIXME: this doesn't work. I think on swagger.json it needs a flag x-is-file to be able to get the response as a blob
 	// V2.FilesService.downloadFileApiV2FilesFileIdGet(fileId).catch(reason => {
 	// 	if (reason.status === 401) {
 	// 		console.error("Failed to download file: Not authenticated: ", reason);
