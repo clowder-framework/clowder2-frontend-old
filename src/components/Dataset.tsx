@@ -242,7 +242,8 @@ export const Dataset = (): JSX.Element => {
 										<MenuItem onClick={()=>{
 											deleteDataset(datasetId);
 											handleOptionClose();
-											// TODO go to the explore page
+											// Go to Explore page
+											history.push("/");
 										}
 										} className={classes.optionMenuItem}>Delete</MenuItem>
 										<MenuItem onClick={handleOptionClose} className={classes.optionMenuItem} disabled={true}>Follow</MenuItem>
