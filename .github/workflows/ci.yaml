@@ -25,6 +25,7 @@ jobs:
   # NODE BUILD
   # ----------------------------------------------------------------------
   build:
+    timeout-minutes: 10
     runs-on: ubuntu-latest
 
     strategy:
@@ -47,10 +48,36 @@ jobs:
       - name: install dependencies
         run: npm install
 
-      # compile UI
-      - name: build
-        run: npm run build
+      - name: Login to NCSA Hub
+        uses: docker/login-action@v1
+        with:
+          registry: hub.ncsa.illinois.edu
+          username: ${{ secrets.HUB_USERNAME }}
+          password: ${{ secrets.HUB_PASSWORD }}
 
+      - name: Start container
+        run: docker run --rm -itd --name=clowder-fastapi -p 80:80 hub.ncsa.illinois.edu/clowder/clowder-fastapi:main
+
+      - name: Wait for FastAPI
+        run: while ! curl --output /dev/null --silent --fail http://localhost:80; do sleep 1 && echo -n .; done;
+  
+      - name: Save temp OpenAPI spec
+        run: docker exec clowder-fastapi curl localhost/api/v2/openapi.json > ./openapi.json
+
+      - name: Generate client from saved spec
+        run: npm run codegen:v2
+        # Trick codegen into using a local file
+        env:
+          CLOWDER_REMOTE_HOST: ' '
+          CLOWDER_PATH_PREFIX: '.'
+
+      - name: Stop container
+        if: always()
+        run: docker rm -f clowder-fastapi
+
+      - name: Run webpack build
+        run: npm build
+  
   # ----------------------------------------------------------------------
   # DOCKER BUILD
   # ----------------------------------------------------------------------
