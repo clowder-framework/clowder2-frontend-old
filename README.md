@@ -15,6 +15,6 @@ Run for development:
 
 Update calls to backend (if needed, backend must be running):
 
-`CLOWDER_REMOTE_HOST=http://localhost:8000 npm run codegen:v2`
+`CLOWDER_REMOTE_HOSTNAME=http://localhost:8000 npm run codegen:v2`
 
 Build: `yarn run build` or `npm run build`
