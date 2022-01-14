@@ -234,32 +234,38 @@ export const Dataset = (): JSX.Element => {
 												<Box className={classes.fileCardOuterBox}>
 													<ListItem button className={classes.fileCard} key={file["id"]}
 															  onClick={() => selectFile(file["id"])}>
-														<Grid item xs={2}>
-															{thumbnailComp}
-														</Grid>
-														<Grid item xs={8}>
-															<Box className={classes.fileCardText}>
-																<Typography>File name: {file["name"]}</Typography>
-																<Typography>File size: {file["size"]}</Typography>
-																<Typography>Created on: {file["date-created"]}</Typography>
-																<Typography>Content type: {file["contentType"]}</Typography>
-															</Box>
+														<Grid container spacing={2}>
+															<Grid item xs={2}>
+																{thumbnailComp}
+															</Grid>
+															<Grid item xs={8} sm container>
+																<Grid item xs container direction="column" spacing={2}>
+																	<Grid item xs>
+																		<Typography gutterBottom>File name: {file["name"]}</Typography>
+																		<Typography>File size: {file["size"]}</Typography>
+																		<Typography>Created on: {file["date-created"]}</Typography>
+																		<Typography>Content type: {file["contentType"]}</Typography>
+																	</Grid>
+																</Grid>
+															</Grid>
+															<Grid item xs={2}>
+																<Grid item xs container direction="column" spacing={2}>
+																	<Grid item xs>
+																		<Button startIcon={<DeleteOutlineIcon />}
+																				onClick={()=>{deleteFile(file["id"]);}}>Delete</Button>
+																	</Grid>
+																	<Grid item xs>
+																		<Button startIcon={<StarBorderIcon />} disabled={true}>Follow</Button>
+																	</Grid>
+																	<Grid item xs>
+																		<Button startIcon={<CloudDownloadOutlinedIcon />}
+																				onClick={()=>{downloadFile(file["id"], file["name"]);}}>
+																			Download</Button>
+																	</Grid>
+																</Grid>
+															</Grid>
 														</Grid>
 													</ListItem>
-													<Box className={classes.fileCardActionBox}>
-														<Box className={classes.fileCardActionItem}>
-															<Button startIcon={<DeleteOutlineIcon />}
-																onClick={()=>{deleteFile(file["id"]);}}>Delete</Button>
-														</Box>
-														<Box className={classes.fileCardActionItem}>
-															<Button startIcon={<StarBorderIcon />} disabled={true}>Follow</Button>
-														</Box>
-														<Box className={classes.fileCardActionItem}>
-															<Button startIcon={<CloudDownloadOutlinedIcon />}
-																onClick={()=>{downloadFile(file["id"], file["name"]);}}>
-																Download</Button>
-														</Box>
-													</Box>
 												</Box>
 											);
 										})
