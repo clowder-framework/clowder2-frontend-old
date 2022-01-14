@@ -31,8 +31,10 @@
 	},
 	"author": "NCSA",
 	"dependencies": {
-		"@material-ui/core": "^4.11.0",
-		"@material-ui/icons": "^4.9.1",
+		"@mui/material": "^5.2.8",
+		"@emotion/react": "^11.7.1",
+		"@emotion/styled": "^11.6.0",
+		"@mui/icons-material": "^5.2.5",
 		"@rjsf/core": "^2.5.1",
 		"@rjsf/material-ui": "^2.5.1",
 		"babel-polyfill": "^6.26.0",
