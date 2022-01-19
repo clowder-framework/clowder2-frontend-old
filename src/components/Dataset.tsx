@@ -36,7 +36,7 @@ import TopBar from "./childComponents/TopBar";
 import {Breadcrumbs} from "./childComponents/BreadCrumb";
 import {UploadFile} from "./childComponents/UploadFile";
 import {V2} from "../openapi";
-import ActionModal from "./childComponents/ActionModal";
+import {ActionModal} from "./childComponents/ActionModal";
 
 const useStyles = makeStyles(() => ({
 	appBar: {

@@ -19,7 +19,7 @@ import {TabPanel} from "./childComponents/TabComponent";
 import {a11yProps} from "./childComponents/TabComponent";
 import {useHistory} from "react-router-dom";
 import {Breadcrumbs} from "./childComponents/BreadCrumb";
-import ActionModal from "./childComponents/ActionModal";
+import {ActionModal} from "./childComponents/ActionModal";
 
 const useStyles = makeStyles(() => ({
 	appBar: {
