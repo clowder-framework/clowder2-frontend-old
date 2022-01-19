@@ -1,8 +1,17 @@
 import React from "react";
 import {Button, Dialog, DialogContent, DialogTitle, DialogContentText, DialogActions} from "@material-ui/core";
 
-// TODO define props type
-function ActionModal(props:any) {
+type ActionModalProps = {
+	actionOpen: boolean,
+	actionTitle: string,
+	actionText: string,
+	actionBtnName: string,
+	// TODO properly define below functions
+	handleActionBtnClick: any,
+	handleActionCancel: any,
+}
+
+export const ActionModal:React.FC<ActionModalProps> = (props: ActionModalProps) => {
 
 	const {actionOpen, actionTitle, actionText,  actionBtnName, handleActionBtnClick, handleActionCancel} = props;
 
@@ -27,5 +36,3 @@ function ActionModal(props:any) {
 			</Dialog>
 	);
 }
-
-export default ActionModal;
