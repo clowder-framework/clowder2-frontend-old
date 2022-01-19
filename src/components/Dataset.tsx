@@ -37,6 +37,7 @@ import TopBar from "./childComponents/TopBar";
 import {Breadcrumbs} from "./childComponents/BreadCrumb";
 import {UploadFile} from "./childComponents/UploadFile";
 import {V2} from "../openapi";
+import ActionModal from "./childComponents/ActionModal";
 
 const useStyles = makeStyles(() => ({
 	appBar: {
@@ -127,10 +128,20 @@ export const Dataset = (): JSX.Element => {
 	const [open, setOpen] = React.useState<boolean>(false);
 	const [anchorEl, setAnchorEl] = React.useState<Element | null>(null);
 	const [fileThumbnailList, setFileThumbnailList] = useState<any>([]);
+	const [selectedFile, setSelectedFile] = useState<File>();
 	// const [fileMetadataList, setFileMetadataList] = useState<FileMetadataList[]>([]);
 
 	const [editingName, setEditingName] = React.useState<boolean>(false);
 	const [, setNewDatasetName] = React.useState<string>("");
+
+	// confirmation dialog
+	const [confirmationOpen, setConfirmationOpen] = useState(false);
+	const deleteSelectedFile = () => {
+		if (selectedFile) {
+			deleteFile(selectedFile["id"]);
+		}
+		setConfirmationOpen(false);
+	}
 
 	// component did mount list all files in dataset
 	useEffect(() => {
@@ -199,6 +210,15 @@ export const Dataset = (): JSX.Element => {
 		<div>
 			<TopBar/>
 			<div className="outer-container">
+				{/*Confirmation dialogue*/}
+				<ActionModal actionOpen={confirmationOpen} actionTitle="Are you sure?"
+							 actionText="Do you really want to delete? This process cannot be undone."
+							 actionBtnName="Delete" handleActionBtnClick={deleteSelectedFile}
+							 handleActionCancel={() => { setConfirmationOpen(false);}}/>
+				{/*/!*Error Message dialogue*!/*/}
+				{/*<ActionModal actionOpen={errorOpen} actionTitle="Something went wrong..." actionText={errorMsg}*/}
+				{/*			 actionBtnName="Report"*/}
+				{/*			 handleActionCancel={() => { setErrorOpen(false);}}/>*/}
 				<Breadcrumbs paths={paths}/>
 				<div className="inner-container">
 					<Grid container spacing={4}>
@@ -286,7 +306,11 @@ export const Dataset = (): JSX.Element => {
 													<Box className={classes.fileCardActionBox}>
 														<Box className={classes.fileCardActionItem}>
 															<Button startIcon={<DeleteOutlineIcon />}
-																onClick={()=>{deleteFile(file["id"]);}}>Delete</Button>
+																onClick={()=>{
+																	setSelectedFile(file);
+																	setConfirmationOpen(true);
+																}
+																}>Delete</Button>
 														</Box>
 														<Box className={classes.fileCardActionItem}>
 															<Button startIcon={<StarBorderIcon />} disabled={true}>Follow</Button>
