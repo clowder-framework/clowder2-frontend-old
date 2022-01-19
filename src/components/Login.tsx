@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {useHistory} from "react-router-dom";
 import {Avatar, Button, Divider, ImageList, ImageListItem, Paper, TextField, Typography, Link} from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
@@ -56,13 +56,12 @@ export const Login = (): JSX.Element => {
 
 	const dispatch = useDispatch();
 	const login = (username:string, password:string) => dispatch(loginAction(username, password));
-	const loginError = useSelector((state:RootState) => state.user.loginError);
+	// const loginError = useSelector((state:RootState) => state.user.loginError);
 	const errorMsg = useSelector((state:RootState) => state.user.errorMsg);
 
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 	const [passwordErrorText, setPasswordErrorText] = useState("");
-	const [loginErrorText, setLoginErrorText] = useState("");
 	const [promptError, setPromptError] = useState(false);
 
 	// TODO need to figure out what to do when login succeeded
@@ -70,11 +69,6 @@ export const Login = (): JSX.Element => {
 	// useEffect(() => {
 	// 	if (Authorization !== "") history.push("/");
 	// }, [Authorization]);
-
-	// login failed
-	useEffect(() => {
-		if (loginError) setLoginErrorText(errorMsg);
-	}, [loginError, errorMsg]);
 
 	const handleKeyPressed= async (event: React.KeyboardEvent<{}>) => {
 		if (event.key === "Enter") { await handleLoginButtonClick();}
@@ -116,7 +110,7 @@ export const Login = (): JSX.Element => {
 					<Divider/>
 					<ImageList cols={1} rowHeight="auto">
 						<ImageListItem>
-							<p style={{color: "red"}}>{loginErrorText} </p>
+							<p style={{color: "red"}}>{errorMsg} </p>
 						</ImageListItem>
 						<ImageListItem>
 							<TextField

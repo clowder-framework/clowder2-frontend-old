@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {useHistory} from "react-router-dom";
 import {Avatar, Button, Divider, ImageList, ImageListItem, Paper, TextField, Typography, Link} from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
@@ -61,13 +61,7 @@ export const Register = (): JSX.Element => {
 	const [passwordConfirm, setPasswordConfirm] = useState("");
 	const [passwordErrorText, setPasswordErrorText] = useState("");
 	const [passwordConfirmErrorText, setPasswordConfirmErrorText] = useState("");
-	const [registerErrorText, setRegisterErrorText] = useState("");
 	const [promptError, setPromptError] = useState(false);
-
-	// register failed
-	useEffect(() => {
-		if (registerError) setRegisterErrorText(errorMsg);
-	}, [registerError, errorMsg]);
 
 	const changeUsername = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setUsername(event.target.value);
@@ -128,7 +122,7 @@ export const Register = (): JSX.Element => {
 					<Divider/>
 					<ImageList cols={1} rowHeight="auto">
 						<ImageListItem>
-							<p style={{color: "red"}}>{registerErrorText} </p>
+							<p style={{color: "red"}}>{errorMsg} </p>
 						</ImageListItem>
 						<ImageListItem>
 							<TextField

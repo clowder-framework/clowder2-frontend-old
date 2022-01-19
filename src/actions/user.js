@@ -54,7 +54,7 @@ export function login(username, password) {
 export function register(username, password) {
 	return async (dispatch) => {
 		const json = await loginHelper(username, password, true);
-		if (json !== undefined) {
+		if (json["name"] !== undefined && json["hashed_password"] !== undefined) {
 			return dispatch({
 				type: REGISTER_USER,
 			});
