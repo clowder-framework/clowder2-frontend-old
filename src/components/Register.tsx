@@ -98,10 +98,10 @@ export const Register = (): JSX.Element => {
 	const handleRegisterButtonClick = async () => {
 		if (password === passwordConfirm){
 			await register(username, password);
-			// if (!registerError) {
-			// 	// Successful register will redirect to login page
-			// 	history.push("/login");
-			// }
+			if (!registerError) {
+				// Successful register will redirect to login page
+				history.push("/login");
+			}
 		}
 		else{
 			setPasswordConfirmErrorText("The password confirmation does not match!");

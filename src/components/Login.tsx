@@ -56,7 +56,7 @@ export const Login = (): JSX.Element => {
 
 	const dispatch = useDispatch();
 	const login = (username:string, password:string) => dispatch(loginAction(username, password));
-	// const loginError = useSelector((state:RootState) => state.user.loginError);
+	const loginError = useSelector((state:RootState) => state.user.loginError);
 	const errorMsg = useSelector((state:RootState) => state.user.errorMsg);
 
 	const [username, setUsername] = useState("");
@@ -94,6 +94,7 @@ export const Login = (): JSX.Element => {
 
 	 const handleLoginButtonClick = async () => {
 		 await login(username, password);
+		 if (!loginError) history.push("/");
 	 };
 
 	return (
