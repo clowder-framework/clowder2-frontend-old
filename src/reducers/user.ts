@@ -6,6 +6,7 @@ const defaultState: UserState = {
 	Authorization: null,
 	loginError: false,
 	registerError: false,
+	errorMsg: "",
 };
 
 const user = (state = defaultState, action: DataAction) => {
@@ -13,11 +14,11 @@ const user = (state = defaultState, action: DataAction) => {
 	case SET_USER:
 		return Object.assign({}, state, {Authorization: action.Authorization, loginError: false});
 	case LOGIN_ERROR:
-		return Object.assign({}, state, {Authorization: null, loginError: true});
+		return Object.assign({}, state, {Authorization: null, loginError: true, errorMsg: action.errorMsg});
 	case REGISTER_USER:
 		return Object.assign({}, state, {registerError: false});
 	case REGISTER_ERROR:
-		return Object.assign({}, state, {registerError: true});
+		return Object.assign({}, state, {registerError: true, errorMsg: action.errorMsg});
 	case LOGOUT:
 		return Object.assign({}, state, {Authorization: null, loginError: false});
 	default:

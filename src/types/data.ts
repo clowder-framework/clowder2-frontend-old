@@ -124,6 +124,7 @@ export interface UserState{
 	Authorization: string | null;
 	loginError: boolean;
 	registerError: boolean;
+	errorMsg: string;
 }
 
 export interface RootState {

@@ -50,6 +50,7 @@ interface SET_USER{
 }
 
 interface LOGIN_ERROR{
+	errorMsg: string,
 	type: "LOGIN_ERROR",
 }
 
@@ -58,6 +59,7 @@ interface LOGOUT{
 }
 
 interface REGISTER_ERROR{
+	errorMsg: string,
 	type: "REGISTER_ERROR"
 }
 

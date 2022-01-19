@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useHistory} from "react-router-dom";
 import {Avatar, Button, Divider, ImageList, ImageListItem, Paper, TextField, Typography, Link} from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
@@ -54,6 +54,7 @@ export const Register = (): JSX.Element => {
 	const dispatch = useDispatch();
 	const register = (username:string, password:string) => dispatch(registerAction(username, password));
 	const registerError = useSelector((state:RootState) => state.user.registerError);
+	const errorMsg = useSelector((state:RootState) => state.user.errorMsg);
 
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
@@ -61,24 +62,26 @@ export const Register = (): JSX.Element => {
 	const [passwordErrorText, setPasswordErrorText] = useState("");
 	const [passwordConfirmErrorText, setPasswordConfirmErrorText] = useState("");
 	const [registerErrorText, setRegisterErrorText] = useState("");
-	const [error, setError] = useState(false);
+	const [promptError, setPromptError] = useState(false);
+
+	// register failed
+	useEffect(() => {
+		if (registerError) setRegisterErrorText(errorMsg);
+	}, [registerError, errorMsg]);
 
 	const changeUsername = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setUsername(event.target.value);
-		setRegisterErrorText("");
 	};
 
 	const changePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const pw = event.target.value;
 
 		if (pw.length <= 6) {
-			setError(true);
+			setPromptError(true);
 			setPasswordErrorText("Your password must be at least 6 characters long");
-			setRegisterErrorText("");
 		} else {
-			setError(false);
+			setPromptError(false);
 			setPasswordErrorText("");
-			setRegisterErrorText("");
 		}
 
 		setPassword(pw);
@@ -88,13 +91,11 @@ export const Register = (): JSX.Element => {
 		const pw = event.target.value;
 
 		if (pw !== password) {
-			setError(true);
+			setPromptError(true);
 			setPasswordConfirmErrorText("Your password confirmation does not match!");
-			setRegisterErrorText("");
 		} else {
-			setError(false);
+			setPromptError(false);
 			setPasswordConfirmErrorText("");
-			setRegisterErrorText("");
 		}
 
 		setPasswordConfirm(pw);
@@ -103,18 +104,14 @@ export const Register = (): JSX.Element => {
 	const handleRegisterButtonClick = async () => {
 		if (password === passwordConfirm){
 			await register(username, password);
-			if (registerError) {
-				setRegisterErrorText("You cannot register!");
-			}
-			if (!registerError) {
-				// Successful register will redirect to login page
-				history.push("/login");
-			}
+			// if (!registerError) {
+			// 	// Successful register will redirect to login page
+			// 	history.push("/login");
+			// }
 		}
 		else{
 			setPasswordConfirmErrorText("The password confirmation does not match!");
 		}
-
 	};
 
 	return (
@@ -156,7 +153,7 @@ export const Register = (): JSX.Element => {
 								label="Password"
 								name="password"
 								type="password"
-								error={error}
+								error={promptError}
 								helperText={passwordErrorText}
 								value={password}
 								onChange={changePassword}
@@ -171,7 +168,7 @@ export const Register = (): JSX.Element => {
 								label="Password Confirmation"
 								name="password-confirm"
 								type="password"
-								error={error}
+								error={promptError}
 								helperText={passwordConfirmErrorText}
 								value={passwordConfirm}
 								onChange={changePasswordConfirm}

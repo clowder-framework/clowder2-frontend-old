@@ -9,16 +9,14 @@ export async function loginHelper(username, password, register = false) {
 	const data = {"name": username, "password": password};
 	if (register) {
 		return V2.UsersService.saveUserApiV2UsersPost(data).catch(reason => {
-			console.error("Failed to register a user! ", reason);
 			// logout();
-			return {};
+			return {"errorMsg": `Failed to register a user! ${reason}`};
 		})
 			.then(user => {return user;});
 	} else {
 		return V2.LoginService.loginApiV2LoginPost(data).catch(reason => {
-			console.error("Failed to login a user! ", reason);
 			// logout();
-			return {};
+			return {"errorMsg": `Failed to login a user! ${reason}`};
 		})
 			.then(user => {return user;});
 	}
@@ -47,6 +45,7 @@ export function login(username, password) {
 			return dispatch({
 				type: LOGIN_ERROR,
 				Authorization: "",
+				errorMsg: json["errorMsg"] !== undefined && json["errorMsg"] !== "" ? json["errorMsg"]: "Username/Password incorrect!"
 			});
 		}
 	};
@@ -62,6 +61,7 @@ export function register(username, password) {
 		} else {
 			return dispatch({
 				type: REGISTER_ERROR,
+				errorMsg: json["errorMsg"] !== undefined && json["errorMsg"] !== "" ? json["errorMsg"]: "Fail to register!"
 			});
 		}
 	};
@@ -72,7 +72,7 @@ export function logout() {
 		V2.OpenAPI.TOKEN = undefined;
 		localStorage.removeItem("Authorization");
 		return dispatch({
-			type: LOGOUT
+			type: LOGOUT,
 		});
 	};
 }
