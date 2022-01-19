@@ -9,7 +9,7 @@ import CloudDownloadOutlinedIcon from "@material-ui/icons/CloudDownloadOutlined"
 import {CreateDataset} from "./childComponents/CreateDataset";
 import {downloadDataset} from "../utils/dataset";
 
-import {Dataset as DatasetType, RootState, Thumbnail} from "../types/data";
+import {Dataset, Dataset as DatasetType, RootState, Thumbnail} from "../types/data";
 import {useDispatch, useSelector} from "react-redux";
 import {datasetDeleted, fetchDatasets} from "../actions/dataset";
 import {downloadThumbnail} from "../utils/thumbnail";
@@ -19,6 +19,7 @@ import {TabPanel} from "./childComponents/TabComponent";
 import {a11yProps} from "./childComponents/TabComponent";
 import {useHistory} from "react-router-dom";
 import {Breadcrumbs} from "./childComponents/BreadCrumb";
+import ActionModal from "./childComponents/ActionModal";
 
 const useStyles = makeStyles(() => ({
 	appBar: {
@@ -85,7 +86,21 @@ export const Dashboard = (): JSX.Element => {
 	const [lastDataset, setLastDataset] = useState<DatasetType>();
 	const [firstDataset, setFirstDataset] = useState<DatasetType>();
 	const [selectedTabIndex, setSelectedTabIndex] = useState(0);
-	const [open, setOpen] = React.useState(false);
+	const [selectedDataset, setSelectedDataset] = useState<Dataset>();
+	const [creationOpen, setCreationOpen] = useState(false);
+
+	// confirmation dialog
+	const [confirmationOpen, setConfirmationOpen] = useState(false);
+	const deleteSelectedDataset = () => {
+		if (selectedDataset) {
+			deleteDataset(selectedDataset["id"]);
+		}
+		setConfirmationOpen(false);
+	}
+
+	// Error msg dialog
+	const [errorOpen, setErrorOpen] = useState(false);
+	const [errorMsg, setErrorMsg] = useState(""); // populate the error message
 
 	// component did mount
 	useEffect(() => {
@@ -149,6 +164,15 @@ export const Dashboard = (): JSX.Element => {
 		<div>
 			<TopBar/>
 			<div className="outer-container">
+				{/*Confirmation dialogue*/}
+				<ActionModal actionOpen={confirmationOpen} actionTitle="Are you sure?"
+							 actionText="Do you really want to delete? This process cannot be undone."
+							 actionBtnName="Delete" handleActionBtnClick={deleteSelectedDataset}
+							 handleActionCancel={() => { setConfirmationOpen(false);}}/>
+			    {/*Error Message dialogue*/}
+				<ActionModal actionOpen={errorOpen} actionTitle="Something went wrong..." actionText={errorMsg}
+							 actionBtnName="Report"
+							 handleActionCancel={() => { setErrorOpen(false);}}/>
 				<Breadcrumbs paths={paths}/>
 				<div className="inner-container">
 					<Grid container spacing={4}>
@@ -197,8 +221,9 @@ export const Dashboard = (): JSX.Element => {
 														<Box className={classes.fileCardActionItem}>
 															<Button startIcon={<DeleteOutlineIcon/>}
 																onClick={() => {
-																	deleteDataset(dataset["id"]);
-																}}>
+																	setSelectedDataset(dataset);
+																	setConfirmationOpen(true);}
+																}>
 																Delete</Button>
 														</Box>
 														<Box className={classes.fileCardActionItem}>
@@ -233,7 +258,7 @@ export const Dashboard = (): JSX.Element => {
 									upload
 									their own data</Typography>
 								<Link className="link" onClick={() => {
-									setOpen(true);
+									setCreationOpen(true);
 								}}>Create Dataset</Link>
 							</Box>
 							<Box className="actionCard">
@@ -252,12 +277,12 @@ export const Dashboard = (): JSX.Element => {
 							</Box>
 						</Grid>
 					</Grid>
-					<Dialog open={open} onClose={() => {
-						setOpen(false);
+					<Dialog open={creationOpen} onClose={() => {
+						setCreationOpen(false);
 					}} fullWidth={true} aria-labelledby="create-dataset">
 						<DialogTitle id="form-dialog-title">Create New Dataset</DialogTitle>
 						{/*pass select to uploader so once upload succeeded, can jump to that dataset/file page*/}
-						<CreateDataset selectDataset={selectDataset} setOpen={setOpen}/>
+						<CreateDataset selectDataset={selectDataset} setOpen={setCreationOpen}/>
 					</Dialog>
 				</div>
 			</div>

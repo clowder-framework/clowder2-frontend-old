@@ -1,14 +1,13 @@
-// @ts-ignore
-import React, {useState} from "react";
+import React from "react";
 import {Button, Dialog, DialogContent, DialogTitle, DialogContentText, DialogActions} from "@material-ui/core";
 
-function Modal(props) {
+// TODO define props type
+function ActionModal(props:any) {
 
-	const {actionTitle, actionText,  actionBtnName, handleActionBtnClick} = props;
-	const [open, setOpen] = useState(false);
+	const {actionOpen, actionTitle, actionText,  actionBtnName, handleActionBtnClick, handleActionCancel} = props;
 
 	return (
-		<Dialog open={open} onClose={ () => { setOpen(false); }} maxWidth={"sm"}>
+		<Dialog open={actionOpen} onClose={handleActionCancel} maxWidth={"sm"}>
 			<DialogTitle id="confirmation-dialog-title">{actionTitle}</DialogTitle>
 				<DialogContent>
 					<DialogContentText>
@@ -22,11 +21,11 @@ function Modal(props) {
 						size="small"
 						onClick={handleActionBtnClick}>{actionBtnName}
 					</Button>
-					<Button color="secondary" variant="contained" size="small" onClick={()=> {setOpen(false);}}>
+					<Button color="secondary" variant="contained" size="small" onClick={handleActionCancel}>
 						Cancel</Button>
 				</DialogActions>
 			</Dialog>
 	);
 }
 
-export default Modal;
+export default ActionModal;
