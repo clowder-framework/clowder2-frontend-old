@@ -1,15 +1,16 @@
 import config from "../app.config";
 import {dataURItoFile, getHeader} from "../utils/common";
 import {V2} from "../openapi";
-import {RECEIVE_DATASET_ABOUT, receiveDatasetAbout} from "./dataset";
-import {logout} from "./user";
+
+export const FAILED = "FAILED";
 
 export const RECEIVE_FILE_EXTRACTED_METADATA = "RECEIVE_FILE_EXTRACTED_METADATA";
-export function receiveFileExtractedMetadata(type, json){
+export function receiveFileExtractedMetadata(type, json, reason=""){
 	return (dispatch) => {
 		dispatch({
 			type: type,
 			extractedMetadata: json,
+			reason: reason,
 			receivedAt: Date.now(),
 		});
 	};
@@ -25,7 +26,7 @@ export function fetchFileExtractedMetadata(id){
 					});
 				}
 				else {
-					dispatch(receiveFileExtractedMetadata(RECEIVE_FILE_EXTRACTED_METADATA, []));
+					dispatch(receiveFileExtractedMetadata(RECEIVE_FILE_EXTRACTED_METADATA, [], "Cannot fetch extracted file metadata!"));
 				}
 			});
 	};
@@ -48,7 +49,7 @@ export function fetchFileMetadata(id){
 				console.log("Unauthorized!");
 				// logout();
 			}
-			dispatch(receiveFileMetadata(RECEIVE_FILE_METADATA, []));
+			dispatch(receiveFileMetadata(RECEIVE_FILE_METADATA, [], `Cannot fetch file metadata! ${reason}`));
 		}).then(json => {
 			dispatch(receiveFileMetadata(RECEIVE_FILE_METADATA, json));
 		});
@@ -56,12 +57,13 @@ export function fetchFileMetadata(id){
 }
 
 export const RECEIVE_FILE_METADATA_JSONLD = "RECEIVE_FILE_METADATA_JSONLD";
-export function receiveFileMetadataJsonld(type, json){
+export function receiveFileMetadataJsonld(type, json, reason=""){
 	return (dispatch) => {
 		dispatch({
 			type: type,
 			metadataJsonld: json,
 			receivedAt: Date.now(),
+			reason: reason
 		});
 	};
 }
@@ -76,19 +78,20 @@ export function fetchFileMetadataJsonld(id){
 					});
 				}
 				else {
-					dispatch(receiveFileMetadataJsonld(RECEIVE_FILE_METADATA_JSONLD, []));
+					dispatch(receiveFileMetadataJsonld(RECEIVE_FILE_METADATA_JSONLD, [], "Cannot fetch file metadata data jsonld!"));
 				}
 			});
 	};
 }
 
 export const RECEIVE_PREVIEWS = "RECEIVE_PREVIEWS";
-export function receiveFilePreviews(type, json){
+export function receiveFilePreviews(type, json, reason=""){
 	return (dispatch) => {
 		dispatch({
 			type: type,
 			previews: json,
 			receivedAt: Date.now(),
+			reason: reason
 		});
 	};
 }
@@ -103,7 +106,7 @@ export function fetchFilePreviews(id){
 					});
 				}
 				else {
-					dispatch(receiveFileMetadataJsonld(RECEIVE_PREVIEWS, []));
+					dispatch(receiveFileMetadataJsonld(RECEIVE_PREVIEWS, [], "Cannot fetch file previews!"));
 				}
 			});
 	};
@@ -119,13 +122,15 @@ export function fileDeleted(fileId){
 			}
 			dispatch({
 				type: DELETE_FILE,
-				file: {"id": null, "status": reason["status"] === undefined ? reason["status"] : "fail"},
+				file: {"id": null},
 				receivedAt: Date.now(),
+				reason: `Cannot delete file! ${reason}`,
 			});
 		}).then(json => {
 			dispatch({
 				type: DELETE_FILE,
-				file: {"id": fileId, "status": json["status"]===undefined? json["status"]:"success"},
+				file: {"id": fileId},
+				reason: "",
 				receivedAt: Date.now(),
 			});
 		});
@@ -144,6 +149,7 @@ export function fileCreated(formData, selectedDatasetId){
 			dispatch({
 				type: CREATE_FILE,
 				file: {},
+				reason: `Cannot create file! ${reason}`,
 				receivedAt: Date.now(),
 			});
 		}).then(file => {

@@ -17,6 +17,7 @@ import {a11yProps} from "./childComponents/TabComponent";
 import {fetchFileMetadata, fetchFileMetadataJsonld, fetchFilePreviews} from "../actions/file";
 import TopBar from "./childComponents/TopBar";
 import {Breadcrumbs} from "./childComponents/BreadCrumb";
+import {ActionModal} from "./childComponents/ActionModal";
 
 const useStyles = makeStyles(() => ({
 	appBar: {
@@ -50,6 +51,7 @@ export const File = (): JSX.Element => {
 	const fileMetadata = useSelector((state:RootState) => state.file.fileMetadata);
 	const fileMetadataJsonld = useSelector((state:RootState) => state.file.metadataJsonld);
 	const filePreviews = useSelector((state:RootState) => state.file.previews);
+	const reason = useSelector((state:RootState) => state.file.reason);
 
 	const [selectedTabIndex, setSelectedTabIndex] = useState(0);
 	const [previews, setPreviews] = useState([]);
@@ -62,6 +64,14 @@ export const File = (): JSX.Element => {
 		listFileMetadata(fileId);
 	}, []);
 
+
+	// Error msg dialog
+	const [errorOpen, setErrorOpen] = useState(false);
+	useEffect(() => {
+		if (reason !== "" && reason !== null && reason !== undefined){
+			setErrorOpen(true);
+		}
+	}, [reason])
 
 	useEffect(() => {
 		(async () => {
@@ -117,6 +127,10 @@ export const File = (): JSX.Element => {
 		<div>
 			<TopBar/>
 			<div className="outer-container">
+				{/*Error Message dialogue*/}
+				<ActionModal actionOpen={errorOpen} actionTitle="Something went wrong..." actionText={reason}
+							 actionBtnName="Report" handleActionBtnClick={() => console.log(reason)}
+							 handleActionCancel={() => { setErrorOpen(false);}}/>
 				<Breadcrumbs paths={paths}/>
 				<div className="inner-container">
 					<Grid container spacing={4}>

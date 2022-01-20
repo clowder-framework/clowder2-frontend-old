@@ -13,7 +13,6 @@ export interface File {
 	size: number;
 	"date-created": string;
 	contentType:string;
-	// status:string;
 	reason:string;
 }
 
@@ -119,6 +118,7 @@ export interface FileState{
 	extractedMetadata: ExtractedMetadata;
 	metadataJsonld: MetadataJsonld[];
 	previews: FilePreview[];
+	reason: string;
 }
 
 export interface UserState{

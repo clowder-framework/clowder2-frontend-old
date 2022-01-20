@@ -123,6 +123,7 @@ export const Dataset = (): JSX.Element => {
 	// mapStateToProps
 	const filesInDataset = useSelector((state:RootState) => state.dataset.files);
 	const about = useSelector((state:RootState) => state.dataset.about);
+	const reason = useSelector((state:RootState) => state.dataset.reason);
 
 	// state
 	const [selectedTabIndex, setSelectedTabIndex] = useState<number>(0);
@@ -149,6 +150,14 @@ export const Dataset = (): JSX.Element => {
 		listFilesInDataset(datasetId);
 		listDatasetAbout(datasetId);
 	}, []);
+
+	// Error msg dialog
+	const [errorOpen, setErrorOpen] = useState(false);
+	useEffect(() => {
+		if (reason !== "" && reason !== null && reason !== undefined){
+			setErrorOpen(true);
+		}
+	}, [reason])
 
 	// TODO these code will go away in v2 dont worry about understanding them
 	// TODO get metadata of each files; because we need the thumbnail of each file!!!
@@ -216,10 +225,10 @@ export const Dataset = (): JSX.Element => {
 							 actionText="Do you really want to delete? This process cannot be undone."
 							 actionBtnName="Delete" handleActionBtnClick={deleteSelectedFile}
 							 handleActionCancel={() => { setConfirmationOpen(false);}}/>
-				{/*/!*Error Message dialogue*!/*/}
-				{/*<ActionModal actionOpen={errorOpen} actionTitle="Something went wrong..." actionText={errorMsg}*/}
-				{/*			 actionBtnName="Report"*/}
-				{/*			 handleActionCancel={() => { setErrorOpen(false);}}/>*/}
+				{/*Error Message dialogue*/}
+				<ActionModal actionOpen={errorOpen} actionTitle="Something went wrong..." actionText={reason}
+							 actionBtnName="Report" handleActionBtnClick={() => console.log(reason)}
+							 handleActionCancel={() => { setErrorOpen(false);}}/>
 				<Breadcrumbs paths={paths}/>
 				<div className="inner-container">
 					<Grid container spacing={4}>

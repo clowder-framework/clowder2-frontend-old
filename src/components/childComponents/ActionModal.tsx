@@ -14,7 +14,6 @@ type ActionModalProps = {
 export const ActionModal:React.FC<ActionModalProps> = (props: ActionModalProps) => {
 
 	const {actionOpen, actionTitle, actionText,  actionBtnName, handleActionBtnClick, handleActionCancel} = props;
-
 	return (
 		<Dialog open={actionOpen} onClose={handleActionCancel} maxWidth={"sm"}>
 			<DialogTitle id="confirmation-dialog-title">{actionTitle}</DialogTitle>
