@@ -3,8 +3,8 @@ export interface Dataset {
 	name: string;
 	description: string;
 	created: string;
-	status: string;
 	thumbnail: string;
+	reason: string;
 }
 
 export interface File {
@@ -13,7 +13,8 @@ export interface File {
 	size: number;
 	"date-created": string;
 	contentType:string;
-	status:string;
+	// status:string;
+	reason:string;
 }
 
 export interface About {
@@ -107,10 +108,10 @@ export interface Thumbnail{
 }
 
 export interface DatasetState{
+	reason: string;
 	files: File[];
 	datasets: Dataset[];
 	about: About;
-	status:string;
 }
 
 export interface FileState{

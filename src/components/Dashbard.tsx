@@ -80,6 +80,7 @@ export const Dashboard = (): JSX.Element => {
 	const deleteDataset = (datasetId: string) => dispatch(datasetDeleted(datasetId));
 	const listDatasets = (when: string, date: string, limit: number) => dispatch(fetchDatasets(when, date, limit));
 	const datasets = useSelector((state: RootState) => state.dataset.datasets);
+	const reason = useSelector((state: RootState) => state.dataset.reason);
 
 	const [datasetThumbnailList, setDatasetThumbnailList] = useState<any>([]);
 	const [limit,] = useState<number>(5);
@@ -98,14 +99,18 @@ export const Dashboard = (): JSX.Element => {
 		setConfirmationOpen(false);
 	}
 
-	// Error msg dialog
-	const [errorOpen, setErrorOpen] = useState(false);
-	const [errorMsg, setErrorMsg] = useState(""); // populate the error message
-
 	// component did mount
 	useEffect(() => {
 		listDatasets("", "", limit);
 	}, []);
+
+	// Error msg dialog
+	const [errorOpen, setErrorOpen] = useState(false);
+	useEffect(() => {
+		if (reason !== "" && reason !== null && reason !== undefined){
+			setErrorOpen(true);
+		}
+	}, [reason])
 
 	// fetch thumbnails from each individual dataset/id calls
 	useEffect(() => {
@@ -170,8 +175,8 @@ export const Dashboard = (): JSX.Element => {
 							 actionBtnName="Delete" handleActionBtnClick={deleteSelectedDataset}
 							 handleActionCancel={() => { setConfirmationOpen(false);}}/>
 			    {/*Error Message dialogue*/}
-				<ActionModal actionOpen={errorOpen} actionTitle="Something went wrong..." actionText={errorMsg}
-							 actionBtnName="Report"
+				<ActionModal actionOpen={errorOpen} actionTitle="Something went wrong..." actionText={reason}
+							 actionBtnName="Report" handleActionBtnClick={() => console.log(reason)}
 							 handleActionCancel={() => { setErrorOpen(false);}}/>
 				<Breadcrumbs paths={paths}/>
 				<div className="inner-container">

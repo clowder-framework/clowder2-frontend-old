@@ -1,15 +1,15 @@
-import config from "../app.config";
-import {getHeader} from "../utils/common";
 import {V2} from "../openapi";
-import {logout} from "./user";
+
+export const FAILED = "FAILED";
 
 export const RECEIVE_FILES_IN_DATASET = "RECEIVE_FILES_IN_DATASET";
 
-export function receiveFilesInDataset(type, json) {
+export function receiveFilesInDataset(type, json, reason="") {
 	return (dispatch) => {
 		dispatch({
 			type: type,
 			files: json,
+			reason: reason,
 			receivedAt: Date.now(),
 		});
 	};
@@ -22,7 +22,7 @@ export function fetchFilesInDataset(id){
 				console.log("Unauthorized!");
 				// logout();
 			}
-			dispatch(receiveFilesInDataset(RECEIVE_FILES_IN_DATASET, []));
+			dispatch(receiveFilesInDataset(FAILED, [], `Cannot list files in dataset! ${reason}`));
 		}).then(json => {
 			dispatch(receiveFilesInDataset(RECEIVE_FILES_IN_DATASET, json));
 		});
@@ -31,11 +31,12 @@ export function fetchFilesInDataset(id){
 
 export const RECEIVE_DATASET_ABOUT = "RECEIVE_DATASET_ABOUT";
 
-export function receiveDatasetAbout(type, json) {
+export function receiveDatasetAbout(type, json, reason="") {
 	return (dispatch) => {
 		dispatch({
 			type: type,
 			about: json,
+			reason: reason,
 			receivedAt: Date.now(),
 		});
 	};
@@ -48,7 +49,7 @@ export function fetchDatasetAbout(id){
 				console.log("Unauthorized!");
 				// logout();
 			}
-			dispatch(receiveDatasetAbout(RECEIVE_DATASET_ABOUT, []));
+			dispatch(receiveDatasetAbout(FAILED, [], `Cannot fetch Dataset! ${reason}`));
 		}).then(json => {
 			dispatch(receiveDatasetAbout(RECEIVE_DATASET_ABOUT, json));
 		});
@@ -57,11 +58,12 @@ export function fetchDatasetAbout(id){
 
 export const RECEIVE_DATASETS = "RECEIVE_DATASETS";
 
-export function receiveDatasets(type, json) {
+export function receiveDatasets(type, json, reason="") {
 	return (dispatch) => {
 		dispatch({
 			type: type,
 			datasets: json,
+			reason: reason,
 			receivedAt: Date.now(),
 		});
 	};
@@ -75,7 +77,7 @@ export function fetchDatasets(when, date, limit=5){
 				console.log("Unauthorized!");
 				// logout();
 			}
-		    dispatch(receiveDatasets(RECEIVE_DATASETS, []));
+		    dispatch(receiveDatasets(FAILED, [], `Cannot fetch dataset! ${reason}`));
 		}).then(json => {
 			dispatch(receiveDatasets(RECEIVE_DATASETS, json));
 		});
@@ -91,14 +93,16 @@ export function datasetCreated(formData){
 				// logout();
 			}
 			dispatch({
-				type: CREATE_DATASET,
+				type: FAILED,
 				dataset: {},
+				reason:`Cannot create dataset! ${reason}`,
 				receivedAt: Date.now(),
 			});
 		}).then(dataset => {
 			dispatch({
 				type: CREATE_DATASET,
 				dataset: dataset,
+				reason: "",
 				receivedAt: Date.now(),
 			});
 		});
@@ -114,15 +118,17 @@ export function datasetDeleted(datasetId){
 				// logout();
 			}
 			dispatch({
-				type: DELETE_DATASET,
+				type: FAILED,
 				// FIXME: is this right? Do we need to provide a body here for the failure case?
-				dataset: {"id": null, "status": reason["status"] === undefined ? reason["status"] : "fail"},
+				dataset: {"id": null},
+				reason: `Cannot delete dataset! ${reason}`,
 				receivedAt: Date.now(),
 			});
 		}).then(json => {
 			dispatch({
 				type: DELETE_DATASET,
 				dataset: {"id": datasetId, "status": json["status"] === undefined ? json["status"] : "success"},
+				reason:"",
 				receivedAt: Date.now(),
 			});
 		});

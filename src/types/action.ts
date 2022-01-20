@@ -77,6 +77,11 @@ interface CREATE_FILE{
 	file: File
 }
 
+interface FAILED{
+	type: "FAILED",
+	reason: string
+}
+
 export type DataAction =
 	| RECEIVE_FILES_IN_DATASET
 	| DELETE_FILE
@@ -94,4 +99,5 @@ export type DataAction =
 	| REGISTER_USER
 	| CREATE_DATASET
 	| CREATE_FILE
+	| FAILED
 	;
