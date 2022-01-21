@@ -44,15 +44,17 @@ export function receiveFileMetadata(type, json){
 }
 export function fetchFileMetadata(id){
 	return (dispatch) => {
-		return V2.FilesService.getFileSummaryApiV2FilesFileIdSummaryGet(id).catch(reason => {
-			if (reason.status === 401){
-				console.log("Unauthorized!");
+		return V2.FilesService.getFileSummaryApiV2FilesFileIdSummaryGet(id)
+			.then(json => {
+				dispatch(receiveFileMetadata(RECEIVE_FILE_METADATA, json));
+			})
+			.catch(reason => {
+				if (reason.status === 401){
+					console.log("Unauthorized!");
 				// logout();
-			}
-			dispatch(receiveFileMetadata(RECEIVE_FILE_METADATA, [], `Cannot fetch file metadata! ${reason}`));
-		}).then(json => {
-			dispatch(receiveFileMetadata(RECEIVE_FILE_METADATA, json));
-		});
+				}
+				dispatch(receiveFileMetadata(RECEIVE_FILE_METADATA, [], `Cannot fetch file metadata! ${reason}`));
+			});
 	};
 }
 
@@ -115,25 +117,27 @@ export function fetchFilePreviews(id){
 export const DELETE_FILE = "DELETE_FILE";
 export function fileDeleted(fileId){
 	return (dispatch) => {
-		return V2.FilesService.deleteFileApiV2FilesFileIdDelete(fileId).catch(reason => {
-			if (reason.status === 401){
-				console.log("Unauthorized!");
+		return V2.FilesService.deleteFileApiV2FilesFileIdDelete(fileId)
+			.then(json => {
+				dispatch({
+					type: DELETE_FILE,
+					file: {"id": fileId},
+					reason: "",
+					receivedAt: Date.now(),
+				});
+			})
+			.catch(reason => {
+				if (reason.status === 401){
+					console.log("Unauthorized!");
 				// logout();
-			}
-			dispatch({
-				type: DELETE_FILE,
-				file: {"id": null},
-				receivedAt: Date.now(),
-				reason: `Cannot delete file! ${reason}`,
+				}
+				dispatch({
+					type: DELETE_FILE,
+					file: {"id": null},
+					receivedAt: Date.now(),
+					reason: `Cannot delete file! ${reason}`,
+				});
 			});
-		}).then(json => {
-			dispatch({
-				type: DELETE_FILE,
-				file: {"id": fileId},
-				reason: "",
-				receivedAt: Date.now(),
-			});
-		});
 	};
 }
 
@@ -141,23 +145,25 @@ export const CREATE_FILE = "CREATE_FILE";
 export function fileCreated(formData, selectedDatasetId){
 	return (dispatch) => {
 		formData["file"] = dataURItoFile(formData["file"]);
-		return V2.FilesService.saveFileApiV2FilesDatasetIdPost(selectedDatasetId, formData).catch(reason => {
-			if (reason.status === 401) {
-				console.error("Failed to create file: Not authenticated: ", reason);
+		return V2.FilesService.saveFileApiV2FilesDatasetIdPost(selectedDatasetId, formData)
+			.then(file => {
+				dispatch({
+					type: CREATE_FILE,
+					file: file,
+					receivedAt: Date.now(),
+				});
+			})
+			.catch(reason => {
+				if (reason.status === 401) {
+					console.error("Failed to create file: Not authenticated: ", reason);
 				// logout();
-			}
-			dispatch({
-				type: CREATE_FILE,
-				file: {},
-				reason: `Cannot create file! ${reason}`,
-				receivedAt: Date.now(),
+				}
+				dispatch({
+					type: CREATE_FILE,
+					file: {},
+					reason: `Cannot create file! ${reason}`,
+					receivedAt: Date.now(),
+				});
 			});
-		}).then(file => {
-			dispatch({
-				type: CREATE_FILE,
-				file: file,
-				receivedAt: Date.now(),
-			});
-		});
 	};
 }

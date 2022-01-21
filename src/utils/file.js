@@ -8,18 +8,20 @@ import {logout} from "../actions/user";
 // TODO fixme when thumbnail is available in V2
 // TODO moving it into redux cuz i need to dispatch the error message
 export async function fetchFileMetadata(id) {
-	return V2.FilesService.getFileSummaryApiV2FilesFileIdSummaryGet(id).catch(reason => {
-		if (reason.status === 401) {
-			console.error("Failed to get file summary: Not authenticated: ", reason);
-			// logout();
-			return {};
-		} else {
-			console.error("Failed to get file summary: ", reason);
-			return {};
-		}
-	}).then(fileSummary => {
-		return fileSummary;
-	});
+	return V2.FilesService.getFileSummaryApiV2FilesFileIdSummaryGet(id)
+		.then(fileSummary => {
+			return fileSummary;
+		})
+		.catch(reason => {
+			if (reason.status === 401) {
+				console.error("Failed to get file summary: Not authenticated: ", reason);
+				// logout();
+				return {};
+			} else {
+				console.error("Failed to get file summary: ", reason);
+				return {};
+			}
+		});
 }
 
 export async function downloadFile(fileId, filename = "") {

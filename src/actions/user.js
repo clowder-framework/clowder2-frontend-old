@@ -8,17 +8,19 @@ export const userActions = {
 export async function loginHelper(username, password, register = false) {
 	const data = {"name": username, "password": password};
 	if (register) {
-		return V2.UsersService.saveUserApiV2UsersPost(data).catch(reason => {
+		return V2.UsersService.saveUserApiV2UsersPost(data)
+			.then(user => {return user;})
+			.catch(reason => {
 			// logout();
-			return {"errorMsg": `Failed to register a user! ${reason}`};
-		})
-			.then(user => {return user;});
+				return {"errorMsg": `Failed to register a user! ${reason}`};
+			});
 	} else {
-		return V2.LoginService.loginApiV2LoginPost(data).catch(reason => {
+		return V2.LoginService.loginApiV2LoginPost(data)
+			.then(user => {return user;})
+			.catch(reason => {
 			// logout();
-			return {"errorMsg": `Failed to login a user! ${reason}`};
-		})
-			.then(user => {return user;});
+				return {"errorMsg": `Failed to login a user! ${reason}`};
+			});
 	}
 }
 
