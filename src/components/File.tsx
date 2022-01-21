@@ -14,7 +14,7 @@ import {useDispatch, useSelector} from "react-redux";
 
 import {TabPanel} from "./childComponents/TabComponent";
 import {a11yProps} from "./childComponents/TabComponent";
-import {fetchFileMetadata, fetchFileMetadataJsonld, fetchFilePreviews} from "../actions/file";
+import {fetchFileMetadata} from "../actions/file";
 import TopBar from "./childComponents/TopBar";
 import {Breadcrumbs} from "./childComponents/BreadCrumb";
 import {ActionModal} from "./childComponents/ActionModal";
@@ -45,8 +45,8 @@ export const File = (): JSX.Element => {
 	const datasetName = new URLSearchParams(search).get("name");
 
 	const dispatch = useDispatch();
-	const listFileMetadataJsonld = (fileId:string|undefined) => dispatch(fetchFileMetadataJsonld(fileId));
-	const listFilePreviews = (fileId:string|undefined) => dispatch(fetchFilePreviews(fileId));
+	// const listFileMetadataJsonld = (fileId:string|undefined) => dispatch(fetchFileMetadataJsonld(fileId));
+	// const listFilePreviews = (fileId:string|undefined) => dispatch(fetchFilePreviews(fileId));
 	const listFileMetadata = (fileId:string|undefined) => dispatch(fetchFileMetadata(fileId));
 	const fileMetadata = useSelector((state:RootState) => state.file.fileMetadata);
 	const fileMetadataJsonld = useSelector((state:RootState) => state.file.metadataJsonld);
@@ -59,8 +59,8 @@ export const File = (): JSX.Element => {
 	// component did mount
 	useEffect(() => {
 		// load file information
-		listFileMetadataJsonld(fileId);
-		listFilePreviews(fileId);
+		// listFileMetadataJsonld(fileId);
+		// listFilePreviews(fileId);
 		listFileMetadata(fileId);
 	}, []);
 

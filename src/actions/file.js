@@ -16,7 +16,7 @@ export function receiveFileExtractedMetadata(type, json, reason=""){
 	};
 }
 export function fetchFileExtractedMetadata(id){
-	const url = `${config.hostname}/files/${id}/extracted_metadata?superAdmin=true`;
+	const url = `${config.hostname}/files/${id}/extracted_metadata`;
 	return (dispatch) => {
 		return fetch(url, {mode:"cors", headers: getHeader()})
 			.then((response) => {
@@ -26,18 +26,22 @@ export function fetchFileExtractedMetadata(id){
 					});
 				}
 				else {
-					dispatch(receiveFileExtractedMetadata(RECEIVE_FILE_EXTRACTED_METADATA, [], "Cannot fetch extracted file metadata!"));
+					dispatch(receiveFileExtractedMetadata(FAILED, [], "Cannot fetch extracted file metadata!"));
 				}
+			})
+			.catch(reason => {
+				dispatch(receiveFileExtractedMetadata(FAILED, [], `Cannot fetch extracted file metadata!`));
 			});
 	};
 }
 
 export const RECEIVE_FILE_METADATA = "RECEIVE_FILE_METADATA";
-export function receiveFileMetadata(type, json){
+export function receiveFileMetadata(type, json, reason=""){
 	return (dispatch) => {
 		dispatch({
 			type: type,
 			fileMetadata: json,
+			reason: reason,
 			receivedAt: Date.now(),
 		});
 	};
@@ -70,7 +74,7 @@ export function receiveFileMetadataJsonld(type, json, reason=""){
 	};
 }
 export function fetchFileMetadataJsonld(id){
-	const url = `${config.hostname}/files/${id}/metadata.jsonld?superAdmin=true`;
+	const url = `${config.hostname}/files/${id}/metadata.jsonld`;
 	return (dispatch) => {
 		return fetch(url, {mode:"cors", headers: getHeader()})
 			.then((response) => {
@@ -80,8 +84,11 @@ export function fetchFileMetadataJsonld(id){
 					});
 				}
 				else {
-					dispatch(receiveFileMetadataJsonld(RECEIVE_FILE_METADATA_JSONLD, [], "Cannot fetch file metadata data jsonld!"));
+					dispatch(receiveFileMetadataJsonld(FAILED, [], "Cannot fetch file metadata data jsonld!"));
 				}
+			})
+			.catch(reason => {
+				dispatch(receiveFileMetadataJsonld(FAILED, [], `Cannot fetch file metadata data jsonld!`));
 			});
 	};
 }
@@ -98,7 +105,7 @@ export function receiveFilePreviews(type, json, reason=""){
 	};
 }
 export function fetchFilePreviews(id){
-	const url = `${config.hostname}/files/${id}/getPreviews?superAdmin=true`;
+	const url = `${config.hostname}/files/${id}/getPreviews`;
 	return (dispatch) => {
 		return fetch(url, {mode:"cors", headers: getHeader()})
 			.then((response) => {
@@ -108,8 +115,11 @@ export function fetchFilePreviews(id){
 					});
 				}
 				else {
-					dispatch(receiveFileMetadataJsonld(RECEIVE_PREVIEWS, [], "Cannot fetch file previews!"));
+					dispatch(receiveFileMetadataJsonld(FAILED, [], "Cannot fetch file previews!"));
 				}
+			})
+			.catch(reason => {
+				dispatch(receiveFileMetadataJsonld(FAILED, [], `Cannot fetch file previews!`));
 			});
 	};
 }
