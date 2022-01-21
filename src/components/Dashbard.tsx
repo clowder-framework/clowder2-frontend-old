@@ -11,7 +11,7 @@ import {downloadDataset} from "../utils/dataset";
 
 import {Dataset, Dataset as DatasetType, RootState, Thumbnail} from "../types/data";
 import {useDispatch, useSelector} from "react-redux";
-import {datasetDeleted, fetchDatasets} from "../actions/dataset";
+import {datasetDeleted, fetchDatasets, resetFailedReason} from "../actions/dataset";
 import {downloadThumbnail} from "../utils/thumbnail";
 import TopBar from "./childComponents/TopBar";
 
@@ -79,6 +79,7 @@ export const Dashboard = (): JSX.Element => {
 	const dispatch = useDispatch();
 	const deleteDataset = (datasetId: string) => dispatch(datasetDeleted(datasetId));
 	const listDatasets = (when: string, date: string, limit: number) => dispatch(fetchDatasets(when, date, limit));
+	const dismissError = () => dispatch(resetFailedReason());
 	const datasets = useSelector((state: RootState) => state.dataset.datasets);
 	const reason = useSelector((state: RootState) => state.dataset.reason);
 
@@ -111,6 +112,11 @@ export const Dashboard = (): JSX.Element => {
 			setErrorOpen(true);
 		}
 	}, [reason])
+	const handleErrorCancel = () => {
+		// reset error message and close the error window
+		dismissError();
+		setErrorOpen(false);
+	}
 
 	// fetch thumbnails from each individual dataset/id calls
 	useEffect(() => {
@@ -177,7 +183,7 @@ export const Dashboard = (): JSX.Element => {
 			    {/*Error Message dialogue*/}
 				<ActionModal actionOpen={errorOpen} actionTitle="Something went wrong..." actionText={reason}
 							 actionBtnName="Report" handleActionBtnClick={() => console.log(reason)}
-							 handleActionCancel={() => { setErrorOpen(false);}}/>
+							 handleActionCancel={handleErrorCancel}/>
 				<Breadcrumbs paths={paths}/>
 				<div className="inner-container">
 					<Grid container spacing={4}>

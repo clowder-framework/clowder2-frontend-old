@@ -27,7 +27,7 @@ import {File, FileMetadataList, RootState, Thumbnail} from "../types/data";
 import {useHistory, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {downloadThumbnail} from "../utils/thumbnail";
-import {datasetDeleted, fetchDatasetAbout, fetchFilesInDataset} from "../actions/dataset";
+import {datasetDeleted, fetchDatasetAbout, fetchFilesInDataset, resetFailedReason} from "../actions/dataset";
 import {fileDeleted} from "../actions/file";
 
 import {TabPanel} from "./childComponents/TabComponent";
@@ -119,6 +119,7 @@ export const Dataset = (): JSX.Element => {
 	const deleteFile = (fileId:string|undefined) => dispatch(fileDeleted(fileId));
 	const listFilesInDataset = (datasetId:string|undefined) => dispatch(fetchFilesInDataset(datasetId));
 	const listDatasetAbout= (datasetId:string|undefined) => dispatch(fetchDatasetAbout(datasetId));
+	const dismissError = () => dispatch(resetFailedReason());
 
 	// mapStateToProps
 	const filesInDataset = useSelector((state:RootState) => state.dataset.files);
@@ -158,6 +159,11 @@ export const Dataset = (): JSX.Element => {
 			setErrorOpen(true);
 		}
 	}, [reason])
+	const handleErrorCancel = () => {
+		// reset error message and close the error window
+		dismissError();
+		setErrorOpen(false);
+	}
 
 	// TODO these code will go away in v2 dont worry about understanding them
 	// TODO get metadata of each files; because we need the thumbnail of each file!!!
@@ -228,7 +234,7 @@ export const Dataset = (): JSX.Element => {
 				{/*Error Message dialogue*/}
 				<ActionModal actionOpen={errorOpen} actionTitle="Something went wrong..." actionText={reason}
 							 actionBtnName="Report" handleActionBtnClick={() => console.log(reason)}
-							 handleActionCancel={() => { setErrorOpen(false);}}/>
+							 handleActionCancel={handleErrorCancel}/>
 				<Breadcrumbs paths={paths}/>
 				<div className="inner-container">
 					<Grid container spacing={4}>

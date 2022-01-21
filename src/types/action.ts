@@ -82,6 +82,11 @@ interface FAILED{
 	reason: string
 }
 
+interface RESET_FAILED{
+	type: "RESET_FAILED",
+	reason: string
+}
+
 export type DataAction =
 	| RECEIVE_FILES_IN_DATASET
 	| DELETE_FILE
@@ -100,4 +105,5 @@ export type DataAction =
 	| CREATE_DATASET
 	| CREATE_FILE
 	| FAILED
+	| RESET_FAILED
 	;
