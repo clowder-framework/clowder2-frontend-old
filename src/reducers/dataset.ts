@@ -20,7 +20,7 @@ const defaultState: DatasetState = {
 const dataset = (state = defaultState, action: DataAction) => {
 	switch (action.type) {
 	case FAILED:
-		return Object.assign({}, state, {files: [], datasets:[], reason: action.reason})
+		return Object.assign({}, state, {reason: action.reason})
 	case RECEIVE_FILES_IN_DATASET:
 		return Object.assign({}, state, {files: action.files});
 	case DELETE_FILE:

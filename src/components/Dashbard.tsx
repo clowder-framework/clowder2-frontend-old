@@ -287,7 +287,7 @@ export const Dashboard = (): JSX.Element => {
 					}} fullWidth={true} aria-labelledby="create-dataset">
 						<DialogTitle id="form-dialog-title">Create New Dataset</DialogTitle>
 						{/*pass select to uploader so once upload succeeded, can jump to that dataset/file page*/}
-						<CreateDataset selectDataset={selectDataset} setOpen={setCreationOpen}/>
+						<CreateDataset setOpen={setCreationOpen}/>
 					</Dialog>
 				</div>
 			</div>
