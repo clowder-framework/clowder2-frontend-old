@@ -6,7 +6,7 @@ import {
 	Button, Dialog,
 	DialogTitle,
 	Divider,
-	Grid,
+	Grid, Link,
 	ListItem,
 	Menu,
 	MenuItem,
@@ -37,6 +37,7 @@ import TopBar from "./childComponents/TopBar";
 import {Breadcrumbs} from "./childComponents/BreadCrumb";
 import {UploadFile} from "./childComponents/UploadFile";
 import {V2} from "../openapi";
+import {FileCard} from "./childComponents/FileCard";
 
 const useStyles = makeStyles(() => ({
 	appBar: {
@@ -116,7 +117,6 @@ export const Dataset = (): JSX.Element => {
 	// Redux connect equivalent
 	const dispatch = useDispatch();
 	const deleteDataset = (datasetId:string|undefined) => dispatch(datasetDeleted(datasetId));
-	const deleteFile = (fileId:string|undefined) => dispatch(fileDeleted(fileId));
 	const listFilesInDataset = (datasetId:string|undefined) => dispatch(fetchFilesInDataset(datasetId));
 	const listDatasetAbout= (datasetId:string|undefined) => dispatch(fetchDatasetAbout(datasetId));
 
@@ -168,11 +168,6 @@ export const Dataset = (): JSX.Element => {
 		})();
 	}, [filesInDataset]);
 
-	const selectFile = (selectedFileId: string) => {
-		// Redirect to file route with file Id and dataset id
-		history.push(`/files/${selectedFileId}?dataset=${datasetId}&name=${about["name"]}`);
-	};
-
 	const handleTabChange = (_event:React.ChangeEvent<{}>, newTabIndex:number) => {
 		setSelectedTabIndex(newTabIndex);
 	};
@@ -216,62 +211,15 @@ export const Dataset = (): JSX.Element => {
 								</Tabs>
 							</AppBar>
 							<TabPanel value={selectedTabIndex} index={0}>
-
+								<Grid container spacing={2}>
 								{
-									filesInDataset !== undefined && fileThumbnailList !== undefined ?
-										filesInDataset.map((file) => {
-											let thumbnailComp = (<DescriptionIcon className={classes.fileCardImg}
-																				 style={{fontSize: "5em"}}/>);
-											fileThumbnailList.map((thumbnail:Thumbnail) => {
-												if (file["id"] !== undefined && thumbnail["id"] !== undefined &&
-													thumbnail["thumbnail"] !== null && thumbnail["thumbnail"] !== undefined &&
-													file["id"] === thumbnail["id"]) {
-													thumbnailComp = (<img src={thumbnail["thumbnail"]} alt="thumbnail"
-																		 className={classes.fileCardImg}/>);
-												}
-											});
-											return (
-												<Box className={classes.fileCardOuterBox}>
-													<ListItem button className={classes.fileCard} key={file["id"]}
-															  onClick={() => selectFile(file["id"])}>
-														<Grid container spacing={2}>
-															<Grid item xs={2}>
-																{thumbnailComp}
-															</Grid>
-															<Grid item xs={8} sm container>
-																<Grid item xs container direction="column" spacing={2}>
-																	<Grid item xs>
-																		<Typography gutterBottom>File name: {file["name"]}</Typography>
-																		<Typography>File size: {file["size"]}</Typography>
-																		<Typography>Created on: {file["date-created"]}</Typography>
-																		<Typography>Content type: {file["contentType"]}</Typography>
-																	</Grid>
-																</Grid>
-															</Grid>
-															<Grid item xs={2}>
-																<Grid item xs container direction="column" spacing={2}>
-																	<Grid item xs>
-																		<Button startIcon={<DeleteOutlineIcon />}
-																				onClick={()=>{deleteFile(file["id"]);}}>Delete</Button>
-																	</Grid>
-																	<Grid item xs>
-																		<Button startIcon={<StarBorderIcon />} disabled={true}>Follow</Button>
-																	</Grid>
-																	<Grid item xs>
-																		<Button startIcon={<CloudDownloadOutlinedIcon />}
-																				onClick={()=>{downloadFile(file["id"], file["name"]);}}>
-																			Download</Button>
-																	</Grid>
-																</Grid>
-															</Grid>
-														</Grid>
-													</ListItem>
-												</Box>
-											);
-										})
-										:
-										<></>
+									filesInDataset.map((file) =>
+										<Grid item xs={12}>
+											<FileCard file={file} datasetId={datasetId}/>
+										</Grid>
+									)
 								}
+								</Grid>
 							</TabPanel>
 							<TabPanel value={selectedTabIndex} index={1} />
 							<TabPanel value={selectedTabIndex} index={2} />

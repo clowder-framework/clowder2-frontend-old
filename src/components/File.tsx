@@ -38,10 +38,12 @@ export const File = (): JSX.Element => {
 	// path parameter
 	const { fileId } = useParams<{fileId?: string}>();
 
-	// query paramter get dataset id
+	// query parameter get dataset id
 	const search = useLocation().search;
 	const datasetId = new URLSearchParams(search).get("dataset");
-	const datasetName = new URLSearchParams(search).get("name");
+
+	// state
+	const datasetName = useSelector((state:RootState) => state.dataset.about.name);
 
 	const dispatch = useDispatch();
 	const listFileMetadataJsonld = (fileId:string|undefined) => dispatch(fetchFileMetadataJsonld(fileId));
