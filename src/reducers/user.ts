@@ -5,7 +5,7 @@ import {DataAction} from "../types/action";
 const defaultState: UserState = {
 	Authorization: null,
 	loginError: false,
-	registerError: false,
+	registerSucceeded: false,
 	errorMsg: "",
 };
 
@@ -16,9 +16,9 @@ const user = (state = defaultState, action: DataAction) => {
 	case LOGIN_ERROR:
 		return Object.assign({}, state, {Authorization: null, loginError: true, errorMsg: action.errorMsg});
 	case REGISTER_USER:
-		return Object.assign({}, state, {registerError: false});
+		return Object.assign({}, state, {registerSucceeded: true});
 	case REGISTER_ERROR:
-		return Object.assign({}, state, {registerError: true, errorMsg: action.errorMsg});
+		return Object.assign({}, state, {registerSucceeded: false, errorMsg: action.errorMsg});
 	case LOGOUT:
 		return Object.assign({}, state, {Authorization: null, loginError: false});
 	default:

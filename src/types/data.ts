@@ -124,7 +124,7 @@ export interface FileState{
 export interface UserState{
 	Authorization: string | null;
 	loginError: boolean;
-	registerError: boolean;
+	registerSucceeded: boolean;
 	errorMsg: string;
 }
 

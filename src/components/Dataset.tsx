@@ -404,7 +404,6 @@ export const Dataset = (): JSX.Element => {
 					</Grid>
 					<Dialog open={open} onClose={()=>{setOpen(false);}} fullWidth={true} aria-labelledby="form-dialog">
 						<DialogTitle id="form-dialog-title">Add File</DialogTitle>
-						{/*TODO: pass select to uploader so once upload succeeded, can jump to that dataset/file page*/}
 						<UploadFile selectedDatasetId={datasetId} setOpen={setOpen}/>
 					</Dialog>
 				</div>

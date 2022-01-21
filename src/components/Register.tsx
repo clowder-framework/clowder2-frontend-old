@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useHistory} from "react-router-dom";
 import {Avatar, Button, Divider, ImageList, ImageListItem, Paper, TextField, Typography, Link} from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
@@ -53,7 +53,7 @@ export const Register = (): JSX.Element => {
 
 	const dispatch = useDispatch();
 	const register = (username:string, password:string) => dispatch(registerAction(username, password));
-	const registerError = useSelector((state:RootState) => state.user.registerError);
+	const registerSucceeded = useSelector((state:RootState) => state.user.registerSucceeded);
 	const errorMsg = useSelector((state:RootState) => state.user.errorMsg);
 
 	const [username, setUsername] = useState("");
@@ -62,6 +62,10 @@ export const Register = (): JSX.Element => {
 	const [passwordErrorText, setPasswordErrorText] = useState("");
 	const [passwordConfirmErrorText, setPasswordConfirmErrorText] = useState("");
 	const [promptError, setPromptError] = useState(false);
+
+	useEffect(()=>{
+		if (registerSucceeded) history.push("/login");
+	}, [registerSucceeded])
 
 	const changeUsername = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setUsername(event.target.value);
@@ -98,10 +102,6 @@ export const Register = (): JSX.Element => {
 	const handleRegisterButtonClick = async () => {
 		if (password === passwordConfirm){
 			await register(username, password);
-			if (!registerError) {
-				// Successful register will redirect to login page
-				history.push("/login");
-			}
 		}
 		else{
 			setPasswordConfirmErrorText("The password confirmation does not match!");
