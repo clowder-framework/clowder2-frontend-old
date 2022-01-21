@@ -53,7 +53,7 @@ export function fetchFileMetadata(id){
 					console.log("Unauthorized!");
 				// logout();
 				}
-				dispatch(receiveFileMetadata(RECEIVE_FILE_METADATA, [], `Cannot fetch file metadata! ${reason}`));
+				dispatch(receiveFileMetadata(FAILED, [], `Cannot fetch file metadata! ${reason}`));
 			});
 	};
 }
@@ -132,8 +132,8 @@ export function fileDeleted(fileId){
 				// logout();
 				}
 				dispatch({
-					type: DELETE_FILE,
-					file: {"id": null},
+					type: FAILED,
+					file: {},
 					receivedAt: Date.now(),
 					reason: `Cannot delete file! ${reason}`,
 				});
@@ -159,7 +159,7 @@ export function fileCreated(formData, selectedDatasetId){
 				// logout();
 				}
 				dispatch({
-					type: CREATE_FILE,
+					type: FAILED,
 					file: {},
 					reason: `Cannot create file! ${reason}`,
 					receivedAt: Date.now(),
