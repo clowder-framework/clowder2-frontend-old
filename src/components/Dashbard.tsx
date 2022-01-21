@@ -11,7 +11,8 @@ import {downloadDataset} from "../utils/dataset";
 
 import {Dataset, Dataset as DatasetType, RootState, Thumbnail} from "../types/data";
 import {useDispatch, useSelector} from "react-redux";
-import {datasetDeleted, fetchDatasets, resetFailedReason} from "../actions/dataset";
+import {datasetDeleted, fetchDatasets, } from "../actions/dataset";
+import {resetFailedReason} from "../actions/common";
 import {downloadThumbnail} from "../utils/thumbnail";
 import TopBar from "./childComponents/TopBar";
 

@@ -5,6 +5,7 @@ import {
 	RECEIVE_PREVIEWS,
 	FAILED
 } from "../actions/file";
+import {RESET_FAILED} from "../actions/common";
 import {DataAction} from "../types/action";
 import {FileState, ExtractedMetadata, FileMetadata} from "../types/data";
 
@@ -20,6 +21,8 @@ const file = (state=defaultState, action: DataAction) => {
 	switch(action.type) {
 	case FAILED:
 		return Object.assign({}, state, {reason:action.reason});
+	case RESET_FAILED:
+		return Object.assign({}, state, {reason: action.reason})
 	case RECEIVE_FILE_METADATA:
 		return Object.assign({}, state, {fileMetadata: action.fileMetadata});
 	case RECEIVE_FILE_EXTRACTED_METADATA:

@@ -27,7 +27,8 @@ import {File, FileMetadataList, RootState, Thumbnail} from "../types/data";
 import {useHistory, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {downloadThumbnail} from "../utils/thumbnail";
-import {datasetDeleted, fetchDatasetAbout, fetchFilesInDataset, resetFailedReason} from "../actions/dataset";
+import {datasetDeleted, fetchDatasetAbout, fetchFilesInDataset} from "../actions/dataset";
+import {resetFailedReason} from "../actions/common"
 import {fileDeleted} from "../actions/file";
 
 import {TabPanel} from "./childComponents/TabComponent";

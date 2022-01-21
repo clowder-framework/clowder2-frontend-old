@@ -5,8 +5,8 @@ import {
 	DELETE_DATASET,
 	CREATE_DATASET,
 	FAILED,
-	RESET_FAILED
 } from "../actions/dataset";
+import {RESET_FAILED} from "../actions/common";
 import {CREATE_FILE, DELETE_FILE} from "../actions/file";
 import {DataAction} from "../types/action";
 import {DatasetState} from "../types/data";
