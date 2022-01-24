@@ -128,7 +128,7 @@ export const Register = (): JSX.Element => {
 						label="Password"
 						name="password"
 						type="password"
-						error={error}
+						error={promptError}
 						helperText={passwordErrorText}
 						value={password}
 						onChange={changePassword}
@@ -143,7 +143,7 @@ export const Register = (): JSX.Element => {
 						label="Password Confirmation"
 						name="password-confirm"
 						type="password"
-						error={error}
+						error={promptError}
 						helperText={passwordConfirmErrorText}
 						value={passwordConfirm}
 						onChange={changePasswordConfirm}

@@ -90,7 +90,7 @@ export const Login = (): JSX.Element => {
 						label="Password"
 						name="password"
 						type="password"
-						error={error}
+						error={promptError}
 						helperText={passwordErrorText}
 						value={password}
 						onChange={changePassword}
