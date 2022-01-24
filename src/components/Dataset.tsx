@@ -22,11 +22,12 @@ import StarBorderIcon from "@mui/icons-material/StarBorder";
 import CloudDownloadOutlinedIcon from "@mui/icons-material/CloudDownloadOutlined";
 import {downloadDataset} from "../utils/dataset";
 import {downloadFile, fetchFileMetadata} from "../utils/file";
-import {FileMetadataList, RootState, Thumbnail} from "../types/data";
 import {useNavigate, useParams} from "react-router-dom";
+import {File, FileMetadataList, RootState, Thumbnail} from "../types/data";
 import {useDispatch, useSelector} from "react-redux";
 import {downloadThumbnail} from "../utils/thumbnail";
 import {datasetDeleted, fetchDatasetAbout, fetchFilesInDataset} from "../actions/dataset";
+import {resetFailedReason} from "../actions/common"
 import {fileDeleted} from "../actions/file";
 
 import {TabPanel} from "./childComponents/TabComponent";
@@ -35,6 +36,7 @@ import TopBar from "./childComponents/TopBar";
 import {MainBreadcrumbs} from "./childComponents/BreadCrumb";
 import {UploadFile} from "./childComponents/UploadFile";
 import {V2} from "../openapi";
+import {ActionModal} from "./childComponents/ActionModal";
 
 const tab = {
 	fontStyle: "normal",
@@ -65,26 +67,51 @@ export const Dataset = (): JSX.Element => {
 	const deleteFile = (fileId:string|undefined) => dispatch(fileDeleted(fileId));
 	const listFilesInDataset = (datasetId:string|undefined) => dispatch(fetchFilesInDataset(datasetId));
 	const listDatasetAbout= (datasetId:string|undefined) => dispatch(fetchDatasetAbout(datasetId));
+	const dismissError = () => dispatch(resetFailedReason());
 
 	// mapStateToProps
 	const filesInDataset = useSelector((state:RootState) => state.dataset.files);
 	const about = useSelector((state:RootState) => state.dataset.about);
+	const reason = useSelector((state:RootState) => state.dataset.reason);
 
 	// state
 	const [selectedTabIndex, setSelectedTabIndex] = useState<number>(0);
 	const [open, setOpen] = React.useState<boolean>(false);
 	const [anchorEl, setAnchorEl] = React.useState<Element | null>(null);
 	const [fileThumbnailList, setFileThumbnailList] = useState<any>([]);
+	const [selectedFile, setSelectedFile] = useState<File>();
 	// const [fileMetadataList, setFileMetadataList] = useState<FileMetadataList[]>([]);
 
 	const [editingName, setEditingName] = React.useState<boolean>(false);
 	const [, setNewDatasetName] = React.useState<string>("");
+
+	// confirmation dialog
+	const [confirmationOpen, setConfirmationOpen] = useState(false);
+	const deleteSelectedFile = () => {
+		if (selectedFile) {
+			deleteFile(selectedFile["id"]);
+		}
+		setConfirmationOpen(false);
+	}
 
 	// component did mount list all files in dataset
 	useEffect(() => {
 		listFilesInDataset(datasetId);
 		listDatasetAbout(datasetId);
 	}, []);
+
+	// Error msg dialog
+	const [errorOpen, setErrorOpen] = useState(false);
+	useEffect(() => {
+		if (reason !== "" && reason !== null && reason !== undefined){
+			setErrorOpen(true);
+		}
+	}, [reason])
+	const handleErrorCancel = () => {
+		// reset error message and close the error window
+		dismissError();
+		setErrorOpen(false);
+	}
 
 	// TODO these code will go away in v2 dont worry about understanding them
 	// TODO get metadata of each files; because we need the thumbnail of each file!!!
@@ -148,6 +175,16 @@ export const Dataset = (): JSX.Element => {
 			<TopBar/>
 			<div className="outer-container">
 				<MainBreadcrumbs paths={paths}/>
+				{/*Confirmation dialogue*/}
+				<ActionModal actionOpen={confirmationOpen} actionTitle="Are you sure?"
+							 actionText="Do you really want to delete? This process cannot be undone."
+							 actionBtnName="Delete" handleActionBtnClick={deleteSelectedFile}
+							 handleActionCancel={() => { setConfirmationOpen(false);}}/>
+				{/*Error Message dialogue*/}
+				<ActionModal actionOpen={errorOpen} actionTitle="Something went wrong..." actionText={reason}
+							 actionBtnName="Report" handleActionBtnClick={() => console.log(reason)}
+							 handleActionCancel={handleErrorCancel}/>
+				<Breadcrumbs paths={paths}/>
 				<div className="inner-container">
 					<Grid container spacing={4}>
 						<Grid item xs={8}>
@@ -232,7 +269,11 @@ export const Dataset = (): JSX.Element => {
 													}}>
 														<Box sx={{display:"block"}}>
 															<Button startIcon={<DeleteOutlineIcon />}
-																onClick={()=>{deleteFile(file["id"]);}}>Delete</Button>
+																onClick={()=>{
+																	setSelectedFile(file);
+																	setConfirmationOpen(true);
+																}
+																}>Delete</Button>
 														</Box>
 														<Box sx={{display:"block"}}>
 															<Button startIcon={<StarBorderIcon />} disabled={true}>Follow</Button>
@@ -365,7 +406,6 @@ export const Dataset = (): JSX.Element => {
 					</Grid>
 					<Dialog open={open} onClose={()=>{setOpen(false);}} fullWidth={true} aria-labelledby="form-dialog">
 						<DialogTitle id="form-dialog-title">Add File</DialogTitle>
-						{/*TODO: pass select to uploader so once upload succeeded, can jump to that dataset/file page*/}
 						<UploadFile selectedDatasetId={datasetId} setOpen={setOpen}/>
 					</Dialog>
 				</div>

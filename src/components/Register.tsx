@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {
 	Avatar,
@@ -39,32 +39,33 @@ export const Register = (): JSX.Element => {
 
 	const dispatch = useDispatch();
 	const register = (username:string, password:string) => dispatch(registerAction(username, password));
-	const registerError = useSelector((state:RootState) => state.user.registerError);
+	const registerSucceeded = useSelector((state:RootState) => state.user.registerSucceeded);
+	const errorMsg = useSelector((state:RootState) => state.user.errorMsg);
 
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 	const [passwordConfirm, setPasswordConfirm] = useState("");
 	const [passwordErrorText, setPasswordErrorText] = useState("");
 	const [passwordConfirmErrorText, setPasswordConfirmErrorText] = useState("");
-	const [registerErrorText, setRegisterErrorText] = useState("");
-	const [error, setError] = useState(false);
+	const [promptError, setPromptError] = useState(false);
+
+	useEffect(()=>{
+		if (registerSucceeded) history.push("/login");
+	}, [registerSucceeded])
 
 	const changeUsername = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setUsername(event.target.value);
-		setRegisterErrorText("");
 	};
 
 	const changePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const pw = event.target.value;
 
 		if (pw.length <= 6) {
-			setError(true);
+			setPromptError(true);
 			setPasswordErrorText("Your password must be at least 6 characters long");
-			setRegisterErrorText("");
 		} else {
-			setError(false);
+			setPromptError(false);
 			setPasswordErrorText("");
-			setRegisterErrorText("");
 		}
 
 		setPassword(pw);
@@ -74,13 +75,11 @@ export const Register = (): JSX.Element => {
 		const pw = event.target.value;
 
 		if (pw !== password) {
-			setError(true);
+			setPromptError(true);
 			setPasswordConfirmErrorText("Your password confirmation does not match!");
-			setRegisterErrorText("");
 		} else {
-			setError(false);
+			setPromptError(false);
 			setPasswordConfirmErrorText("");
-			setRegisterErrorText("");
 		}
 
 		setPasswordConfirm(pw);
@@ -89,18 +88,10 @@ export const Register = (): JSX.Element => {
 	const handleRegisterButtonClick = async () => {
 		if (password === passwordConfirm){
 			await register(username, password);
-			if (registerError) {
-				setRegisterErrorText("You cannot register!");
-			}
-			if (!registerError) {
-				// Successful register will redirect to login page
-				history("/login");
-			}
 		}
 		else{
 			setPasswordConfirmErrorText("The password confirmation does not match!");
 		}
-
 	};
 
 	return (
@@ -114,7 +105,7 @@ export const Register = (): JSX.Element => {
 					<Typography component="h1" variant="h5">
 						Register
 					</Typography>
-					<Typography sx={{color: "red"}}>{registerErrorText}</Typography>
+					<Typography sx={{color: "red"}}>{errorMsg}</Typography>
 					<TextField
 						variant="outlined"
 						margin="normal"

@@ -8,9 +8,10 @@ import CloudDownloadOutlinedIcon from "@mui/icons-material/CloudDownloadOutlined
 import {CreateDataset} from "./childComponents/CreateDataset";
 import {downloadDataset} from "../utils/dataset";
 
-import {Dataset as DatasetType, RootState, Thumbnail} from "../types/data";
+import {Dataset, Dataset as DatasetType, RootState, Thumbnail} from "../types/data";
 import {useDispatch, useSelector} from "react-redux";
-import {datasetDeleted, fetchDatasets} from "../actions/dataset";
+import {datasetDeleted, fetchDatasets, } from "../actions/dataset";
+import {resetFailedReason} from "../actions/common";
 import {downloadThumbnail} from "../utils/thumbnail";
 import TopBar from "./childComponents/TopBar";
 
@@ -18,6 +19,8 @@ import {TabPanel} from "./childComponents/TabComponent";
 import {a11yProps} from "./childComponents/TabComponent";
 import {useNavigate} from "react-router-dom";
 import {MainBreadcrumbs} from "./childComponents/BreadCrumb";
+import {useHistory} from "react-router-dom";
+import {ActionModal} from "./childComponents/ActionModal";
 
 const tab = {
 	fontStyle: "normal",
@@ -36,19 +39,44 @@ export const Dashboard = (): JSX.Element => {
 	const dispatch = useDispatch();
 	const deleteDataset = (datasetId: string) => dispatch(datasetDeleted(datasetId));
 	const listDatasets = (when: string, date: string, limit: number) => dispatch(fetchDatasets(when, date, limit));
+	const dismissError = () => dispatch(resetFailedReason());
 	const datasets = useSelector((state: RootState) => state.dataset.datasets);
+	const reason = useSelector((state: RootState) => state.dataset.reason);
 
 	const [datasetThumbnailList, setDatasetThumbnailList] = useState<any>([]);
 	const [limit,] = useState<number>(5);
 	const [lastDataset, setLastDataset] = useState<DatasetType>();
 	const [firstDataset, setFirstDataset] = useState<DatasetType>();
 	const [selectedTabIndex, setSelectedTabIndex] = useState(0);
-	const [open, setOpen] = React.useState(false);
+	const [selectedDataset, setSelectedDataset] = useState<Dataset>();
+	const [creationOpen, setCreationOpen] = useState(false);
+
+	// confirmation dialog
+	const [confirmationOpen, setConfirmationOpen] = useState(false);
+	const deleteSelectedDataset = () => {
+		if (selectedDataset) {
+			deleteDataset(selectedDataset["id"]);
+		}
+		setConfirmationOpen(false);
+	}
 
 	// component did mount
 	useEffect(() => {
 		listDatasets("", "", limit);
 	}, []);
+
+	// Error msg dialog
+	const [errorOpen, setErrorOpen] = useState(false);
+	useEffect(() => {
+		if (reason !== "" && reason !== null && reason !== undefined){
+			setErrorOpen(true);
+		}
+	}, [reason])
+	const handleErrorCancel = () => {
+		// reset error message and close the error window
+		dismissError();
+		setErrorOpen(false);
+	}
 
 	// fetch thumbnails from each individual dataset/id calls
 	useEffect(() => {
@@ -108,6 +136,16 @@ export const Dashboard = (): JSX.Element => {
 			<TopBar/>
 			<div className="outer-container">
 				<MainBreadcrumbs paths={paths}/>
+				{/*Confirmation dialogue*/}
+				<ActionModal actionOpen={confirmationOpen} actionTitle="Are you sure?"
+							 actionText="Do you really want to delete? This process cannot be undone."
+							 actionBtnName="Delete" handleActionBtnClick={deleteSelectedDataset}
+							 handleActionCancel={() => { setConfirmationOpen(false);}}/>
+			    {/*Error Message dialogue*/}
+				<ActionModal actionOpen={errorOpen} actionTitle="Something went wrong..." actionText={reason}
+							 actionBtnName="Report" handleActionBtnClick={() => console.log(reason)}
+							 handleActionCancel={handleErrorCancel}/>
+				<Breadcrumbs paths={paths}/>
 				<div className="inner-container">
 					<Grid container spacing={4}>
 						<Grid item lg={8} xl={8} md={8} sm={8} xs={12}>
@@ -192,8 +230,9 @@ export const Dashboard = (): JSX.Element => {
 														<Box sx={{display: "block"}}>
 															<Button startIcon={<DeleteOutlineIcon/>}
 																onClick={() => {
-																	deleteDataset(dataset["id"]);
-																}}>
+																	setSelectedDataset(dataset);
+																	setConfirmationOpen(true);}
+																}>
 																Delete</Button>
 														</Box>
 														<Box sx={{display: "block"}}>
@@ -228,7 +267,7 @@ export const Dashboard = (): JSX.Element => {
 									upload
 									their own data</Typography>
 								<Link href="#" className="link" onClick={() => {
-									setOpen(true);
+									setCreationOpen(true);
 								}}>Create Dataset</Link>
 							</Box>
 							<Box className="actionCard">
@@ -247,12 +286,12 @@ export const Dashboard = (): JSX.Element => {
 							</Box>
 						</Grid>
 					</Grid>
-					<Dialog open={open} onClose={() => {
-						setOpen(false);
+					<Dialog open={creationOpen} onClose={() => {
+						setCreationOpen(false);
 					}} fullWidth={true} aria-labelledby="create-dataset">
 						<DialogTitle id="form-dialog-title">Create New Dataset</DialogTitle>
 						{/*pass select to uploader so once upload succeeded, can jump to that dataset/file page*/}
-						<CreateDataset selectDataset={selectDataset} setOpen={setOpen}/>
+						<CreateDataset setOpen={setCreationOpen}/>
 					</Dialog>
 				</div>
 			</div>

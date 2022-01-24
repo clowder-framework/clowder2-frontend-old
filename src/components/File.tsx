@@ -13,9 +13,10 @@ import {useDispatch, useSelector} from "react-redux";
 
 import {TabPanel} from "./childComponents/TabComponent";
 import {a11yProps} from "./childComponents/TabComponent";
-import {fetchFileMetadata, fetchFileMetadataJsonld, fetchFilePreviews} from "../actions/file";
+import {fetchFileMetadata} from "../actions/file";
 import TopBar from "./childComponents/TopBar";
 import {MainBreadcrumbs} from "./childComponents/BreadCrumb";
+import {ActionModal} from "./childComponents/ActionModal";
 
 const tab = {
 	fontStyle: "normal",
@@ -36,12 +37,13 @@ export const File = (): JSX.Element => {
 	const datasetName = new URLSearchParams(search).get("name");
 
 	const dispatch = useDispatch();
-	const listFileMetadataJsonld = (fileId:string|undefined) => dispatch(fetchFileMetadataJsonld(fileId));
-	const listFilePreviews = (fileId:string|undefined) => dispatch(fetchFilePreviews(fileId));
+	// const listFileMetadataJsonld = (fileId:string|undefined) => dispatch(fetchFileMetadataJsonld(fileId));
+	// const listFilePreviews = (fileId:string|undefined) => dispatch(fetchFilePreviews(fileId));
 	const listFileMetadata = (fileId:string|undefined) => dispatch(fetchFileMetadata(fileId));
 	const fileMetadata = useSelector((state:RootState) => state.file.fileMetadata);
 	const fileMetadataJsonld = useSelector((state:RootState) => state.file.metadataJsonld);
 	const filePreviews = useSelector((state:RootState) => state.file.previews);
+	const reason = useSelector((state:RootState) => state.file.reason);
 
 	const [selectedTabIndex, setSelectedTabIndex] = useState(0);
 	const [previews, setPreviews] = useState([]);
@@ -49,11 +51,19 @@ export const File = (): JSX.Element => {
 	// component did mount
 	useEffect(() => {
 		// load file information
-		listFileMetadataJsonld(fileId);
-		listFilePreviews(fileId);
+		// listFileMetadataJsonld(fileId);
+		// listFilePreviews(fileId);
 		listFileMetadata(fileId);
 	}, []);
 
+
+	// Error msg dialog
+	const [errorOpen, setErrorOpen] = useState(false);
+	useEffect(() => {
+		if (reason !== "" && reason !== null && reason !== undefined){
+			setErrorOpen(true);
+		}
+	}, [reason])
 
 	useEffect(() => {
 		(async () => {
@@ -110,6 +120,11 @@ export const File = (): JSX.Element => {
 			<TopBar/>
 			<div className="outer-container">
 				<MainBreadcrumbs paths={paths}/>
+				{/*Error Message dialogue*/}
+				<ActionModal actionOpen={errorOpen} actionTitle="Something went wrong..." actionText={reason}
+							 actionBtnName="Report" handleActionBtnClick={() => console.log(reason)}
+							 handleActionCancel={() => { setErrorOpen(false);}}/>
+				<Breadcrumbs paths={paths}/>
 				<div className="inner-container">
 					<Grid container spacing={4}>
 						<Grid item lg={8} sm={8} xl={8} xs={12}>
