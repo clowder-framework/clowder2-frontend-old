@@ -184,7 +184,6 @@ export const Dataset = (): JSX.Element => {
 				<ActionModal actionOpen={errorOpen} actionTitle="Something went wrong..." actionText={reason}
 							 actionBtnName="Report" handleActionBtnClick={() => console.log(reason)}
 							 handleActionCancel={handleErrorCancel}/>
-				<Breadcrumbs paths={paths}/>
 				<div className="inner-container">
 					<Grid container spacing={4}>
 						<Grid item xs={8}>

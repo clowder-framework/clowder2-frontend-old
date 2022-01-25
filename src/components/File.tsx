@@ -124,7 +124,6 @@ export const File = (): JSX.Element => {
 				<ActionModal actionOpen={errorOpen} actionTitle="Something went wrong..." actionText={reason}
 							 actionBtnName="Report" handleActionBtnClick={() => console.log(reason)}
 							 handleActionCancel={() => { setErrorOpen(false);}}/>
-				<Breadcrumbs paths={paths}/>
 				<div className="inner-container">
 					<Grid container spacing={4}>
 						<Grid item lg={8} sm={8} xl={8} xs={12}>

@@ -145,7 +145,6 @@ export const Dashboard = (): JSX.Element => {
 				<ActionModal actionOpen={errorOpen} actionTitle="Something went wrong..." actionText={reason}
 							 actionBtnName="Report" handleActionBtnClick={() => console.log(reason)}
 							 handleActionCancel={handleErrorCancel}/>
-				<MainBreadcrumbs paths={paths}/>
 				<div className="inner-container">
 					<Grid container spacing={4}>
 						<Grid item lg={8} xl={8} md={8} sm={8} xs={12}>
