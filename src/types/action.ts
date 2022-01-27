@@ -57,7 +57,6 @@ interface LOGIN_ERROR{
 interface LOGOUT{
 	type: "LOGOUT",
 	loggedOut: boolean,
-	reason: string,
 }
 
 interface REGISTER_ERROR{
@@ -89,6 +88,11 @@ interface RESET_FAILED{
 	reason: string
 }
 
+interface RESET_LOGOUT{
+	type: "RESET_LOGOUT",
+	loggedOut: boolean
+}
+
 export type DataAction =
 	| RECEIVE_FILES_IN_DATASET
 	| DELETE_FILE
@@ -108,4 +112,5 @@ export type DataAction =
 	| CREATE_FILE
 	| FAILED
 	| RESET_FAILED
+	| RESET_LOGOUT
 	;

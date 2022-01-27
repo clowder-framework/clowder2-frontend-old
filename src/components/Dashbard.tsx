@@ -11,7 +11,7 @@ import {downloadDataset} from "../utils/dataset";
 import {Dataset, Dataset as DatasetType, RootState, Thumbnail} from "../types/data";
 import {useDispatch, useSelector} from "react-redux";
 import {datasetDeleted, fetchDatasets, } from "../actions/dataset";
-import {resetFailedReason} from "../actions/common";
+import {resetFailedReason, resetLogout} from "../actions/common";
 import {downloadThumbnail} from "../utils/thumbnail";
 import TopBar from "./childComponents/TopBar";
 
@@ -40,6 +40,7 @@ export const Dashboard = (): JSX.Element => {
 	const deleteDataset = (datasetId: string) => dispatch(datasetDeleted(datasetId));
 	const listDatasets = (when: string, date: string, limit: number) => dispatch(fetchDatasets(when, date, limit));
 	const dismissError = () => dispatch(resetFailedReason());
+	const dismissLogout = () => dispatch(resetLogout());
 	const datasets = useSelector((state: RootState) => state.dataset.datasets);
 	const reason = useSelector((state: RootState) => state.dataset.reason);
 	const loggedOut = useSelector((state: RootState) => state.dataset.loggedOut);
@@ -82,7 +83,8 @@ export const Dashboard = (): JSX.Element => {
 	// log user out if unauthorized
 	useEffect(() => {
 		if (loggedOut) {
-			logoutHelper();
+			// reset loggedOut flag so it doesn't stuck in "true" state, then redirect to login page
+			dismissLogout();
 			history("/login");
 		}
 	}, [loggedOut]);

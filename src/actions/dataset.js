@@ -1,11 +1,10 @@
 import {V2} from "../openapi";
-import {logout, LOGOUT} from "./user";
+import {LOGOUT, logoutHelper} from "./user";
 
 export const FAILED = "FAILED";
 
 export const RECEIVE_FILES_IN_DATASET = "RECEIVE_FILES_IN_DATASET";
-
-export function receiveFilesInDataset(type, json, reason="") {
+function receiveFilesInDataset(type, json, reason="") {
 	return (dispatch) => {
 		dispatch({
 			type: type,
@@ -15,7 +14,6 @@ export function receiveFilesInDataset(type, json, reason="") {
 		});
 	};
 }
-
 export function fetchFilesInDataset(id){
 	return (dispatch) => {
 		return V2.DatasetsService.getDatasetFilesApiV2DatasetsDatasetIdFilesGet(id)
@@ -24,16 +22,18 @@ export function fetchFilesInDataset(id){
 			})
 			.catch(reason => {
 				if (reason.status === 401){
-					dispatch(receiveFilesInDataset(LOGOUT, [], "Not authorized!"));
+					logoutHelper();
+					dispatch(receiveFilesInDataset(LOGOUT, []));
 				}
-				dispatch(receiveFilesInDataset(FAILED, [], `Cannot list files in dataset! ${reason}`));
+				else{
+					dispatch(receiveFilesInDataset(FAILED, [], `Cannot list files in dataset! ${reason}`));
+				}
 			})	;
 	};
 }
 
 export const RECEIVE_DATASET_ABOUT = "RECEIVE_DATASET_ABOUT";
-
-export function receiveDatasetAbout(type, json, reason="") {
+function receiveDatasetAbout(type, json, reason="") {
 	return (dispatch) => {
 		dispatch({
 			type: type,
@@ -43,7 +43,6 @@ export function receiveDatasetAbout(type, json, reason="") {
 		});
 	};
 }
-
 export function fetchDatasetAbout(id){
 	return (dispatch) => {
 		return V2.DatasetsService.getDatasetApiV2DatasetsDatasetIdGet(id)
@@ -52,16 +51,18 @@ export function fetchDatasetAbout(id){
 			})
 			.catch(reason => {
 				if (reason.status === 401) {
-					dispatch(receiveDatasetAbout(LOGOUT, [], "Not authorized!"));
+					logoutHelper();
+					dispatch(receiveDatasetAbout(LOGOUT, []));
 				}
-				dispatch(receiveDatasetAbout(FAILED, [], `Cannot fetch Dataset! ${reason}`));
+				else{
+					dispatch(receiveDatasetAbout(FAILED, [], `Cannot fetch Dataset! ${reason}`));
+				}
 			});
 	};
 }
 
 export const RECEIVE_DATASETS = "RECEIVE_DATASETS";
-
-export function receiveDatasets(type, json, reason="") {
+function receiveDatasets(type, json, reason="") {
 	return (dispatch) => {
 		dispatch({
 			type: type,
@@ -71,7 +72,6 @@ export function receiveDatasets(type, json, reason="") {
 		});
 	};
 }
-
 export function fetchDatasets(when, date, limit=5){
 	return (dispatch) => {
 		// TODO: Parameters for dates? paging?
@@ -82,72 +82,71 @@ export function fetchDatasets(when, date, limit=5){
 			.catch(reason => {
 				// Authorization error we need to automatically logout user
 				if (reason.status === 401){
-					dispatch(receiveDatasets(LOGOUT, [], "Not authorized!"));
+					logoutHelper();
+					dispatch(receiveDatasets(LOGOUT, []));
 				}
-				dispatch(receiveDatasets(FAILED, [], `Cannot fetch dataset! ${reason}`));
+				else{
+					dispatch(receiveDatasets(FAILED, [], `Cannot fetch dataset! ${reason}`));
+				}
 			});
 
 	};
 }
 
 export const CREATE_DATASET = "CREATE_DATASET";
+function createDataset(type, json, reason="") {
+	return (dispatch) => {
+		dispatch({
+			type: type,
+			dataset: json,
+			reason: reason,
+			receivedAt: Date.now(),
+		});
+	};
+}
 export function datasetCreated(formData){
 	return (dispatch) =>{
-		return V2.DatasetsService.saveDatasetApiV2DatasetsPost(formData).then(dataset => {
-			dispatch({
-				type: CREATE_DATASET,
-				dataset: dataset,
-				reason: "",
-				receivedAt: Date.now(),
-			});
-		})
+		return V2.DatasetsService.saveDatasetApiV2DatasetsPost(formData)
+			.then(dataset => {
+				dispatch(createDataset(CREATE_DATASET, dataset));
+			})
 			.catch(reason => {
 				if (reason.status === 401) {
-					dispatch({
-						type: LOGOUT,
-						dataset: {},
-						reason: "Not Authorized!",
-						receivedAt: Date.now(),
-					});
+					logoutHelper();
+					dispatch(createDataset(LOGOUT, {}));
 				}
-				dispatch({
-					type: FAILED,
-					dataset: {},
-					reason:`Cannot create dataset! ${reason}`,
-					receivedAt: Date.now(),
-				});
+				else{
+					dispatch(createDataset(FAILED, {}, `Cannot create dataset! ${reason}`));
+				}
 			});
 	};
 }
 
 export const DELETE_DATASET = "DELETE_DATASET";
+function deleteDataset(type, json, reason="") {
+	return (dispatch) => {
+		dispatch({
+			type: type,
+			dataset: json,
+			reason: reason,
+			receivedAt: Date.now(),
+		});
+	};
+}
 export function datasetDeleted(datasetId){
 	return (dispatch) => {
 		return V2.DatasetsService.deleteDatasetApiV2DatasetsDatasetIdDelete(datasetId)
 			.then(json => {
-				dispatch({
-					type: DELETE_DATASET,
-					dataset: {"id": datasetId},
-					reason:"",
-					receivedAt: Date.now(),
-				});
+				dispatch(deleteDataset(DELETE_DATASET, {"id": datasetId}));
 			})
 			.catch(reason => {
 				if (reason.status === 401){
-					dispatch({
-						type: LOGOUT,
-						dataset: {},
-						reason: "Not Authorized!",
-						receivedAt: Date.now(),
-					});
+					logoutHelper();
+					dispatch(deleteDataset(LOGOUT, {}));
 				}
-				dispatch({
-					type: FAILED,
-					// FIXME: is this right? Do we need to provide a body here for the failure case?
-					dataset: {"id": null},
-					reason: `Cannot delete dataset! ${reason}`,
-					receivedAt: Date.now(),
-				});
+				else{
+					dispatch(deleteDataset(FAILED, {"id": null}, `Cannot delete dataset! ${reason}`));
+				}
 			});
 	};
 }

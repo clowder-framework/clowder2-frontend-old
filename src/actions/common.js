@@ -8,3 +8,13 @@ export function resetFailedReason(){
 		});
 	};
 }
+
+export const RESET_LOGOUT = "RESET_LOGOUT";
+export function resetLogout(){
+	return (dispatch) => {
+		dispatch({
+			type:RESET_LOGOUT,
+			receivedAt: Date.now(),
+		});
+	};
+}
