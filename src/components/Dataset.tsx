@@ -5,8 +5,7 @@ import {
 	Button, Dialog,
 	DialogTitle,
 	Divider,
-	Grid, Link,
-	ListItem,
+	Grid,
 	Menu,
 	MenuItem,
 	Tab,
@@ -15,20 +14,13 @@ import {
 } from "@mui/material";
 import {ClowderInput} from "./styledComponents/ClowderInput";
 import {ClowderButton} from "./styledComponents/ClowderButton";
-import DescriptionIcon from "@mui/icons-material/Description";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import StarBorderIcon from "@mui/icons-material/StarBorder";
-import CloudDownloadOutlinedIcon from "@mui/icons-material/CloudDownloadOutlined";
 import {downloadDataset} from "../utils/dataset";
-import {downloadFile, fetchFileMetadata} from "../utils/file";
 import {useNavigate, useParams} from "react-router-dom";
-import {File, FileMetadataList, RootState, Thumbnail} from "../types/data";
+import {File, RootState} from "../types/data";
 import {useDispatch, useSelector} from "react-redux";
-import {downloadThumbnail} from "../utils/thumbnail";
 import {datasetDeleted, fetchDatasetAbout, fetchFilesInDataset} from "../actions/dataset";
 import {resetFailedReason} from "../actions/common"
-import {fileDeleted} from "../actions/file";
 
 import {TabPanel} from "./childComponents/TabComponent";
 import {a11yProps} from "./childComponents/TabComponent";
@@ -78,7 +70,6 @@ export const Dataset = (): JSX.Element => {
 	const [selectedTabIndex, setSelectedTabIndex] = useState<number>(0);
 	const [open, setOpen] = React.useState<boolean>(false);
 	const [anchorEl, setAnchorEl] = React.useState<Element | null>(null);
-	const [fileThumbnailList, setFileThumbnailList] = useState<any>([]);
 	const [selectedFile, setSelectedFile] = useState<File>();
 	// const [fileMetadataList, setFileMetadataList] = useState<FileMetadataList[]>([]);
 
@@ -112,39 +103,6 @@ export const Dataset = (): JSX.Element => {
 		dismissError();
 		setErrorOpen(false);
 	}
-
-	// TODO these code will go away in v2 dont worry about understanding them
-	// TODO get metadata of each files; because we need the thumbnail of each file!!!
-	useEffect(() => {
-
-		(async () => {
-			if (filesInDataset !== undefined && filesInDataset.length > 0) {
-
-				// TODO any types fix later
-				const fileMetadataListTemp:FileMetadataList[] = [];
-				const fileThumbnailListTemp:any = [];
-				await Promise.all(filesInDataset.map(async (fileInDataset) => {
-
-					const fileMetadata = await fetchFileMetadata(fileInDataset["id"]);
-					fileMetadataListTemp.push({"id": fileInDataset["id"], "metadata": fileMetadata});
-
-					// add thumbnails
-					if (fileMetadata["thumbnail"] !== null && fileMetadata["thumbnail"] !== undefined) {
-						const thumbnailURL = await downloadThumbnail(fileMetadata["thumbnail"]);
-						fileThumbnailListTemp.push({"id": fileInDataset["id"], "thumbnail": thumbnailURL});
-					}
-				}));
-
-				// setFileMetadataList(fileMetadataListTemp);
-				setFileThumbnailList(fileThumbnailListTemp);
-			}
-		})();
-	}, [filesInDataset]);
-
-	const selectFile = (selectedFileId: string) => {
-		// Redirect to file route with file Id and dataset id
-		history(`/files/${selectedFileId}?dataset=${datasetId}&name=${about["name"]}`);
-	};
 
 	const handleTabChange = (_event:React.ChangeEvent<{}>, newTabIndex:number) => {
 		setSelectedTabIndex(newTabIndex);
@@ -220,7 +178,17 @@ export const Dataset = (): JSX.Element => {
 							{/*option menus*/}
 							<Box className="infoCard">
 								<Button aria-haspopup="true" onClick={handleOptionClick}
-										className={classes.optionButton} endIcon={<ArrowDropDownIcon />}>
+										sx={{
+											padding: "6px 12px",
+											width: "100px",
+											background: "#6C757D",
+											borderRadius: "4px",
+											color: "white",
+											textTransform: "capitalize",
+											'&:hover': {
+												color: "black"
+											},
+										}} endIcon={<ArrowDropDownIcon />}>
 									Options
 								</Button>
 								<Menu
@@ -230,14 +198,14 @@ export const Dataset = (): JSX.Element => {
 									open={Boolean(anchorEl)}
 									onClose={handleOptionClose}
 								>
-									<MenuItem className={classes.optionMenuItem}
+									<MenuItem sx={optionMenuItem}
 											  onClick={()=>{
 												  setOpen(true);
 												  handleOptionClose();
 											  }}>
 										Add Files
 									</MenuItem>
-									<MenuItem className={classes.optionMenuItem}
+									<MenuItem sx={optionMenuItem}
 											  onClick={() => {
 												  downloadDataset(datasetId, about["name"]);
 												  handleOptionClose();
@@ -248,12 +216,12 @@ export const Dataset = (): JSX.Element => {
 										deleteDataset(datasetId);
 										handleOptionClose();
 										// Go to Explore page
-										history.push("/");
+										history("/");
 									}
-									} className={classes.optionMenuItem}>Delete Dataset</MenuItem>
-									<MenuItem onClick={handleOptionClose} className={classes.optionMenuItem} disabled={true}>Follow</MenuItem>
-									<MenuItem onClick={handleOptionClose} className={classes.optionMenuItem} disabled={true}>Collaborators</MenuItem>
-									<MenuItem onClick={handleOptionClose} className={classes.optionMenuItem} disabled={true}>Extraction</MenuItem>
+									} sx={optionMenuItem}>Delete Dataset</MenuItem>
+									<MenuItem onClick={handleOptionClose} sx={optionMenuItem} disabled={true}>Follow</MenuItem>
+									<MenuItem onClick={handleOptionClose} sx={optionMenuItem} disabled={true}>Collaborators</MenuItem>
+									<MenuItem onClick={handleOptionClose} sx={optionMenuItem} disabled={true}>Extraction</MenuItem>
 								</Menu>
 							</Box>
 							<Divider />

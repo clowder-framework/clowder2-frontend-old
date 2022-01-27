@@ -1,39 +1,15 @@
-import {makeStyles} from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import ButtonBase from '@material-ui/core/ButtonBase';
-import DescriptionIcon from "@material-ui/icons/Description";
 import React from "react";
 import {File} from "../../types/data";
-import StarBorderIcon from "@material-ui/icons/StarBorder";
+
 import CloudDownloadOutlinedIcon from "@material-ui/icons/CloudDownloadOutlined";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import {Button, Link} from "@material-ui/core";
 import {fileDeleted} from "../../actions/file";
 import {useDispatch} from "react-redux";
 import {downloadFile} from "../../utils/file";
-import {useHistory} from "react-router-dom";
-
-const useStyles = makeStyles((theme) => ({
-	root: {
-		flexGrow: 1,
-	},
-	paper: {
-		padding: theme.spacing(2),
-		margin: 'auto',
-	},
-	image: {
-		width: 128,
-		height: 128,
-	},
-	img: {
-		margin: 'auto',
-		display: 'block',
-		maxWidth: '100%',
-		maxHeight: '100%',
-	},
-}));
+import {useNavigate} from "react-router-dom";
+import { Box, Grid, Paper, Typography, ButtonBase } from '@mui/material';
+import DescriptionIcon from '@mui/icons-material/Description';
 
 type FileCardProps = {
 	file: File;
@@ -42,24 +18,28 @@ type FileCardProps = {
 
 export const FileCard = (props : FileCardProps) => {
 	const { file, datasetId } = props;
-	// css
-	const classes = useStyles();
 	// use history hook to redirect/navigate between routes
-	const history = useHistory();
+	const history = useNavigate();
 	// redux
 	const dispatch = useDispatch();
 	const deleteFile = (fileId:string|undefined) => dispatch(fileDeleted(fileId));
 	const selectFile = (selectedFileId: string) => {
 		// Redirect to file route with file Id and dataset id
-		history.push(`/files/${selectedFileId}?dataset=${datasetId}`);
+		history(`/files/${selectedFileId}?dataset=${datasetId}`);
 	};
 	return (
-		<div className={classes.root}>
-			<Paper className={classes.paper}>
+		<Box sx={{flexGrow: 1}}>
+			<Paper sx={{
+				p: 2,
+				margin: 'auto',
+			}}>
 				<Grid container spacing={2}>
 					<Grid item>
-						<ButtonBase className={classes.image}>
-							<DescriptionIcon className={classes.img} style={{fontSize: "5em"}}/>
+						<ButtonBase sx={{
+							width: 128,
+							height: 128,
+						}}>
+							<DescriptionIcon/>
 						</ButtonBase>
 					</Grid>
 					<Grid item xs={12} sm container>
@@ -92,6 +72,6 @@ export const FileCard = (props : FileCardProps) => {
 					</Grid>
 				</Grid>
 			</Paper>
-		</div>
+		</Box>
 	);
 }
