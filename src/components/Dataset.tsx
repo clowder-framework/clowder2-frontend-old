@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-import {makeStyles} from "@material-ui/core/styles";
 import {
 	AppBar,
 	Box,
@@ -13,132 +12,106 @@ import {
 	Tab,
 	Tabs,
 	Typography
-} from "@material-ui/core";
+} from "@mui/material";
 import {ClowderInput} from "./styledComponents/ClowderInput";
 import {ClowderButton} from "./styledComponents/ClowderButton";
-import DescriptionIcon from "@material-ui/icons/Description";
-import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-// import {UploadFile} from "./childComponents/UploadFile";
-import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
-import StarBorderIcon from "@material-ui/icons/StarBorder";
-import CloudDownloadOutlinedIcon from "@material-ui/icons/CloudDownloadOutlined";
+import DescriptionIcon from "@mui/icons-material/Description";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
+import CloudDownloadOutlinedIcon from "@mui/icons-material/CloudDownloadOutlined";
 import {downloadDataset} from "../utils/dataset";
 import {downloadFile, fetchFileMetadata} from "../utils/file";
-import {FileMetadataList, RootState, Thumbnail} from "../types/data";
-import {useHistory, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
+import {File, FileMetadataList, RootState, Thumbnail} from "../types/data";
 import {useDispatch, useSelector} from "react-redux";
 import {downloadThumbnail} from "../utils/thumbnail";
 import {datasetDeleted, fetchDatasetAbout, fetchFilesInDataset} from "../actions/dataset";
+import {resetFailedReason} from "../actions/common"
 import {fileDeleted} from "../actions/file";
 
 import {TabPanel} from "./childComponents/TabComponent";
 import {a11yProps} from "./childComponents/TabComponent";
 import TopBar from "./childComponents/TopBar";
-import {Breadcrumbs} from "./childComponents/BreadCrumb";
+import {MainBreadcrumbs} from "./childComponents/BreadCrumb";
 import {UploadFile} from "./childComponents/UploadFile";
 import {V2} from "../openapi";
+import {ActionModal} from "./childComponents/ActionModal";
 import {FileCard} from "./childComponents/FileCard";
 
-const useStyles = makeStyles(() => ({
-	appBar: {
-		background: "#FFFFFF",
-		boxShadow: "none",
-	},
-	tab: {
-		fontStyle: "normal",
-		fontWeight: "normal",
-		fontSize: "16px",
-		color: "#495057",
-		textTransform: "capitalize",
-		maxWidth: "50px",
-	},
-	fileCardOuterBox:{
-		position:"relative"
-	},
-	fileCard: {
-		background: "#FFFFFF",
-		border: "1px solid #DFDFDF",
-		boxSizing: "border-box",
-		borderRadius: "4px",
-		margin: "20px auto",
-		"& > .MuiGrid-item": {
-			padding: 0,
-			height: "150px",
-		}
-	},
-	fileCardImg: {
-		height: "50%",
-		margin: "40px auto",
-		display: "block"
-	},
-	fileCardText:{
-		padding: "40px 20px",
-		fontSize:"16px",
-		fontWeight:"normal",
-		color:"#212529"
-	},
-	fileCardActionBox:{
-		position:"absolute",
-		right:"5%",
-		top: "40px",
-	},
-	fileCardActionItem:{
-		display:"block"
-	},
-	optionButton:{
-		padding: "6px 12px",
-		width: "100px",
-		background: "#6C757D",
-		borderRadius: "4px",
-		color: "white",
-		textTransform: "capitalize",
-		'&:hover': {
-			color: "black"
-		},
-	},
-	optionMenuItem:{
-		fontWeight: "normal",
-		fontSize: "14px",
-		color: "#212529",
-		marginTop:"8px",
-	}
-}));
+const tab = {
+	fontStyle: "normal",
+	fontWeight: "normal",
+	fontSize: "16px",
+	color: "#495057",
+	textTransform: "capitalize",
+};
 
+const optionMenuItem = {
+	fontWeight: "normal",
+	fontSize: "14px",
+	color: "#212529",
+	marginTop:"8px",
+}
 
 export const Dataset = (): JSX.Element => {
-	const classes = useStyles();
 
 	// path parameter
 	const { datasetId } = useParams<{datasetId?: string}>();
 
 	// use history hook to redirect/navigate between routes
-	const history = useHistory();
+	const history = useNavigate();
 
 	// Redux connect equivalent
 	const dispatch = useDispatch();
 	const deleteDataset = (datasetId:string|undefined) => dispatch(datasetDeleted(datasetId));
 	const listFilesInDataset = (datasetId:string|undefined) => dispatch(fetchFilesInDataset(datasetId));
 	const listDatasetAbout= (datasetId:string|undefined) => dispatch(fetchDatasetAbout(datasetId));
+	const dismissError = () => dispatch(resetFailedReason());
 
 	// mapStateToProps
 	const filesInDataset = useSelector((state:RootState) => state.dataset.files);
 	const about = useSelector((state:RootState) => state.dataset.about);
+	const reason = useSelector((state:RootState) => state.dataset.reason);
 
 	// state
 	const [selectedTabIndex, setSelectedTabIndex] = useState<number>(0);
 	const [open, setOpen] = React.useState<boolean>(false);
 	const [anchorEl, setAnchorEl] = React.useState<Element | null>(null);
 	const [fileThumbnailList, setFileThumbnailList] = useState<any>([]);
+	const [selectedFile, setSelectedFile] = useState<File>();
 	// const [fileMetadataList, setFileMetadataList] = useState<FileMetadataList[]>([]);
 
 	const [editingName, setEditingName] = React.useState<boolean>(false);
 	const [, setNewDatasetName] = React.useState<string>("");
+
+	// confirmation dialog
+	const [confirmationOpen, setConfirmationOpen] = useState(false);
+	const deleteSelectedFile = () => {
+		if (selectedFile) {
+			deleteFile(selectedFile["id"]);
+		}
+		setConfirmationOpen(false);
+	}
 
 	// component did mount list all files in dataset
 	useEffect(() => {
 		listFilesInDataset(datasetId);
 		listDatasetAbout(datasetId);
 	}, []);
+
+	// Error msg dialog
+	const [errorOpen, setErrorOpen] = useState(false);
+	useEffect(() => {
+		if (reason !== "" && reason !== null && reason !== undefined){
+			setErrorOpen(true);
+		}
+	}, [reason])
+	const handleErrorCancel = () => {
+		// reset error message and close the error window
+		dismissError();
+		setErrorOpen(false);
+	}
 
 	// TODO these code will go away in v2 dont worry about understanding them
 	// TODO get metadata of each files; because we need the thumbnail of each file!!!
@@ -168,6 +141,11 @@ export const Dataset = (): JSX.Element => {
 		})();
 	}, [filesInDataset]);
 
+	const selectFile = (selectedFileId: string) => {
+		// Redirect to file route with file Id and dataset id
+		history(`/files/${selectedFileId}?dataset=${datasetId}&name=${about["name"]}`);
+	};
+
 	const handleTabChange = (_event:React.ChangeEvent<{}>, newTabIndex:number) => {
 		setSelectedTabIndex(newTabIndex);
 	};
@@ -196,18 +174,30 @@ export const Dataset = (): JSX.Element => {
 		<div>
 			<TopBar/>
 			<div className="outer-container">
-				<Breadcrumbs paths={paths}/>
+				<MainBreadcrumbs paths={paths}/>
+				{/*Confirmation dialogue*/}
+				<ActionModal actionOpen={confirmationOpen} actionTitle="Are you sure?"
+							 actionText="Do you really want to delete? This process cannot be undone."
+							 actionBtnName="Delete" handleActionBtnClick={deleteSelectedFile}
+							 handleActionCancel={() => { setConfirmationOpen(false);}}/>
+				{/*Error Message dialogue*/}
+				<ActionModal actionOpen={errorOpen} actionTitle="Something went wrong..." actionText={reason}
+							 actionBtnName="Report" handleActionBtnClick={() => console.log(reason)}
+							 handleActionCancel={handleErrorCancel}/>
 				<div className="inner-container">
 					<Grid container spacing={4}>
 						<Grid item xs={8}>
-							<AppBar className={classes.appBar} position="static">
+							<AppBar position="static" sx={{
+								background: "#FFFFFF",
+								boxShadow: "none",
+							}}>
 								{/*Tabs*/}
 								<Tabs value={selectedTabIndex} onChange={handleTabChange} aria-label="dataset tabs">
-									<Tab className={classes.tab} label="Files" {...a11yProps(0)} />
-									<Tab className={classes.tab} label="Metadata" {...a11yProps(1)} disabled={true}/>
-									<Tab className={classes.tab} label="Extractions" {...a11yProps(2)} disabled={true}/>
-									<Tab className={classes.tab} label="Visualizations" {...a11yProps(3)} disabled={true}/>
-									<Tab className={classes.tab} label="Comments" {...a11yProps(4)} disabled={true}/>
+									<Tab sx={tab} label="Files" {...a11yProps(0)} />
+									<Tab sx={tab} label="Metadata" {...a11yProps(1)} disabled={true}/>
+									<Tab sx={tab} label="Extractions" {...a11yProps(2)} disabled={true}/>
+									<Tab sx={tab} label="Visualizations" {...a11yProps(3)} disabled={true}/>
+									<Tab sx={tab} label="Comments" {...a11yProps(4)} disabled={true}/>
 								</Tabs>
 							</AppBar>
 							<TabPanel value={selectedTabIndex} index={0}>
@@ -326,7 +316,6 @@ export const Dataset = (): JSX.Element => {
 					</Grid>
 					<Dialog open={open} onClose={()=>{setOpen(false);}} fullWidth={true} aria-labelledby="form-dialog">
 						<DialogTitle id="form-dialog-title">Add File</DialogTitle>
-						{/*TODO: pass select to uploader so once upload succeeded, can jump to that dataset/file page*/}
 						<UploadFile selectedDatasetId={datasetId} setOpen={setOpen}/>
 					</Dialog>
 				</div>

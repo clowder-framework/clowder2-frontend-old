@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import config from "../app.config";
-import {AppBar, Box, Divider, Grid, Tab, Tabs, Typography} from "@material-ui/core";
-import {makeStyles} from "@material-ui/core/styles";
+import {AppBar, Box, Divider, Grid, Tab, Tabs, Typography} from "@mui/material";
 import {ClowderInput} from "./styledComponents/ClowderInput";
 import {ClowderButton} from "./styledComponents/ClowderButton";
 import Audio from "./previewers/Audio";
@@ -14,26 +13,20 @@ import {useDispatch, useSelector} from "react-redux";
 
 import {TabPanel} from "./childComponents/TabComponent";
 import {a11yProps} from "./childComponents/TabComponent";
-import {fetchFileMetadata, fetchFileMetadataJsonld, fetchFilePreviews} from "../actions/file";
+import {fetchFileMetadata} from "../actions/file";
 import TopBar from "./childComponents/TopBar";
-import {Breadcrumbs} from "./childComponents/BreadCrumb";
+import {MainBreadcrumbs} from "./childComponents/BreadCrumb";
+import {ActionModal} from "./childComponents/ActionModal";
 
-const useStyles = makeStyles(() => ({
-	appBar: {
-		background: "#FFFFFF",
-		boxShadow: "none",
-	},
-	tab: {
-		fontStyle: "normal",
+const tab = {
+	fontStyle: "normal",
 		fontWeight: "normal",
 		fontSize: "16px",
 		color: "#495057",
 		textTransform: "capitalize",
-	}
-}));
+}
 
 export const File = (): JSX.Element => {
-	const classes = useStyles();
 
 	// path parameter
 	const { fileId } = useParams<{fileId?: string}>();
@@ -46,12 +39,13 @@ export const File = (): JSX.Element => {
 	const datasetName = useSelector((state:RootState) => state.dataset.about.name);
 
 	const dispatch = useDispatch();
-	const listFileMetadataJsonld = (fileId:string|undefined) => dispatch(fetchFileMetadataJsonld(fileId));
-	const listFilePreviews = (fileId:string|undefined) => dispatch(fetchFilePreviews(fileId));
+	// const listFileMetadataJsonld = (fileId:string|undefined) => dispatch(fetchFileMetadataJsonld(fileId));
+	// const listFilePreviews = (fileId:string|undefined) => dispatch(fetchFilePreviews(fileId));
 	const listFileMetadata = (fileId:string|undefined) => dispatch(fetchFileMetadata(fileId));
 	const fileMetadata = useSelector((state:RootState) => state.file.fileMetadata);
 	const fileMetadataJsonld = useSelector((state:RootState) => state.file.metadataJsonld);
 	const filePreviews = useSelector((state:RootState) => state.file.previews);
+	const reason = useSelector((state:RootState) => state.file.reason);
 
 	const [selectedTabIndex, setSelectedTabIndex] = useState(0);
 	const [previews, setPreviews] = useState([]);
@@ -59,11 +53,19 @@ export const File = (): JSX.Element => {
 	// component did mount
 	useEffect(() => {
 		// load file information
-		listFileMetadataJsonld(fileId);
-		listFilePreviews(fileId);
+		// listFileMetadataJsonld(fileId);
+		// listFilePreviews(fileId);
 		listFileMetadata(fileId);
 	}, []);
 
+
+	// Error msg dialog
+	const [errorOpen, setErrorOpen] = useState(false);
+	useEffect(() => {
+		if (reason !== "" && reason !== null && reason !== undefined){
+			setErrorOpen(true);
+		}
+	}, [reason])
 
 	useEffect(() => {
 		(async () => {
@@ -119,17 +121,24 @@ export const File = (): JSX.Element => {
 		<div>
 			<TopBar/>
 			<div className="outer-container">
-				<Breadcrumbs paths={paths}/>
+				<MainBreadcrumbs paths={paths}/>
+				{/*Error Message dialogue*/}
+				<ActionModal actionOpen={errorOpen} actionTitle="Something went wrong..." actionText={reason}
+							 actionBtnName="Report" handleActionBtnClick={() => console.log(reason)}
+							 handleActionCancel={() => { setErrorOpen(false);}}/>
 				<div className="inner-container">
 					<Grid container spacing={4}>
 						<Grid item lg={8} sm={8} xl={8} xs={12}>
-							<AppBar className={classes.appBar} position="static">
+							<AppBar position="static" sx={{
+								background: "#FFFFFF",
+								boxShadow: "none",
+							}}>
 								<Tabs value={selectedTabIndex} onChange={handleTabChange} aria-label="file tabs">
-									<Tab className={classes.tab} label="Previews" {...a11yProps(0)} />
-									<Tab className={classes.tab} label="Sections" {...a11yProps(1)} disabled={true}/>
-									<Tab className={classes.tab} label="Metadata" {...a11yProps(2)} disabled={true}/>
-									<Tab className={classes.tab} label="Extractions" {...a11yProps(3)} disabled={true}/>
-									<Tab className={classes.tab} label="Comments" {...a11yProps(4)} disabled={true}/>
+									<Tab sx={tab} label="Previews" {...a11yProps(0)} />
+									<Tab sx={tab} label="Sections" {...a11yProps(1)} disabled={true}/>
+									<Tab sx={tab} label="Metadata" {...a11yProps(2)} disabled={true}/>
+									<Tab sx={tab} label="Extractions" {...a11yProps(3)} disabled={true}/>
+									<Tab sx={tab} label="Comments" {...a11yProps(4)} disabled={true}/>
 								</Tabs>
 							</AppBar>
 							<TabPanel value={selectedTabIndex} index={0}>
