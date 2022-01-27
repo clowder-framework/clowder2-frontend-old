@@ -4,7 +4,6 @@ export interface Dataset {
 	description: string;
 	created: string;
 	thumbnail: string;
-	reason: string;
 }
 
 export interface File {
@@ -13,7 +12,6 @@ export interface File {
 	size: number;
 	"date-created": string;
 	contentType:string;
-	reason:string;
 }
 
 export interface About {
@@ -107,11 +105,9 @@ export interface Thumbnail{
 }
 
 export interface DatasetState{
-	reason: string;
 	files: File[];
 	datasets: Dataset[];
 	about: About;
-	loggedOut: boolean;
 }
 
 export interface FileState{
@@ -129,7 +125,13 @@ export interface UserState{
 	errorMsg: string;
 }
 
+export interface ErrorState{
+	reason: string;
+	loggedOut: boolean;
+}
+
 export interface RootState {
+	error: ErrorState;
 	file:FileState;
 	dataset:DatasetState;
 	user: UserState;

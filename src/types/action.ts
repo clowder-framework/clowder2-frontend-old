@@ -59,6 +59,11 @@ interface LOGOUT{
 	loggedOut: boolean,
 }
 
+interface RESET_LOGOUT{
+	type: "RESET_LOGOUT",
+	loggedOut: boolean
+}
+
 interface REGISTER_ERROR{
 	errorMsg: string,
 	type: "REGISTER_ERROR"
@@ -86,11 +91,6 @@ interface FAILED{
 interface RESET_FAILED{
 	type: "RESET_FAILED",
 	reason: string
-}
-
-interface RESET_LOGOUT{
-	type: "RESET_LOGOUT",
-	loggedOut: boolean
 }
 
 export type DataAction =

@@ -5,7 +5,7 @@ import {V2} from "../openapi";
 export const FAILED = "FAILED";
 
 export const RECEIVE_FILE_EXTRACTED_METADATA = "RECEIVE_FILE_EXTRACTED_METADATA";
-export function receiveFileExtractedMetadata(type, json, reason=""){
+function receiveFileExtractedMetadata(type, json, reason=""){
 	return (dispatch) => {
 		dispatch({
 			type: type,
@@ -25,7 +25,7 @@ export function fetchFileExtractedMetadata(id){
 						dispatch(receiveFileExtractedMetadata(RECEIVE_FILE_EXTRACTED_METADATA, json));
 					});
 				}
-				else {
+				else if (response.status === 401){
 					dispatch(receiveFileExtractedMetadata(FAILED, [], "Cannot fetch extracted file metadata!"));
 				}
 			})

@@ -83,10 +83,17 @@ export function fetchDatasets(when, date, limit=5){
 				// Authorization error we need to automatically logout user
 				if (reason.status === 401){
 					logoutHelper();
-					dispatch(receiveDatasets(LOGOUT, []));
+					dispatch({
+						type: LOGOUT,
+						receivedAt: Date.now()
+					});
 				}
 				else{
-					dispatch(receiveDatasets(FAILED, [], `Cannot fetch dataset! ${reason}`));
+					dispatch({
+						type: FAILED,
+						reason: `Cannot fetch dataset! ${reason}`,
+						receivedAt: Date.now()
+					});
 				}
 			});
 
