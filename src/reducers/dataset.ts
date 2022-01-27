@@ -6,6 +6,7 @@ import {
 	CREATE_DATASET,
 	FAILED,
 } from "../actions/dataset";
+import {LOGOUT} from "../actions/user";
 import {RESET_FAILED} from "../actions/common";
 import {CREATE_FILE, DELETE_FILE} from "../actions/file";
 import {DataAction} from "../types/action";
@@ -15,13 +16,16 @@ const defaultState: DatasetState = {
 	files: [],
 	about: {name: "", id: "", authorId: "", description: "", created: "", thumbnail: ""},
 	datasets: [],
-	reason: ""
+	reason: "",
+	loggedOut: false,
 };
 
 const dataset = (state = defaultState, action: DataAction) => {
 	switch (action.type) {
 	case FAILED:
 		return Object.assign({}, state, {reason: action.reason});
+	case LOGOUT:
+		return Object.assign({}, state, {loggedOut: true, reason: action.reason});
 	case RESET_FAILED:
 		return Object.assign({}, state, {reason: action.reason})
 	case RECEIVE_FILES_IN_DATASET:

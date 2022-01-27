@@ -24,6 +24,11 @@ export async function loginHelper(username, password, register = false) {
 	}
 }
 
+export async function logoutHelper(){
+	V2.OpenAPI.TOKEN = undefined;
+	localStorage.removeItem("Authorization");
+}
+
 export const LOGIN_ERROR = "LOGIN_ERROR";
 export const SET_USER = "SET_USER";
 export const REGISTER_USER = "REGISTER_USER";
@@ -71,8 +76,7 @@ export function register(username, password) {
 
 export function logout() {
 	return (dispatch) => {
-		V2.OpenAPI.TOKEN = undefined;
-		localStorage.removeItem("Authorization");
+		logoutHelper();
 		return dispatch({
 			type: LOGOUT,
 		});

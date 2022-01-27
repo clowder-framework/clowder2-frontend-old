@@ -56,6 +56,8 @@ interface LOGIN_ERROR{
 
 interface LOGOUT{
 	type: "LOGOUT",
+	loggedOut: boolean,
+	reason: string,
 }
 
 interface REGISTER_ERROR{

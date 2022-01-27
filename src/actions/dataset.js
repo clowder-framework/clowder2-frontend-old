@@ -1,4 +1,5 @@
 import {V2} from "../openapi";
+import {logout, LOGOUT} from "./user";
 
 export const FAILED = "FAILED";
 
@@ -23,8 +24,7 @@ export function fetchFilesInDataset(id){
 			})
 			.catch(reason => {
 				if (reason.status === 401){
-					console.log("Unauthorized!");
-				// logout();
+					dispatch(receiveFilesInDataset(LOGOUT, [], "Not authorized!"));
 				}
 				dispatch(receiveFilesInDataset(FAILED, [], `Cannot list files in dataset! ${reason}`));
 			})	;
@@ -52,8 +52,7 @@ export function fetchDatasetAbout(id){
 			})
 			.catch(reason => {
 				if (reason.status === 401) {
-					console.log("Unauthorized!");
-				// logout();
+					dispatch(receiveDatasetAbout(LOGOUT, [], "Not authorized!"));
 				}
 				dispatch(receiveDatasetAbout(FAILED, [], `Cannot fetch Dataset! ${reason}`));
 			});
@@ -81,9 +80,9 @@ export function fetchDatasets(when, date, limit=5){
 				dispatch(receiveDatasets(RECEIVE_DATASETS, json));
 			})
 			.catch(reason => {
-				if (reason.status === 401) {
-					console.log("Unauthorized!");
-				// logout();
+				// Authorization error we need to automatically logout user
+				if (reason.status === 401){
+					dispatch(receiveDatasets(LOGOUT, [], "Not authorized!"));
 				}
 				dispatch(receiveDatasets(FAILED, [], `Cannot fetch dataset! ${reason}`));
 			});
@@ -104,8 +103,12 @@ export function datasetCreated(formData){
 		})
 			.catch(reason => {
 				if (reason.status === 401) {
-					console.error("Failed to create dataset: Not authenticated: ", reason);
-				// logout();
+					dispatch({
+						type: LOGOUT,
+						dataset: {},
+						reason: "Not Authorized!",
+						receivedAt: Date.now(),
+					});
 				}
 				dispatch({
 					type: FAILED,
@@ -131,8 +134,12 @@ export function datasetDeleted(datasetId){
 			})
 			.catch(reason => {
 				if (reason.status === 401){
-					console.log("Unauthorized!");
-				// logout();
+					dispatch({
+						type: LOGOUT,
+						dataset: {},
+						reason: "Not Authorized!",
+						receivedAt: Date.now(),
+					});
 				}
 				dispatch({
 					type: FAILED,

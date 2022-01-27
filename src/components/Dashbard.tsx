@@ -19,8 +19,8 @@ import {TabPanel} from "./childComponents/TabComponent";
 import {a11yProps} from "./childComponents/TabComponent";
 import {useNavigate} from "react-router-dom";
 import {MainBreadcrumbs} from "./childComponents/BreadCrumb";
-import {useHistory} from "react-router-dom";
 import {ActionModal} from "./childComponents/ActionModal";
+import {logoutHelper} from "../actions/user";
 
 const tab = {
 	fontStyle: "normal",
@@ -42,6 +42,7 @@ export const Dashboard = (): JSX.Element => {
 	const dismissError = () => dispatch(resetFailedReason());
 	const datasets = useSelector((state: RootState) => state.dataset.datasets);
 	const reason = useSelector((state: RootState) => state.dataset.reason);
+	const loggedOut = useSelector((state: RootState) => state.dataset.loggedOut);
 
 	const [datasetThumbnailList, setDatasetThumbnailList] = useState<any>([]);
 	const [limit,] = useState<number>(5);
@@ -77,6 +78,14 @@ export const Dashboard = (): JSX.Element => {
 		dismissError();
 		setErrorOpen(false);
 	}
+
+	// log user out if unauthorized
+	useEffect(() => {
+		if (loggedOut) {
+			logoutHelper();
+			history("/login");
+		}
+	}, [loggedOut]);
 
 	// fetch thumbnails from each individual dataset/id calls
 	useEffect(() => {

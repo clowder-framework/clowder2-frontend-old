@@ -111,6 +111,7 @@ export interface DatasetState{
 	files: File[];
 	datasets: Dataset[];
 	about: About;
+	loggedOut: boolean;
 }
 
 export interface FileState{
