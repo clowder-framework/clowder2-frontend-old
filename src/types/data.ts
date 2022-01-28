@@ -115,7 +115,6 @@ export interface FileState{
 	extractedMetadata: ExtractedMetadata;
 	metadataJsonld: MetadataJsonld[];
 	previews: FilePreview[];
-	reason: string;
 }
 
 export interface UserState{

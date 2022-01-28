@@ -79,7 +79,7 @@ export const Dashboard = (): JSX.Element => {
 		setErrorOpen(false);
 	}
 
-	// log user out if unauthorized
+	// log user out if token expired/unauthorized
 	useEffect(() => {
 		if (loggedOut) {
 			// reset loggedOut flag so it doesn't stuck in "true" state, then redirect to login page
