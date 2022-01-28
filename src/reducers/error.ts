@@ -5,7 +5,7 @@ const defaultState = {
 	loggedOut: false,
 };
 
-const dataset = (state = defaultState, action: DataAction) => {
+const error = (state = defaultState, action: DataAction) => {
 	switch (action.type) {
 		case "FAILED":
 			return Object.assign({}, state, {reason: action.reason});
@@ -20,4 +20,4 @@ const dataset = (state = defaultState, action: DataAction) => {
 	}
 };
 
-export default dataset;
+export default error;
