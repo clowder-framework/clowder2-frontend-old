@@ -37,7 +37,7 @@ export function handleErrors(reason){
 		return (dispatch) => {
 			dispatch({
 				type: FAILED,
-				reason: reason,
+				reason: reason.message !== undefined? reason.message : "Backend Failure. Couldn't fetch!",
 				receivedAt: Date.now()
 			});
 		};
