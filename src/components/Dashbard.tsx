@@ -147,11 +147,8 @@ export const Dashboard = (): JSX.Element => {
 							 handleActionCancel={handleErrorCancel}/>
 				<div className="inner-container">
 					<Grid container spacing={4}>
-						<Grid item lg={8} xl={8} md={8} sm={8} xs={12}>
-							<AppBar position="static" sx={{
-								background: "#FFFFFF",
-								boxShadow: "none",
-							}}>
+						<Grid item xs={8}>
+							<Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
 								<Tabs value={selectedTabIndex} onChange={handleTabChange} aria-label="dashboard tabs">
 									<Tab sx={tab} label="Datasets" {...a11yProps(0)} />
 									<Tab sx={tab} label="Activity" {...a11yProps(1)} disabled={true}/>
@@ -159,9 +156,8 @@ export const Dashboard = (): JSX.Element => {
 									<Tab sx={tab} label="Spaces" {...a11yProps(3)} disabled={true}/>
 									<Tab sx={tab} label="API Keys" {...a11yProps(4)} disabled={true}/>
 								</Tabs>
-							</AppBar>
+							</Box>
 							<TabPanel value={selectedTabIndex} index={0}>
-
 								{
 									datasets !== undefined && datasetThumbnailList !== undefined ?
 										datasets.map((dataset) => {
@@ -259,7 +255,7 @@ export const Dashboard = (): JSX.Element => {
 							<TabPanel value={selectedTabIndex} index={3} />
 							<TabPanel value={selectedTabIndex} index={4} />
 						</Grid>
-						<Grid item lg={4} md={4} xl={4} sm={4} xs={12}>
+						<Grid item xs={4}>
 							<Box className="actionCard">
 								<Typography className="title">Create your dataset</Typography>
 								<Typography className="content">Some quick example text to tell users why they should

@@ -187,11 +187,7 @@ export const Dataset = (): JSX.Element => {
 				<div className="inner-container">
 					<Grid container spacing={4}>
 						<Grid item xs={8}>
-							<AppBar position="static" sx={{
-								background: "#FFFFFF",
-								boxShadow: "none",
-							}}>
-								{/*Tabs*/}
+							<Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
 								<Tabs value={selectedTabIndex} onChange={handleTabChange} aria-label="dataset tabs">
 									<Tab sx={tab} label="Files" {...a11yProps(0)} />
 									<Tab sx={tab} label="Metadata" {...a11yProps(1)} disabled={true}/>
@@ -199,7 +195,7 @@ export const Dataset = (): JSX.Element => {
 									<Tab sx={tab} label="Visualizations" {...a11yProps(3)} disabled={true}/>
 									<Tab sx={tab} label="Comments" {...a11yProps(4)} disabled={true}/>
 								</Tabs>
-							</AppBar>
+							</Box>
 							<TabPanel value={selectedTabIndex} index={0}>
 
 								{
