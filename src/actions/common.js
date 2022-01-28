@@ -1,3 +1,5 @@
+import {LOGOUT, logoutHelper} from "./user";
+
 export const RESET_FAILED = "RESET_FAILED";
 export function resetFailedReason(){
 	return (dispatch) => {
@@ -17,4 +19,27 @@ export function resetLogout(){
 			receivedAt: Date.now(),
 		});
 	};
+}
+
+export const FAILED = "FAILED";
+export function handleErrors(reason){
+	// Authorization error we need to automatically logout user
+	if (reason.status === 401){
+		logoutHelper();
+		return (dispatch) => {
+			dispatch({
+				type: LOGOUT,
+				receivedAt: Date.now()
+			});
+		};
+	}
+	else{
+		return (dispatch) => {
+			dispatch({
+				type: FAILED,
+				reason: reason,
+				receivedAt: Date.now()
+			});
+		};
+	}
 }
