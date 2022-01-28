@@ -19,8 +19,8 @@ const user = (state = defaultState, action: DataAction) => {
 		return Object.assign({}, state, {registerSucceeded: true});
 	case REGISTER_ERROR:
 		return Object.assign({}, state, {registerSucceeded: false, errorMsg: action.errorMsg});
-	case LOGOUT:
-		return Object.assign({}, state, {Authorization: null, loginError: false});
+	// case LOGOUT:
+	// 	return Object.assign({}, state, {Authorization: null, loginError: false});
 
 	default:
 		return state;

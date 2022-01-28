@@ -51,7 +51,6 @@ export function login(username, password) {
 		} else {
 			return dispatch({
 				type: LOGIN_ERROR,
-				Authorization: "",
 				errorMsg: json["errorMsg"] !== undefined && json["errorMsg"] !== "" ? json["errorMsg"]: "Username/Password incorrect!"
 			});
 		}
