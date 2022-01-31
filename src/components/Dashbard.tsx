@@ -46,9 +46,6 @@ const tab = {
 
 export const Dashboard = (): JSX.Element => {
 
-	// use history hook to redirect/navigate between routes
-	const history = useNavigate();
-
 	// Redux connect equivalent
 	const dispatch = useDispatch();
 	const deleteDataset = (datasetId: string) => dispatch(datasetDeleted(datasetId));

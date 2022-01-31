@@ -4,14 +4,11 @@ import {ClowderInput} from "./styledComponents/ClowderInput";
 import {ClowderButton} from "./styledComponents/ClowderButton";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import {downloadDataset} from "../utils/dataset";
-import {fetchFileMetadata} from "../utils/file";
 import {useNavigate, useParams} from "react-router-dom";
-import {File, FileMetadataList, RootState} from "../types/data";
+import {RootState} from "../types/data";
 import {useDispatch, useSelector} from "react-redux";
-import {downloadThumbnail} from "../utils/thumbnail";
 import {datasetDeleted, fetchDatasetAbout, fetchFilesInDataset} from "../actions/dataset";
 import {resetFailedReason} from "../actions/common"
-import {fileDeleted} from "../actions/file";
 
 import {a11yProps, TabPanel} from "./childComponents/TabComponent";
 import TopBar from "./childComponents/TopBar";
@@ -47,7 +44,6 @@ export const Dataset = (): JSX.Element => {
 	// Redux connect equivalent
 	const dispatch = useDispatch();
 	const deleteDataset = (datasetId:string|undefined) => dispatch(datasetDeleted(datasetId));
-	const deleteFile = (fileId:string|undefined) => dispatch(fileDeleted(fileId));
 	const listFilesInDataset = (datasetId:string|undefined) => dispatch(fetchFilesInDataset(datasetId));
 	const listDatasetAbout= (datasetId:string|undefined) => dispatch(fetchDatasetAbout(datasetId));
 	const dismissError = () => dispatch(resetFailedReason());
