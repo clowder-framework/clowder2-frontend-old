@@ -37,6 +37,7 @@ import {MainBreadcrumbs} from "./childComponents/BreadCrumb";
 import {UploadFile} from "./childComponents/UploadFile";
 import {V2} from "../openapi";
 import {ActionModal} from "./childComponents/ActionModal";
+import FilesTable from "./childComponents/FilesTable";
 
 const tab = {
 	fontStyle: "normal",
@@ -141,11 +142,6 @@ export const Dataset = (): JSX.Element => {
 		})();
 	}, [filesInDataset]);
 
-	const selectFile = (selectedFileId: string) => {
-		// Redirect to file route with file Id and dataset id
-		history(`/files/${selectedFileId}?dataset=${datasetId}&name=${about["name"]}`);
-	};
-
 	const handleTabChange = (_event:React.ChangeEvent<{}>, newTabIndex:number) => {
 		setSelectedTabIndex(newTabIndex);
 	};
@@ -197,94 +193,7 @@ export const Dataset = (): JSX.Element => {
 								</Tabs>
 							</Box>
 							<TabPanel value={selectedTabIndex} index={0}>
-
-								{
-									filesInDataset !== undefined && fileThumbnailList !== undefined ?
-										filesInDataset.map((file) => {
-											let thumbnailComp = (<DescriptionIcon sx={{
-												height: "50%",
-												margin: "40px auto",
-												display: "block",
-												fontSize: "5em"
-											}}/>);
-											fileThumbnailList.map((thumbnail:Thumbnail) => {
-												if (file["id"] !== undefined && thumbnail["id"] !== undefined &&
-													thumbnail["thumbnail"] !== null && thumbnail["thumbnail"] !== undefined &&
-													file["id"] === thumbnail["id"]) {
-													thumbnailComp = (
-														<Box
-															component="img"
-															sx={{
-																height: "50%",
-																margin: "40px auto",
-																display: "block"
-															}}
-															src={thumbnail["thumbnail"]} alt="thumbnail"
-														/>
-													);
-												}
-											});
-											return (
-												<Box sx={{
-													position:"relative"
-												}} key={file["id"]}>
-													<ListItem button sx={{
-														background: "#FFFFFF",
-														border: "1px solid #DFDFDF",
-														boxSizing: "border-box",
-														borderRadius: "4px",
-														margin: "20px auto",
-														"& > .MuiGrid-item": {
-															padding: 0,
-															height: "150px",
-														}
-													}} key={file["id"]}
-															  onClick={() => selectFile(file["id"])}>
-														<Grid item xs={2}>
-															{thumbnailComp}
-														</Grid>
-														<Grid item xs={8}>
-															<Box sx={{
-																padding: "40px 20px",
-																fontSize:"16px",
-																fontWeight:"normal",
-																color:"#212529"
-															}}>
-																<Typography>File name: {file["name"]}</Typography>
-																<Typography>File size: {file["size"]}</Typography>
-																<Typography>Created on: {file["date-created"]}</Typography>
-																<Typography>Content type: {file["contentType"]}</Typography>
-															</Box>
-														</Grid>
-													</ListItem>
-													<Box sx={{
-														position:"absolute",
-														right:"5%",
-														top: "40px",
-													}}>
-														<Box sx={{display:"block"}}>
-															<Button startIcon={<DeleteOutlineIcon />}
-																onClick={()=>{
-																	setSelectedFile(file);
-																	setConfirmationOpen(true);
-																}
-																}>Delete</Button>
-														</Box>
-														<Box sx={{display:"block"}}>
-															<Button startIcon={<StarBorderIcon />} disabled={true}>Follow</Button>
-														</Box>
-														<Box sx={{display:"block"}}>
-															<Button startIcon={<CloudDownloadOutlinedIcon />}
-																onClick={()=>{downloadFile(file["id"], file["name"]);}}>
-																Download</Button>
-														</Box>
-													</Box>
-												</Box>
-											);
-										})
-										:
-										<></>
-								}
+								<Box><FilesTable datasetId={datasetId} datasetName={about.name}/></Box>
 							</TabPanel>
 							<TabPanel value={selectedTabIndex} index={1} />
 							<TabPanel value={selectedTabIndex} index={2} />
