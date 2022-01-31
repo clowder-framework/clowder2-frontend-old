@@ -129,6 +129,11 @@ export const Dashboard = (): JSX.Element => {
 		if (date) listDatasets("a", date.toISOString(), limit);
 	};
 
+	const handlePaginationChange = (event: any, value: number) => {
+		console.log("Paginating to page " + value);
+		// TODO implement
+	};
+
 	// for breadcrumb
 	const paths = [
 		{
@@ -179,7 +184,7 @@ export const Dashboard = (): JSX.Element => {
 										<></>
 								}
 								</Grid>
-								<Box paddingTop={2}><Pagination count={10} /></Box>
+								{/*<Box p={2}><Pagination count={10} onChange={handlePaginationChange}  /></Box>*/}
 								<Button onClick={previous}>Prev</Button>
 								<Button onClick={next}>Next</Button>
 							</TabPanel>

@@ -42,7 +42,7 @@ export default function DatasetCard(props: DatasetCardProps) {
 				</Typography>
 			</CardContent>
 			<CardActions>
-				<Button size="small" onClick={() => selectDataset(id)}>Learn More</Button>
+				<Button size="small" onClick={() => selectDataset(id)}>View</Button>
 				<Button size="small" disabled={true}>Share</Button>
 			</CardActions>
 		</Card>
