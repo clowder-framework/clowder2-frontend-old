@@ -1,37 +1,19 @@
 import React, {useEffect, useState} from "react";
-import {
-	AppBar,
-	Box,
-	Button, Dialog,
-	DialogTitle,
-	Divider,
-	Grid,
-	ListItem,
-	Menu,
-	MenuItem,
-	Tab,
-	Tabs,
-	Typography
-} from "@mui/material";
+import {Box, Button, Dialog, DialogTitle, Divider, Grid, Menu, MenuItem, Tab, Tabs, Typography} from "@mui/material";
 import {ClowderInput} from "./styledComponents/ClowderInput";
 import {ClowderButton} from "./styledComponents/ClowderButton";
-import DescriptionIcon from "@mui/icons-material/Description";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import StarBorderIcon from "@mui/icons-material/StarBorder";
-import CloudDownloadOutlinedIcon from "@mui/icons-material/CloudDownloadOutlined";
 import {downloadDataset} from "../utils/dataset";
-import {downloadFile, fetchFileMetadata} from "../utils/file";
+import {fetchFileMetadata} from "../utils/file";
 import {useNavigate, useParams} from "react-router-dom";
-import {File, FileMetadataList, RootState, Thumbnail} from "../types/data";
+import {File, FileMetadataList, RootState} from "../types/data";
 import {useDispatch, useSelector} from "react-redux";
 import {downloadThumbnail} from "../utils/thumbnail";
 import {datasetDeleted, fetchDatasetAbout, fetchFilesInDataset} from "../actions/dataset";
 import {resetFailedReason} from "../actions/common"
 import {fileDeleted} from "../actions/file";
 
-import {TabPanel} from "./childComponents/TabComponent";
-import {a11yProps} from "./childComponents/TabComponent";
+import {a11yProps, TabPanel} from "./childComponents/TabComponent";
 import TopBar from "./childComponents/TopBar";
 import {MainBreadcrumbs} from "./childComponents/BreadCrumb";
 import {UploadFile} from "./childComponents/UploadFile";
@@ -71,7 +53,6 @@ export const Dataset = (): JSX.Element => {
 	const dismissError = () => dispatch(resetFailedReason());
 
 	// mapStateToProps
-	const filesInDataset = useSelector((state:RootState) => state.dataset.files);
 	const about = useSelector((state:RootState) => state.dataset.about);
 	const reason = useSelector((state:RootState) => state.dataset.reason);
 
@@ -79,21 +60,8 @@ export const Dataset = (): JSX.Element => {
 	const [selectedTabIndex, setSelectedTabIndex] = useState<number>(0);
 	const [open, setOpen] = React.useState<boolean>(false);
 	const [anchorEl, setAnchorEl] = React.useState<Element | null>(null);
-	const [fileThumbnailList, setFileThumbnailList] = useState<any>([]);
-	const [selectedFile, setSelectedFile] = useState<File>();
-	// const [fileMetadataList, setFileMetadataList] = useState<FileMetadataList[]>([]);
-
 	const [editingName, setEditingName] = React.useState<boolean>(false);
 	const [, setNewDatasetName] = React.useState<string>("");
-
-	// confirmation dialog
-	const [confirmationOpen, setConfirmationOpen] = useState(false);
-	const deleteSelectedFile = () => {
-		if (selectedFile) {
-			deleteFile(selectedFile["id"]);
-		}
-		setConfirmationOpen(false);
-	}
 
 	// component did mount list all files in dataset
 	useEffect(() => {
@@ -113,34 +81,6 @@ export const Dataset = (): JSX.Element => {
 		dismissError();
 		setErrorOpen(false);
 	}
-
-	// TODO these code will go away in v2 dont worry about understanding them
-	// TODO get metadata of each files; because we need the thumbnail of each file!!!
-	useEffect(() => {
-
-		(async () => {
-			if (filesInDataset !== undefined && filesInDataset.length > 0) {
-
-				// TODO any types fix later
-				const fileMetadataListTemp:FileMetadataList[] = [];
-				const fileThumbnailListTemp:any = [];
-				await Promise.all(filesInDataset.map(async (fileInDataset) => {
-
-					const fileMetadata = await fetchFileMetadata(fileInDataset["id"]);
-					fileMetadataListTemp.push({"id": fileInDataset["id"], "metadata": fileMetadata});
-
-					// add thumbnails
-					if (fileMetadata["thumbnail"] !== null && fileMetadata["thumbnail"] !== undefined) {
-						const thumbnailURL = await downloadThumbnail(fileMetadata["thumbnail"]);
-						fileThumbnailListTemp.push({"id": fileInDataset["id"], "thumbnail": thumbnailURL});
-					}
-				}));
-
-				// setFileMetadataList(fileMetadataListTemp);
-				setFileThumbnailList(fileThumbnailListTemp);
-			}
-		})();
-	}, [filesInDataset]);
 
 	const handleTabChange = (_event:React.ChangeEvent<{}>, newTabIndex:number) => {
 		setSelectedTabIndex(newTabIndex);
@@ -171,11 +111,6 @@ export const Dataset = (): JSX.Element => {
 			<TopBar/>
 			<div className="outer-container">
 				<MainBreadcrumbs paths={paths}/>
-				{/*Confirmation dialogue*/}
-				<ActionModal actionOpen={confirmationOpen} actionTitle="Are you sure?"
-							 actionText="Do you really want to delete? This process cannot be undone."
-							 actionBtnName="Delete" handleActionBtnClick={deleteSelectedFile}
-							 handleActionCancel={() => { setConfirmationOpen(false);}}/>
 				{/*Error Message dialogue*/}
 				<ActionModal actionOpen={errorOpen} actionTitle="Something went wrong..." actionText={reason}
 							 actionBtnName="Report" handleActionBtnClick={() => console.log(reason)}
@@ -193,7 +128,7 @@ export const Dataset = (): JSX.Element => {
 								</Tabs>
 							</Box>
 							<TabPanel value={selectedTabIndex} index={0}>
-								<Box><FilesTable datasetId={datasetId} datasetName={about.name}/></Box>
+								<FilesTable datasetId={datasetId} datasetName={about.name}/>
 							</TabPanel>
 							<TabPanel value={selectedTabIndex} index={1} />
 							<TabPanel value={selectedTabIndex} index={2} />

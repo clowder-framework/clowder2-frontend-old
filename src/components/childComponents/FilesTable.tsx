@@ -10,6 +10,7 @@ import {useSelector} from "react-redux";
 import {RootState} from "../../types/data";
 import {useNavigate} from "react-router-dom";
 import {Button, Link} from "@mui/material";
+import FileMenu from "./FileMenu";
 
 type FilesTableProps = {
 	datasetId: string | undefined,
@@ -34,6 +35,7 @@ export default function FilesTable(props: FilesTableProps) {
 						<TableCell align="right">Creator</TableCell>
 						<TableCell align="right">Size</TableCell>
 						<TableCell align="right">Type</TableCell>
+						<TableCell align="right"></TableCell>
 					</TableRow>
 				</TableHead>
 				<TableBody>
@@ -49,6 +51,7 @@ export default function FilesTable(props: FilesTableProps) {
 							<TableCell align="right">{file.creator}</TableCell>
 							<TableCell align="right">{file.size}</TableCell>
 							<TableCell align="right">{file.contentType}</TableCell>
+							<TableCell align="right"><FileMenu file={file}/></TableCell>
 						</TableRow>))
 					}
 				</TableBody>
