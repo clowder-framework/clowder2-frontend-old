@@ -11,7 +11,7 @@ import {downloadDataset} from "../utils/dataset";
 import {Dataset, Dataset as DatasetType, RootState, Thumbnail} from "../types/data";
 import {useDispatch, useSelector} from "react-redux";
 import {datasetDeleted, fetchDatasets, } from "../actions/dataset";
-import {resetFailedReason} from "../actions/common";
+import {resetFailedReason, resetLogout} from "../actions/common";
 import {downloadThumbnail} from "../utils/thumbnail";
 import TopBar from "./childComponents/TopBar";
 
@@ -39,8 +39,10 @@ export const Dashboard = (): JSX.Element => {
 	const deleteDataset = (datasetId: string) => dispatch(datasetDeleted(datasetId));
 	const listDatasets = (skip: number|undefined, limit: number|undefined, mine: boolean|undefined) => dispatch(fetchDatasets(skip, limit, mine));
 	const dismissError = () => dispatch(resetFailedReason());
+	const dismissLogout = () => dispatch(resetLogout());
 	const datasets = useSelector((state: RootState) => state.dataset.datasets);
-	const reason = useSelector((state: RootState) => state.dataset.reason);
+	const reason = useSelector((state: RootState) => state.error.reason);
+	const loggedOut = useSelector((state: RootState) => state.error.loggedOut);
 
 	const [datasetThumbnailList, setDatasetThumbnailList] = useState<any>([]);
 	// TODO add option to determine limit number; default show 5 datasets each time
@@ -81,6 +83,15 @@ export const Dashboard = (): JSX.Element => {
 		dismissError();
 		setErrorOpen(false);
 	}
+
+	// log user out if token expired/unauthorized
+	useEffect(() => {
+		if (loggedOut) {
+			// reset loggedOut flag so it doesn't stuck in "true" state, then redirect to login page
+			dismissLogout();
+			history("/login");
+		}
+	}, [loggedOut]);
 
 	// fetch thumbnails from each individual dataset/id calls
 	useEffect(() => {
