@@ -37,20 +37,18 @@ export const Dashboard = (): JSX.Element => {
 	// Redux connect equivalent
 	const dispatch = useDispatch();
 	const deleteDataset = (datasetId: string) => dispatch(datasetDeleted(datasetId));
-	// TODO add switch to turn on and off "mine" dataset
-	const listDatasets = (skip: number, limit: number, mine: boolean) => dispatch(fetchDatasets(skip, limit, mine));
+	const listDatasets = (skip: number|undefined, limit: number|undefined, mine: boolean|undefined) => dispatch(fetchDatasets(skip, limit, mine));
 	const dismissError = () => dispatch(resetFailedReason());
 	const datasets = useSelector((state: RootState) => state.dataset.datasets);
 	const reason = useSelector((state: RootState) => state.dataset.reason);
 
 	const [datasetThumbnailList, setDatasetThumbnailList] = useState<any>([]);
-	// TODO add option to list more datasets than 5; default show 5 datasets each time
-	const [skip, setSkip] = useState<number>(0);
-	const [currPageNum, setCurrPageNum] = useState<number>(1);
-	const [limit,setLimit] = useState<number>(5);
-	const [mine, setMine] = useState<boolean>(false);
-	const [lastDataset, setLastDataset] = useState<DatasetType>();
-	const [firstDataset, setFirstDataset] = useState<DatasetType>();
+	// TODO add option to determine limit number; default show 5 datasets each time
+	const [currPageNum, setCurrPageNum] = useState<number>(0);
+	const [limit,] = useState<number>(5);
+	const [skip, setSkip] = useState<number|undefined>();
+	// TODO add switch to turn on and off "mine" dataset
+	const [mine, ] = useState<boolean>(false);
 	const [selectedTabIndex, setSelectedTabIndex] = useState(0);
 	const [selectedDataset, setSelectedDataset] = useState<Dataset>();
 	const [creationOpen, setCreationOpen] = useState(false);
@@ -66,7 +64,7 @@ export const Dashboard = (): JSX.Element => {
 
 	// component did mount
 	useEffect(() => {
-		listDatasets(skip, limit, mine);
+		listDatasets(0, limit, mine);
 	}, []);
 
 	// Error msg dialog
@@ -97,11 +95,6 @@ export const Dashboard = (): JSX.Element => {
 					}
 				}));
 				setDatasetThumbnailList(datasetThumbnailListTemp);
-
-				// find last and first dataset for pagination
-				setFirstDataset(datasets[0]);
-				setLastDataset(datasets[datasets.length - 1]);
-
 			}
 		})();
 	}, [datasets]);
@@ -111,18 +104,20 @@ export const Dashboard = (): JSX.Element => {
 		setSelectedTabIndex(newTabIndex);
 	};
 
-	// pagination
+	// for pagination keep flipping until the return dataset is less than the limit
 	const previous = () => {
-		setCurrPageNum(currPageNum-1);
-		setSkip( (currPageNum-2) * limit);
-		listDatasets(skip, limit, mine);
+		if (currPageNum - 1 >= 0) {
+			setSkip((currPageNum - 1) * limit);
+			setCurrPageNum(currPageNum - 1);
+		}
 	};
-
 	const next = () => {
-		setCurrPageNum(currPageNum+1);
-		setSkip( currPageNum * limit);
-		listDatasets(skip, limit, mine);
+		setSkip((currPageNum + 1) * limit);
+		setCurrPageNum(currPageNum + 1);
 	};
+	useEffect(() => {
+		if ( skip !== null && skip !== undefined) listDatasets(skip, limit, mine);
+	}, [skip])
 
 	const selectDataset = (selectedDatasetId: string) => {
 		// Redirect to dataset route with dataset Id
