@@ -112,8 +112,10 @@ export const Dashboard = (): JSX.Element => {
 		}
 	};
 	const next = () => {
-		setSkip((currPageNum + 1) * limit);
-		setCurrPageNum(currPageNum + 1);
+		if (datasets.length === limit){
+			setSkip((currPageNum + 1) * limit);
+			setCurrPageNum(currPageNum + 1);
+		}
 	};
 	useEffect(() => {
 		if ( skip !== null && skip !== undefined) listDatasets(skip, limit, mine);
