@@ -19,7 +19,6 @@ import {TabPanel} from "./childComponents/TabComponent";
 import {a11yProps} from "./childComponents/TabComponent";
 import {useNavigate} from "react-router-dom";
 import {MainBreadcrumbs} from "./childComponents/BreadCrumb";
-import {useHistory} from "react-router-dom";
 import {ActionModal} from "./childComponents/ActionModal";
 
 const tab = {
@@ -38,13 +37,18 @@ export const Dashboard = (): JSX.Element => {
 	// Redux connect equivalent
 	const dispatch = useDispatch();
 	const deleteDataset = (datasetId: string) => dispatch(datasetDeleted(datasetId));
-	const listDatasets = (when: string, date: string, limit: number) => dispatch(fetchDatasets(when, date, limit));
+	// TODO add switch to turn on and off "mine" dataset
+	const listDatasets = (skip: number, limit: number, mine: boolean) => dispatch(fetchDatasets(skip, limit, mine));
 	const dismissError = () => dispatch(resetFailedReason());
 	const datasets = useSelector((state: RootState) => state.dataset.datasets);
 	const reason = useSelector((state: RootState) => state.dataset.reason);
 
 	const [datasetThumbnailList, setDatasetThumbnailList] = useState<any>([]);
-	const [limit,] = useState<number>(5);
+	// TODO add option to list more datasets than 5; default show 5 datasets each time
+	const [skip, setSkip] = useState<number>(0);
+	const [currPageNum, setCurrPageNum] = useState<number>(1);
+	const [limit,setLimit] = useState<number>(5);
+	const [mine, setMine] = useState<boolean>(false);
 	const [lastDataset, setLastDataset] = useState<DatasetType>();
 	const [firstDataset, setFirstDataset] = useState<DatasetType>();
 	const [selectedTabIndex, setSelectedTabIndex] = useState(0);
@@ -62,7 +66,7 @@ export const Dashboard = (): JSX.Element => {
 
 	// component did mount
 	useEffect(() => {
-		listDatasets("", "", limit);
+		listDatasets(skip, limit, mine);
 	}, []);
 
 	// Error msg dialog
@@ -109,13 +113,15 @@ export const Dashboard = (): JSX.Element => {
 
 	// pagination
 	const previous = () => {
-		const date = firstDataset ? new Date(firstDataset["created"]) : null;
-		if (date) listDatasets("b", date.toISOString(), limit);
+		setCurrPageNum(currPageNum-1);
+		setSkip( (currPageNum-2) * limit);
+		listDatasets(skip, limit, mine);
 	};
 
 	const next = () => {
-		const date = lastDataset ? new Date(lastDataset["created"]) : null;
-		if (date) listDatasets("a", date.toISOString(), limit);
+		setCurrPageNum(currPageNum+1);
+		setSkip( currPageNum * limit);
+		listDatasets(skip, limit, mine);
 	};
 
 	const selectDataset = (selectedDatasetId: string) => {
