@@ -99,6 +99,11 @@ export const Dashboard = (): JSX.Element => {
 				setDatasetThumbnailList(datasetThumbnailListTemp);
 			}
 		})();
+
+		// disable flipping if reaches the last page
+		if (datasets.length < limit) setNextDisabled(true);
+		else setNextDisabled(false);
+
 	}, [datasets]);
 
 	// switch tabs
@@ -120,7 +125,11 @@ export const Dashboard = (): JSX.Element => {
 		}
 	};
 	useEffect(() => {
-		if ( skip !== null && skip !== undefined) listDatasets(skip, limit, mine);
+		if ( skip !== null && skip !== undefined) {
+			listDatasets(skip, limit, mine);
+			if (skip === 0) setPrevDisabled(true);
+			else setPrevDisabled(false);
+		}
 	}, [skip]);
 
 	const selectDataset = (selectedDatasetId: string) => {
