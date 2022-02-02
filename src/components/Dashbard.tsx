@@ -49,6 +49,8 @@ export const Dashboard = (): JSX.Element => {
 	const [skip, setSkip] = useState<number|undefined>();
 	// TODO add switch to turn on and off "mine" dataset
 	const [mine, ] = useState<boolean>(false);
+	const [prevDisabled, setPrevDisabled] = useState<boolean>(true);
+	const [nextDisabled, setNextDisabled] = useState<boolean>(false);
 	const [selectedTabIndex, setSelectedTabIndex] = useState(0);
 	const [selectedDataset, setSelectedDataset] = useState<Dataset>();
 	const [creationOpen, setCreationOpen] = useState(false);
@@ -119,7 +121,7 @@ export const Dashboard = (): JSX.Element => {
 	};
 	useEffect(() => {
 		if ( skip !== null && skip !== undefined) listDatasets(skip, limit, mine);
-	}, [skip])
+	}, [skip]);
 
 	const selectDataset = (selectedDatasetId: string) => {
 		// Redirect to dataset route with dataset Id
@@ -254,8 +256,8 @@ export const Dashboard = (): JSX.Element => {
 										:
 										<></>
 								}
-								<Button onClick={previous}>Prev</Button>
-								<Button onClick={next}>Next</Button>
+								<Button onClick={previous} disabled={prevDisabled}>Prev</Button>
+								<Button onClick={next} disabled={nextDisabled}>Next</Button>
 							</TabPanel>
 							<TabPanel value={selectedTabIndex} index={1} />
 							<TabPanel value={selectedTabIndex} index={2} />
