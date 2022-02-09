@@ -18,6 +18,7 @@ import {fetchFileMetadata} from "../actions/file";
 import TopBar from "./childComponents/TopBar";
 import {MainBreadcrumbs} from "./childComponents/BreadCrumb";
 import {ActionModal} from "./childComponents/ActionModal";
+import {FileAbout} from "./childComponents/FileAbout";
 
 const tab = {
 	fontStyle: "normal",
@@ -195,26 +196,7 @@ export const File = (): JSX.Element => {
 							</TabPanel>
 						</Grid>
 						<Grid item xs={4}>
-							{
-								fileMetadata !== undefined ?
-									<Box className="infoCard">
-										<Typography className="title">About</Typography>
-										<Typography
-											className="content">File ID: {fileMetadata["id"]}</Typography>
-										<Typography
-											className="content">Type: {fileMetadata["content-type"]}</Typography>
-										<Typography className="content">File
-												size: {fileMetadata["size"]}</Typography>
-										<Typography className="content">Uploaded
-												on: {fileMetadata["date-created"]}</Typography>
-										<Typography className="content">Uploaded
-												as: {fileMetadata["name"]}</Typography>
-										<Typography className="content">Uploaded
-												by: {fileMetadata["creator"]}</Typography>
-										<Typography
-											className="content">Status: {fileMetadata["status"]}</Typography>
-									</Box> : <></>
-							}
+							{ fileMetadata !== undefined ? <FileAbout fileMetadata={fileMetadata} /> : <></> }
 							<Divider light/>
 							<Box className="infoCard">
 								<Typography className="title">Statistics</Typography>

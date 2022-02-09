@@ -131,3 +131,20 @@ export function fileCreated(formData, selectedDatasetId){
 			});
 	};
 }
+
+export const RECEIVE_VERSIONS = "RECEIVE_VERSIONS";
+export function fetchFileVersion(fileId){
+	return (dispatch) => {
+		return V2.FilesService.getFileVersionsApiV2FilesFileIdVersionsGet(fileId)
+			.then(json => {
+				dispatch({
+					type: RECEIVE_VERSIONS,
+					fileVersions: json,
+					receivedAt: Date.now(),
+				});
+			})
+			.catch(reason => {
+				dispatch(handleErrors(reason));
+			});
+	};
+}
