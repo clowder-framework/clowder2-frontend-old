@@ -20,6 +20,7 @@ import {FileAbout} from "./childComponents/FileAbout";
 import {FileStats} from "./childComponents/FileStats";
 import {FileSearch} from "./childComponents/FileSearch";
 import {FileVersionHistory} from "./childComponents/FileVersionHistory";
+import {VersionChip} from "./childComponents/VersionChip";
 
 const tab = {
 	fontStyle: "normal",
@@ -146,6 +147,7 @@ export const File = (): JSX.Element => {
 			<TopBar/>
 			<div className="outer-container">
 				<MainBreadcrumbs paths={paths}/>
+				<VersionChip versionNumber={fileVersions.length}/>
 				{/*Error Message dialogue*/}
 				<ActionModal actionOpen={errorOpen} actionTitle="Something went wrong..." actionText={reason}
 							 actionBtnName="Report" handleActionBtnClick={() => console.log(reason)}

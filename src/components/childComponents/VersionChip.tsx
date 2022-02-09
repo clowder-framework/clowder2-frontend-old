@@ -1,14 +1,20 @@
+import React from "react";
 import {Chip} from "@mui/material";
 
+
 type VersionChipProps = {
-	versionNumber: string,
-	handleClick: any
+	versionNumber: number,
 }
 
 export function VersionChip(props: VersionChipProps) {
-	const {versionNumber, handleClick} = props;
+
+	const { versionNumber } = props;
 
 	return (
-		<Chip label={`V${versionNumber}`} onClick={handleClick}/>
+		versionNumber > 1 ?
+			<Chip label={`V${versionNumber}`}/> : <></>
+			// TODO can make this a clickable item
+			// <Chip label={`V${versionNumber}`} component="a" href="/" clickable/> : <></>
+
 	);
 }

@@ -12,6 +12,7 @@ import {useNavigate} from "react-router-dom";
 import {Button} from "@mui/material";
 import FileMenu from "./FileMenu";
 import {parseDate} from "../../utils/common";
+import {VersionChip} from "./VersionChip";
 
 type FilesTableProps = {
 	datasetId: string | undefined,
@@ -48,6 +49,8 @@ export default function FilesTable(props: FilesTableProps) {
 						>
 							<TableCell component="th" scope="row">
 								<Button onClick={() => selectFile(file.id)}>{file.name}</Button>
+								{/*Not sure how we can get the version number when listing files in dataset*/}
+								{/*<VersionChip versionNumber={}/>*/}
 							</TableCell>
 							{/*TODO replace creator with author name once have that */}
 							<TableCell align="right">{parseDate(file.created)} by {file.creator}</TableCell>
