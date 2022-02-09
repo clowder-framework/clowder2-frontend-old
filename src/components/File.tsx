@@ -19,6 +19,8 @@ import TopBar from "./childComponents/TopBar";
 import {MainBreadcrumbs} from "./childComponents/BreadCrumb";
 import {ActionModal} from "./childComponents/ActionModal";
 import {FileAbout} from "./childComponents/FileAbout";
+import {FileStats} from "./childComponents/FileStats";
+import {FileSearch} from "./childComponents/FileSearch";
 
 const tab = {
 	fontStyle: "normal",
@@ -196,27 +198,19 @@ export const File = (): JSX.Element => {
 							</TabPanel>
 						</Grid>
 						<Grid item xs={4}>
+							{/*Version History*/}
+							<Divider light/>
+
+							{/*About*/}
 							{ fileMetadata !== undefined ? <FileAbout fileMetadata={fileMetadata} /> : <></> }
 							<Divider light/>
-							<Box className="infoCard">
-								<Typography className="title">Statistics</Typography>
-								<Typography className="content">Views: {fileMetadata["views"]}</Typography>
-								{/*<Typography className="content">Last viewed: Jun 07, 2021 21:49:09</Typography>*/}
-								<Typography className="content">Downloads: {fileMetadata["downloads"]}</Typography>
-								{/*<Typography className="content">Last downloaded: Never</Typography>*/}
-							</Box>
+
+							{/*Stats*/}
+							{ fileMetadata !== undefined ? <FileStats fileMetadata={fileMetadata} /> : <></> }
 							<Divider light/>
-							<Box className="infoCard">
-								<Typography className="title">Tags</Typography>
-								<Grid container spacing={4}>
-									<Grid item lg={8} sm={8} xl={8} xs={12}>
-										<ClowderInput defaultValue="Tag"/>
-									</Grid>
-									<Grid item lg={4} sm={4} xl={4} xs={12}>
-										<ClowderButton disabled={true}>Search</ClowderButton>
-									</Grid>
-								</Grid>
-							</Box>
+
+							{/*Search*/}
+							<FileSearch />
 							<Divider light/>
 						</Grid>
 					</Grid>

@@ -29,7 +29,7 @@ export interface FileMetadata {
 	id: string;
 	"content-type": string;
 	size:number;
-	"date-created": string | Date;
+	created: string | Date;
 	name: string;
 	creator: string;
 	status: string;
@@ -37,6 +37,7 @@ export interface FileMetadata {
 	thumbnail:string;
 	downloads:number;
 	views:number;
+	version: string;
 }
 
 export interface FileVersion {
