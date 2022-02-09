@@ -50,7 +50,7 @@ export default function FilesTable(props: FilesTableProps) {
 							<TableCell component="th" scope="row">
 								<Button onClick={() => selectFile(file.id)}>{file.name}</Button>
 								{/*TODO this should be version number; for now put version ID instead*/}
-								<VersionChip versionNumber={file.version.split("-")[0]}/>
+								<VersionChip versionNumber={file.version.slice(0,2)}/>
 							</TableCell>
 							{/*TODO replace creator with author name once have that */}
 							<TableCell align="right">{parseDate(file.created)} by {file.creator}</TableCell>

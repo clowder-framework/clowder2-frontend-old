@@ -1,6 +1,8 @@
 import React from "react";
-import {Box, Typography} from "@mui/material";
+import {Box, Typography, List, ListItem, ListItemAvatar, ListItemText, IconButton, Avatar} from "@mui/material";
 import {FileVersion} from "../../types/data";
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import {VersionChip} from "./VersionChip";
 
 type FileVersionHistoryProps = {
 	fileVersions: FileVersion[]
@@ -15,11 +17,25 @@ export function FileVersionHistory(props: FileVersionHistoryProps) {
 			{
 				fileVersions.map((fileVersion) => {
 					return (
-						<Box>
-							<Typography className="content">Version_id: {fileVersion["version_id"]}</Typography>
-							<Typography className="content">Creator: {fileVersion["creator"]}</Typography>
-							<Typography className="content">Created on: {fileVersion["created"]}</Typography>
-						</Box>
+
+						<List dense={true}>
+							<ListItem
+								secondaryAction={
+									// TODO add actions later
+									<IconButton edge="end" aria-label="delete">
+										<MoreHorizIcon />
+									</IconButton>
+								}
+							>
+								<ListItemAvatar>
+									{/*TODO replace with pretty version name*/}
+									<VersionChip versionNumber={fileVersion["version_id"].slice(0,2)}/>
+								</ListItemAvatar>
+								<ListItemText primary={`Uploaded by ${fileVersion["creator"]}`}
+									secondary={`Uploaded on ${fileVersion["created"]}`}
+								/>
+							</ListItem>
+						</List>
 					);
 				})
 			}

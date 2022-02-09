@@ -149,7 +149,7 @@ export const File = (): JSX.Element => {
 				<MainBreadcrumbs paths={paths}/>
 				{/*TODO this should be version number; for now put version ID instead*/}
 				{ fileMetadata !== undefined && fileMetadata.version !== undefined ? <VersionChip
-					versionNumber={fileMetadata.version.split("-")[0]}/> : <></>}
+					versionNumber={fileMetadata.version.slice(0,2)}/> : <></>}
 				{/*Error Message dialogue*/}
 				<ActionModal actionOpen={errorOpen} actionTitle="Something went wrong..." actionText={reason}
 							 actionBtnName="Report" handleActionBtnClick={() => console.log(reason)}
@@ -205,8 +205,8 @@ export const File = (): JSX.Element => {
 						</Grid>
 						<Grid item xs={4}>
 							{/*Version History*/}
-							<Divider light/>
 							{ fileVersions !== undefined ? <FileVersionHistory fileVersions={fileVersions}/> : <></> }
+							<Divider light/>
 
 							{/*About*/}
 							{ fileMetadata !== undefined ? <FileAbout fileMetadata={fileMetadata} /> : <></> }
