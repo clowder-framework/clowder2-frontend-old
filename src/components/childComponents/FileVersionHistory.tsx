@@ -3,6 +3,7 @@ import {Box, Typography, List, ListItem, ListItemAvatar, ListItemText, IconButto
 import {FileVersion} from "../../types/data";
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import {VersionChip} from "./VersionChip";
+import {parseDate} from "../../utils/common";
 
 type FileVersionHistoryProps = {
 	fileVersions: FileVersion[]
@@ -32,7 +33,7 @@ export function FileVersionHistory(props: FileVersionHistoryProps) {
 									<VersionChip versionNumber={fileVersion["version_id"].slice(0,2)}/>
 								</ListItemAvatar>
 								<ListItemText primary={`Uploaded by ${fileVersion["creator"]}`}
-									secondary={`Uploaded on ${fileVersion["created"]}`}
+									secondary={`Uploaded on ${parseDate(fileVersion["created"])}`}
 								/>
 							</ListItem>
 						</List>
