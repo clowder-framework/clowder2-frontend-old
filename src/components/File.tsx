@@ -147,7 +147,9 @@ export const File = (): JSX.Element => {
 			<TopBar/>
 			<div className="outer-container">
 				<MainBreadcrumbs paths={paths}/>
-				<VersionChip versionNumber={fileVersions.length}/>
+				{/*TODO this should be version number; for now put version ID instead*/}
+				{ fileMetadata !== undefined && fileMetadata.version !== undefined ? <VersionChip
+					versionNumber={fileMetadata.version.split("-")[0]}/> : <></>}
 				{/*Error Message dialogue*/}
 				<ActionModal actionOpen={errorOpen} actionTitle="Something went wrong..." actionText={reason}
 							 actionBtnName="Report" handleActionBtnClick={() => console.log(reason)}

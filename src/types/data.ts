@@ -7,6 +7,7 @@ export interface Dataset {
 }
 
 export interface File {
+	version: string;
 	creator: string;
 	created: string | Date;
 	id: string;
