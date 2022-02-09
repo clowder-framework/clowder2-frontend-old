@@ -9,6 +9,8 @@ import {RootState} from "../types/data";
 import {useDispatch, useSelector} from "react-redux";
 import {datasetDeleted, fetchDatasetAbout, fetchFilesInDataset} from "../actions/dataset";
 import {resetFailedReason} from "../actions/common"
+import {resetFailedReason, resetLogout} from "../actions/common"
+import {fileDeleted} from "../actions/file";
 
 import {a11yProps, TabPanel} from "./childComponents/TabComponent";
 import TopBar from "./childComponents/TopBar";
@@ -47,10 +49,12 @@ export const Dataset = (): JSX.Element => {
 	const listFilesInDataset = (datasetId:string|undefined) => dispatch(fetchFilesInDataset(datasetId));
 	const listDatasetAbout= (datasetId:string|undefined) => dispatch(fetchDatasetAbout(datasetId));
 	const dismissError = () => dispatch(resetFailedReason());
+	const dismissLogout = () => dispatch(resetLogout());
 
 	// mapStateToProps
 	const about = useSelector((state:RootState) => state.dataset.about);
-	const reason = useSelector((state:RootState) => state.dataset.reason);
+	const reason = useSelector((state:RootState) => state.error.reason);
+	const loggedOut = useSelector((state: RootState) => state.error.loggedOut);
 
 	// state
 	const [selectedTabIndex, setSelectedTabIndex] = useState<number>(0);
@@ -77,6 +81,15 @@ export const Dataset = (): JSX.Element => {
 		dismissError();
 		setErrorOpen(false);
 	}
+
+	// log user out if token expired/unauthorized
+	useEffect(() => {
+		if (loggedOut) {
+			// reset loggedOut flag so it doesn't stuck in "true" state, then redirect to login page
+			dismissLogout();
+			history("/login");
+		}
+	}, [loggedOut]);
 
 	const handleTabChange = (_event:React.ChangeEvent<{}>, newTabIndex:number) => {
 		setSelectedTabIndex(newTabIndex);
