@@ -8,9 +8,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import {RootState} from "../types/data";
 import {useDispatch, useSelector} from "react-redux";
 import {datasetDeleted, fetchDatasetAbout, fetchFilesInDataset} from "../actions/dataset";
-import {resetFailedReason} from "../actions/common"
 import {resetFailedReason, resetLogout} from "../actions/common"
-import {fileDeleted} from "../actions/file";
 
 import {a11yProps, TabPanel} from "./childComponents/TabComponent";
 import TopBar from "./childComponents/TopBar";

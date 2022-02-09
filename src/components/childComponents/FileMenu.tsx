@@ -65,13 +65,14 @@ export default function FileMenu(props: FileMenuProps) {
 					'aria-labelledby': 'basic-button',
 				}}
 			>
-				<MenuItem onClick={()=>{downloadFile(file.id, file.name);}}>
+				<MenuItem onClick={()=>{handleClose(); downloadFile(file.id, file.name);}}>
 					<ListItemIcon>
 						<DownloadIcon fontSize="small" />
 					</ListItemIcon>
 					<ListItemText>Download</ListItemText>
 				</MenuItem>
 				<MenuItem onClick={()=>{
+					handleClose();
 					setConfirmationOpen(true);
 				}}>
 					<ListItemIcon>
