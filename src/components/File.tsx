@@ -1,8 +1,6 @@
 import React, {useEffect, useState} from "react";
 import config from "../app.config";
-import {Box, Divider, Grid, Tab, Tabs, Typography} from "@mui/material";
-import {ClowderInput} from "./styledComponents/ClowderInput";
-import {ClowderButton} from "./styledComponents/ClowderButton";
+import {Box, Divider, Grid, Tab, Tabs} from "@mui/material";
 import Audio from "./previewers/Audio";
 import Video from "./previewers/Video";
 import {downloadResource} from "../utils/common";
@@ -14,13 +12,14 @@ import {resetFailedReason, resetLogout} from "../actions/common"
 
 import {TabPanel} from "./childComponents/TabComponent";
 import {a11yProps} from "./childComponents/TabComponent";
-import {fetchFileMetadata} from "../actions/file";
+import {fetchFileMetadata, fetchFileVersions} from "../actions/file";
 import TopBar from "./childComponents/TopBar";
 import {MainBreadcrumbs} from "./childComponents/BreadCrumb";
 import {ActionModal} from "./childComponents/ActionModal";
 import {FileAbout} from "./childComponents/FileAbout";
 import {FileStats} from "./childComponents/FileStats";
 import {FileSearch} from "./childComponents/FileSearch";
+import {FileVersionHistory} from "./childComponents/FileVersionHistory";
 
 const tab = {
 	fontStyle: "normal",
@@ -46,12 +45,14 @@ export const File = (): JSX.Element => {
 	// const listFileMetadataJsonld = (fileId:string|undefined) => dispatch(fetchFileMetadataJsonld(fileId));
 	// const listFilePreviews = (fileId:string|undefined) => dispatch(fetchFilePreviews(fileId));
 	const listFileMetadata = (fileId:string|undefined) => dispatch(fetchFileMetadata(fileId));
+	const listFileVersions = (fileId:string|undefined) => dispatch(fetchFileVersions(fileId));
 	const dismissError = () => dispatch(resetFailedReason());
 	const dismissLogout = () => dispatch(resetLogout());
 
 	const fileMetadata = useSelector((state:RootState) => state.file.fileMetadata);
 	const fileMetadataJsonld = useSelector((state:RootState) => state.file.metadataJsonld);
 	const filePreviews = useSelector((state:RootState) => state.file.previews);
+	const fileVersions = useSelector((state:RootState) => state.file.fileVersions);
 	const reason = useSelector((state:RootState) => state.error.reason);
 	const loggedOut = useSelector((state: RootState) => state.error.loggedOut);
 
@@ -64,6 +65,7 @@ export const File = (): JSX.Element => {
 		// listFileMetadataJsonld(fileId);
 		// listFilePreviews(fileId);
 		listFileMetadata(fileId);
+		listFileVersions(fileId);
 	}, []);
 
 
@@ -200,6 +202,7 @@ export const File = (): JSX.Element => {
 						<Grid item xs={4}>
 							{/*Version History*/}
 							<Divider light/>
+							{ fileVersions !== undefined ? <FileVersionHistory fileVersions={fileVersions}/> : <></> }
 
 							{/*About*/}
 							{ fileMetadata !== undefined ? <FileAbout fileMetadata={fileMetadata} /> : <></> }

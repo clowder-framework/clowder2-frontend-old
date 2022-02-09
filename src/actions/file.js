@@ -133,7 +133,7 @@ export function fileCreated(formData, selectedDatasetId){
 }
 
 export const RECEIVE_VERSIONS = "RECEIVE_VERSIONS";
-export function fetchFileVersion(fileId){
+export function fetchFileVersions(fileId){
 	return (dispatch) => {
 		return V2.FilesService.getFileVersionsApiV2FilesFileIdVersionsGet(fileId)
 			.then(json => {
