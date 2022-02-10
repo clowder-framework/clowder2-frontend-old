@@ -17,6 +17,7 @@ import {UploadFile} from "./childComponents/UploadFile";
 import {V2} from "../openapi";
 import {ActionModal} from "./childComponents/ActionModal";
 import FilesTable from "./childComponents/FilesTable";
+import {parseDate} from "../utils/common";
 
 const tab = {
 	fontStyle: "normal",
@@ -219,7 +220,7 @@ export const Dataset = (): JSX.Element => {
 										<Typography className="content">Dataset ID: {about["id"]}</Typography>
 										<Typography className="content">Owner: {about["authorId"]}</Typography>
 										<Typography className="content">Description: {about["description"]}</Typography>
-										<Typography className="content">Created on: {about["created"]}</Typography>
+										<Typography className="content">Created on: {parseDate(about["created"])}</Typography>
 										{/*/!*TODO use this to get thumbnail*!/*/}
 										<Typography className="content">Thumbnail: {about["thumbnail"]}</Typography>
 										{/*<Typography className="content">Belongs to spaces: {about["authorId"]}</Typography>*/}

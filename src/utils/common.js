@@ -62,7 +62,7 @@ export function dataURItoFile(dataURI) {
 }
 
 export function parseDate(dateString) {
-	const options = { year: "numeric", month: "short", day: "numeric" };
+	const options = { year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" };
 	const mydate = new Date(dateString);
 	return mydate.toLocaleString("en-US", options);
 }

@@ -20,7 +20,6 @@ import {FileAbout} from "./childComponents/FileAbout";
 import {FileStats} from "./childComponents/FileStats";
 import {FileSearch} from "./childComponents/FileSearch";
 import {FileVersionHistory} from "./childComponents/FileVersionHistory";
-import {VersionChip} from "./childComponents/VersionChip";
 
 const tab = {
 	fontStyle: "normal",
@@ -157,12 +156,14 @@ export const File = (): JSX.Element => {
 							<Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
 								<Tabs value={selectedTabIndex} onChange={handleTabChange} aria-label="file tabs">
 									<Tab sx={tab} label="Previews" {...a11yProps(0)} />
-									<Tab sx={tab} label="Sections" {...a11yProps(1)} disabled={true}/>
-									<Tab sx={tab} label="Metadata" {...a11yProps(2)} disabled={true}/>
-									<Tab sx={tab} label="Extractions" {...a11yProps(3)} disabled={true}/>
-									<Tab sx={tab} label="Comments" {...a11yProps(4)} disabled={true}/>
+									<Tab sx={tab} label="Version History" {...a11yProps(1)} />
+									<Tab sx={tab} label="Sections" {...a11yProps(2)} disabled={true}/>
+									<Tab sx={tab} label="Metadata" {...a11yProps(3)} disabled={true}/>
+									<Tab sx={tab} label="Extractions" {...a11yProps(4)} disabled={true}/>
+									<Tab sx={tab} label="Comments" {...a11yProps(5)} disabled={true}/>
 								</Tabs>
 							</Box>
+							{/*Preview Tab*/}
 							<TabPanel value={selectedTabIndex} index={0}>
 								{
 									previews.map((preview) =>{
@@ -179,10 +180,15 @@ export const File = (): JSX.Element => {
 									})
 								}
 							</TabPanel>
+							{/*Version History*/}
 							<TabPanel value={selectedTabIndex} index={1}>
-									NA
+								{ fileVersions !== undefined ?
+									<FileVersionHistory fileVersions={fileVersions}/> : <></> }
 							</TabPanel>
 							<TabPanel value={selectedTabIndex} index={2}>
+									NA
+							</TabPanel>
+							<TabPanel value={selectedTabIndex} index={3}>
 								{
 									fileMetadataJsonld !== undefined && fileMetadataJsonld.length > 0 ?
 										fileMetadataJsonld.map((item) => {
@@ -193,18 +199,14 @@ export const File = (): JSX.Element => {
 										}) : <></>
 								}
 							</TabPanel>
-							<TabPanel value={selectedTabIndex} index={3}>
+							<TabPanel value={selectedTabIndex} index={4}>
 									Extractions
 							</TabPanel>
-							<TabPanel value={selectedTabIndex} index={4}>
+							<TabPanel value={selectedTabIndex} index={5}>
 									Comments
 							</TabPanel>
 						</Grid>
 						<Grid item xs={4}>
-							{/*Version History*/}
-							{ fileVersions !== undefined ? <FileVersionHistory fileVersions={fileVersions}/> : <></> }
-							<Divider light/>
-
 							{/*About*/}
 							{ fileMetadata !== undefined ? <FileAbout fileMetadata={fileMetadata} /> : <></> }
 							<Divider light/>
