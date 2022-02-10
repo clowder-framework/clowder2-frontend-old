@@ -6,7 +6,7 @@ import {
 	RECEIVE_VERSIONS,
 } from "../actions/file";
 import {DataAction} from "../types/action";
-import {FileState, ExtractedMetadata, FileMetadata, FileVersion} from "../types/data";
+import {FileState, ExtractedMetadata, FileMetadata} from "../types/data";
 
 const defaultState: FileState = {
 	fileMetadata: <FileMetadata>{},
