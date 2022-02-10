@@ -16,6 +16,7 @@ export function FileVersionHistory(props: FileVersionHistoryProps) {
 		<Box className="infoCard">
 			<Typography className="title">Version History</Typography>
 			{
+				// sort by date decending
 				fileVersions.map((fileVersion) => {
 					return (
 

@@ -155,9 +155,11 @@ export function fetchFileVersions(fileId){
 	return (dispatch) => {
 		return V2.FilesService.getFileVersionsApiV2FilesFileIdVersionsGet(fileId)
 			.then(json => {
+				// sort by decending order
+				const version = json.sort((a, b) => new Date(b["created"]) - new Date(a["created"]));
 				dispatch({
 					type: RECEIVE_VERSIONS,
-					fileVersions: json,
+					fileVersions: version,
 					receivedAt: Date.now(),
 				});
 			})
