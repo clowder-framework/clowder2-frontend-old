@@ -136,7 +136,7 @@ export const UPDATE_FILE = "UPDATE_FILE";
 export function fileUpdated(formData, fileId){
 	return (dispatch) => {
 		formData["file"] = dataURItoFile(formData["file"]);
-		return V2.FilesService.editFileApiV2FilesFileIdPut(fileId, formData)
+		return V2.FilesService.updateFileApiV2FilesFileIdPut(fileId, formData)
 			.then(file => {
 				dispatch({
 					type: UPDATE_FILE,

@@ -17,7 +17,6 @@ import {UploadFile} from "./childComponents/UploadFile";
 import {V2} from "../openapi";
 import {ActionModal} from "./childComponents/ActionModal";
 import FilesTable from "./childComponents/FilesTable";
-import {UpdateFile} from "./childComponents/UpdateFile";
 
 const tab = {
 	fontStyle: "normal",

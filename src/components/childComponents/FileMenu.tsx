@@ -11,7 +11,7 @@ import {useDispatch} from "react-redux";
 import {ActionModal} from "./ActionModal";
 import DownloadIcon from '@mui/icons-material/Download';
 import DeleteIcon from '@mui/icons-material/Delete';
-import UpgradeIcon from '@mui/icons-material/Upgrade';
+import UploadIcon from '@mui/icons-material/Upload';
 import {Dialog, DialogTitle, ListItemIcon, ListItemText} from "@mui/material";
 import {UpdateFile} from "./UpdateFile";
 
@@ -77,7 +77,7 @@ export default function FileMenu(props: FileMenuProps) {
 					setUpdateFileOpen(true);
 				}}>
 					<ListItemIcon>
-						<UpgradeIcon fontSize="small" />
+						<UploadIcon fontSize="small" />
 					</ListItemIcon>
 					<ListItemText>Update File</ListItemText>
 				</MenuItem>
