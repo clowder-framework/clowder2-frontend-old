@@ -19,7 +19,7 @@ type UpdateFileProps ={
 
 export const UpdateFile: React.FC<UpdateFileProps> = (props: UpdateFileProps) => {
 	const dispatch = useDispatch();
-	const updateFile = (fileId: string|undefined, formData: FormData,) => dispatch(fileUpdated(fileId, formData));
+	const updateFile = (formData: FormData, fileId: string|undefined) => dispatch(fileUpdated(formData, fileId));
 
 	const {fileId, setOpen,} = props;
 
@@ -27,7 +27,7 @@ export const UpdateFile: React.FC<UpdateFileProps> = (props: UpdateFileProps) =>
 
 	const onSave = async (formData:FormData) => {
 		setLoading(true);
-		updateFile(fileId, formData);
+		updateFile(formData, fileId);
 		setLoading(false);
 		setOpen(false);
 	};
