@@ -1,34 +1,12 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { Body_save_file_api_v2_files__dataset_id__post } from '../models/Body_save_file_api_v2_files__dataset_id__post';
+import type { Body_update_file_api_v2_files__file_id__put } from '../models/Body_update_file_api_v2_files__file_id__put';
 import type { ClowderFile } from '../models/ClowderFile';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { request as __request } from '../core/request';
 
 export class FilesService {
-
-    /**
-     * Save File
-     * @param datasetId
-     * @param formData
-     * @returns ClowderFile Successful Response
-     * @throws ApiError
-     */
-    public static saveFileApiV2FilesDatasetIdPost(
-        datasetId: string,
-        formData: Body_save_file_api_v2_files__dataset_id__post,
-    ): CancelablePromise<ClowderFile> {
-        return __request({
-            method: 'POST',
-            path: `/api/v2/files/${datasetId}`,
-            formData: formData,
-            mediaType: 'multipart/form-data',
-            errors: {
-                422: `Validation Error`,
-            },
-        });
-    }
 
     /**
      * Download File
@@ -49,21 +27,21 @@ export class FilesService {
     }
 
     /**
-     * Edit File
+     * Update File
      * @param fileId
-     * @param requestBody
+     * @param formData
      * @returns ClowderFile Successful Response
      * @throws ApiError
      */
-    public static editFileApiV2FilesFileIdPut(
+    public static updateFileApiV2FilesFileIdPut(
         fileId: string,
-        requestBody: ClowderFile,
+        formData: Body_update_file_api_v2_files__file_id__put,
     ): CancelablePromise<ClowderFile> {
         return __request({
             method: 'PUT',
             path: `/api/v2/files/${fileId}`,
-            body: requestBody,
-            mediaType: 'application/json',
+            formData: formData,
+            mediaType: 'multipart/form-data',
             errors: {
                 422: `Validation Error`,
             },
@@ -100,6 +78,32 @@ export class FilesService {
         return __request({
             method: 'GET',
             path: `/api/v2/files/${fileId}/summary`,
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
+     * Get File Versions
+     * @param fileId
+     * @param skip
+     * @param limit
+     * @returns any Successful Response
+     * @throws ApiError
+     */
+    public static getFileVersionsApiV2FilesFileIdVersionsGet(
+        fileId: string,
+        skip?: number,
+        limit: number = 20,
+    ): CancelablePromise<any> {
+        return __request({
+            method: 'GET',
+            path: `/api/v2/files/${fileId}/versions`,
+            query: {
+                'skip': skip,
+                'limit': limit,
+            },
             errors: {
                 422: `Validation Error`,
             },
