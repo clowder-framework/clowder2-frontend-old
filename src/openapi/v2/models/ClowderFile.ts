@@ -4,10 +4,10 @@
 
 export type ClowderFile = {
     id?: string;
-    name?: string;
     creator?: string;
-    created?: string;
-    version?: string;
+    name?: string;
     views?: number;
     downloads?: number;
+    dataset_id: string;
+    folder_id?: string;
 }

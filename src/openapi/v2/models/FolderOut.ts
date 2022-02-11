@@ -2,14 +2,12 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type Dataset = {
+export type FolderOut = {
     id?: string;
     name?: string;
+    dataset_id: string;
+    parent_folder?: string;
     author?: string;
-    description?: string;
     created?: string;
     modified?: string;
-    status?: string;
-    views?: number;
-    downloads?: number;
 }
