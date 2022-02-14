@@ -4,6 +4,7 @@ import {
 	RECEIVE_DATASETS,
 	DELETE_DATASET,
 	CREATE_DATASET,
+	FOLDER_ADDED,
 } from "../actions/dataset";
 import {CREATE_FILE, DELETE_FILE} from "../actions/file";
 import {DataAction} from "../types/action";
@@ -13,6 +14,7 @@ const defaultState: DatasetState = {
 	files: [],
 	about: {name: "", id: "", authorId: "", description: "", created: "", thumbnail: ""},
 	datasets: [],
+	folders: []
 };
 
 const dataset = (state = defaultState, action: DataAction) => {
@@ -37,8 +39,12 @@ const dataset = (state = defaultState, action: DataAction) => {
 		});
 	case CREATE_DATASET:
 		return Object.assign({}, state, {
-			datasets: [...state.datasets, action.dataset]
+			folders: [...state.folders, action.folders]
 		});
+	// case FOLDER_ADDED:
+	// 	return Object.assign({}, state, {
+	// 		datasets: state.datasets.map(dataset => dataset.id === action.folder.dataset_id? dataset)
+	// 	});
 	default:
 		return state;
 	}

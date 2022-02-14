@@ -7,7 +7,7 @@ import {downloadDataset} from "../utils/dataset";
 import {useNavigate, useParams} from "react-router-dom";
 import {RootState} from "../types/data";
 import {useDispatch, useSelector} from "react-redux";
-import {datasetDeleted, fetchDatasetAbout, fetchFilesInDataset} from "../actions/dataset";
+import {datasetDeleted, fetchDatasetAbout, fetchFilesInDataset, folderAdded} from "../actions/dataset";
 import {resetFailedReason, resetLogout} from "../actions/common"
 
 import {a11yProps, TabPanel} from "./childComponents/TabComponent";
@@ -44,6 +44,7 @@ export const Dataset = (): JSX.Element => {
 	// Redux connect equivalent
 	const dispatch = useDispatch();
 	const deleteDataset = (datasetId:string|undefined) => dispatch(datasetDeleted(datasetId));
+	const addFolder = (datasetId:string|undefined, folderName:string, parentFolder:string|null) => dispatch(folderAdded(datasetId, folderName, parentFolder));
 	const listFilesInDataset = (datasetId:string|undefined) => dispatch(fetchFilesInDataset(datasetId));
 	const listDatasetAbout= (datasetId:string|undefined) => dispatch(fetchDatasetAbout(datasetId));
 	const dismissError = () => dispatch(resetFailedReason());
@@ -171,8 +172,14 @@ export const Dataset = (): JSX.Element => {
 												  setOpen(true);
 												  handleOptionClose();
 											  }}>
-										Add Files
+										Upload File
 									</MenuItem>
+									<MenuItem sx={optionMenuItem}
+											  onClick={()=>{
+												  addFolder(datasetId, "new folder", null);
+												  handleOptionClose();
+											  }
+											  }>Add Folder</MenuItem>
 									<MenuItem sx={optionMenuItem}
 											  onClick={() => {
 												  downloadDataset(datasetId, about["name"]);
@@ -180,13 +187,14 @@ export const Dataset = (): JSX.Element => {
 											  }} disabled={true}>
 										Download All
 									</MenuItem>
-									<MenuItem onClick={()=>{
-										deleteDataset(datasetId);
-										handleOptionClose();
-										// Go to Explore page
-										history("/");
-									}
-									} sx={optionMenuItem}>Delete Dataset</MenuItem>
+									<MenuItem sx={optionMenuItem}
+											  onClick={()=>{
+												  deleteDataset(datasetId);
+												  handleOptionClose();
+												  // Go to Explore page
+												  history("/");
+											  }
+									}>Delete Dataset</MenuItem>
 									<MenuItem onClick={handleOptionClose} sx={optionMenuItem} disabled={true}>Follow</MenuItem>
 									<MenuItem onClick={handleOptionClose} sx={optionMenuItem} disabled={true}>Collaborators</MenuItem>
 									<MenuItem onClick={handleOptionClose} sx={optionMenuItem} disabled={true}>Extraction</MenuItem>
