@@ -1,4 +1,5 @@
 import {About, Dataset, ExtractedMetadata, File, MetadataJsonld, FilePreview, FileMetadata, Folder} from "./data";
+import {RECEIVE_FOLDERS_IN_DATASET} from "../actions/dataset";
 
 interface RECEIVE_FILES_IN_DATASET {
 	type: "RECEIVE_FILES_IN_DATASET";
@@ -100,6 +101,7 @@ interface FOLDER_ADDED{
 
 export type DataAction =
 	| RECEIVE_FILES_IN_DATASET
+	| RECEIVE_FOLDERS_IN_DATASET
 	| DELETE_FILE
 	| RECEIVE_DATASET_ABOUT
 	| RECEIVE_DATASETS

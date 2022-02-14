@@ -7,7 +7,13 @@ import {downloadDataset} from "../utils/dataset";
 import {useNavigate, useParams} from "react-router-dom";
 import {RootState} from "../types/data";
 import {useDispatch, useSelector} from "react-redux";
-import {datasetDeleted, fetchDatasetAbout, fetchFilesInDataset, folderAdded} from "../actions/dataset";
+import {
+	datasetDeleted,
+	fetchDatasetAbout,
+	fetchFilesInDataset,
+	fetchFoldersInDataset,
+	folderAdded
+} from "../actions/dataset";
 import {resetFailedReason, resetLogout} from "../actions/common"
 
 import {a11yProps, TabPanel} from "./childComponents/TabComponent";
@@ -46,6 +52,7 @@ export const Dataset = (): JSX.Element => {
 	const deleteDataset = (datasetId:string|undefined) => dispatch(datasetDeleted(datasetId));
 	const addFolder = (datasetId:string|undefined, folderName:string, parentFolder:string|null) => dispatch(folderAdded(datasetId, folderName, parentFolder));
 	const listFilesInDataset = (datasetId:string|undefined) => dispatch(fetchFilesInDataset(datasetId));
+	const listFoldersInDataset = (datasetId:string|undefined, parentFolder:string|undefined) => dispatch(fetchFoldersInDataset(datasetId, parentFolder));
 	const listDatasetAbout= (datasetId:string|undefined) => dispatch(fetchDatasetAbout(datasetId));
 	const dismissError = () => dispatch(resetFailedReason());
 	const dismissLogout = () => dispatch(resetLogout());
@@ -65,6 +72,7 @@ export const Dataset = (): JSX.Element => {
 	// component did mount list all files in dataset
 	useEffect(() => {
 		listFilesInDataset(datasetId);
+		listFoldersInDataset(datasetId, null);
 		listDatasetAbout(datasetId);
 	}, []);
 

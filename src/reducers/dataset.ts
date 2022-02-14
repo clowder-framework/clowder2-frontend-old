@@ -4,7 +4,7 @@ import {
 	RECEIVE_DATASETS,
 	DELETE_DATASET,
 	CREATE_DATASET,
-	FOLDER_ADDED,
+	FOLDER_ADDED, RECEIVE_FOLDERS_IN_DATASET,
 } from "../actions/dataset";
 import {CREATE_FILE, DELETE_FILE} from "../actions/file";
 import {DataAction} from "../types/action";
@@ -21,6 +21,8 @@ const dataset = (state = defaultState, action: DataAction) => {
 	switch (action.type) {
 	case RECEIVE_FILES_IN_DATASET:
 		return Object.assign({}, state, {files: action.files});
+	case RECEIVE_FOLDERS_IN_DATASET:
+		return Object.assign({}, state, {folders: action.folders});
 	case DELETE_FILE:
 		return Object.assign({}, state, {
 			files: state.files.filter(file => file.id !== action.file.id),

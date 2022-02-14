@@ -19,6 +19,23 @@ export function fetchFilesInDataset(id){
 	};
 }
 
+export const RECEIVE_FOLDERS_IN_DATASET = "RECEIVE_FOLDERS_IN_DATASET";
+export function fetchFoldersInDataset(datasetId, parentFolder){
+	return (dispatch) => {
+		return V2.DatasetsService.getDatasetFoldersApiV2DatasetsDatasetIdFoldersGet(datasetId, parentFolder)
+			.then(json => {
+				dispatch({
+					type: RECEIVE_FOLDERS_IN_DATASET,
+					folders: json,
+					receivedAt: Date.now(),
+				});
+			})
+			.catch(reason => {
+				dispatch(handleErrors(reason));
+			});
+	};
+}
+
 export const RECEIVE_DATASET_ABOUT = "RECEIVE_DATASET_ABOUT";
 export function fetchDatasetAbout(id){
 	return (dispatch) => {
