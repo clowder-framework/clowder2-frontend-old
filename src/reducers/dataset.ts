@@ -37,9 +37,9 @@ const dataset = (state = defaultState, action: DataAction) => {
 		return Object.assign({}, state, {
 			datasets: state.datasets.filter(dataset => dataset.id !== action.dataset.id),
 		});
-	case CREATE_DATASET:
+	case FOLDER_ADDED:
 		return Object.assign({}, state, {
-			folders: [...state.folders, action.folders]
+			folders: [...state.folders, action.folder]
 		});
 	// case FOLDER_ADDED:
 	// 	return Object.assign({}, state, {
