@@ -205,7 +205,7 @@ export const Dataset = (): JSX.Element => {
 												  handleOptionClose();
 											  }
 											  }>Add Folder</MenuItem>
-									<CreateFolder datasetId={datasetId} parentFolder={null} open={newFolder} handleClose={handleCloseNewFolder}/>
+									<CreateFolder datasetId={datasetId} parentFolder={folder} open={newFolder} handleClose={handleCloseNewFolder}/>
 									<MenuItem sx={optionMenuItem}
 											  onClick={() => {
 												  downloadDataset(datasetId, about["name"]);
