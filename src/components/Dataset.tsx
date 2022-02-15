@@ -24,6 +24,7 @@ import {V2} from "../openapi";
 import {ActionModal} from "./childComponents/ActionModal";
 import FilesTable from "./childComponents/FilesTable";
 import {CreateFolder} from "./childComponents/CreateFolder";
+import { useSearchParams } from "react-router-dom";
 
 const tab = {
 	fontStyle: "normal",
@@ -45,6 +46,14 @@ export const Dataset = (): JSX.Element => {
 	// path parameter
 	const { datasetId } = useParams<{datasetId?: string}>();
 
+	// search parameters
+	let [searchParams, setSearchParams] = useSearchParams();
+	const folder = searchParams.get("folder");
+	useEffect(() => {
+		const currentParams = Object.fromEntries([...searchParams]);
+		console.log(currentParams); // get new values onchange
+	}, [searchParams]);
+
 	// use history hook to redirect/navigate between routes
 	const history = useNavigate();
 
@@ -52,7 +61,7 @@ export const Dataset = (): JSX.Element => {
 	const dispatch = useDispatch();
 	const deleteDataset = (datasetId:string|undefined) => dispatch(datasetDeleted(datasetId));
 	const addFolder = (datasetId:string|undefined, folderName:string, parentFolder:string|null) => dispatch(folderAdded(datasetId, folderName, parentFolder));
-	const listFilesInDataset = (datasetId:string|undefined) => dispatch(fetchFilesInDataset(datasetId));
+	const listFilesInDataset = (datasetId:string|undefined, folderId:string|undefined) => dispatch(fetchFilesInDataset(datasetId, folderId));
 	const listFoldersInDataset = (datasetId:string|undefined, parentFolder:string|undefined) => dispatch(fetchFoldersInDataset(datasetId, parentFolder));
 	const listDatasetAbout= (datasetId:string|undefined) => dispatch(fetchDatasetAbout(datasetId));
 	const dismissError = () => dispatch(resetFailedReason());
@@ -72,10 +81,10 @@ export const Dataset = (): JSX.Element => {
 
 	// component did mount list all files in dataset
 	useEffect(() => {
-		listFilesInDataset(datasetId);
-		listFoldersInDataset(datasetId, null);
+		listFilesInDataset(datasetId, folder);
+		listFoldersInDataset(datasetId, folder);
 		listDatasetAbout(datasetId);
-	}, []);
+	}, [searchParams]);
 
 	// Error msg dialog
 	const [errorOpen, setErrorOpen] = useState(false);
@@ -277,7 +286,7 @@ export const Dataset = (): JSX.Element => {
 					</Grid>
 					<Dialog open={open} onClose={()=>{setOpen(false);}} fullWidth={true} aria-labelledby="form-dialog">
 						<DialogTitle id="form-dialog-title">Add File</DialogTitle>
-						<UploadFile selectedDatasetId={datasetId} setOpen={setOpen}/>
+						<UploadFile selectedDatasetId={datasetId} folderId={folder} setOpen={setOpen}/>
 					</Dialog>
 				</div>
 			</div>

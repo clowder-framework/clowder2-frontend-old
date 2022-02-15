@@ -29,6 +29,10 @@ export default function FilesTable(props: FilesTableProps) {
 		// Redirect to file route with file Id and dataset id
 		history(`/files/${selectedFileId}?dataset=${props.datasetId}&name=${props.datasetName}`);
 	};
+	const selectFolder = (selectedFolderId: string) => {
+		// Redirect to file route with file Id and dataset id
+		history(`/datasets/${props.datasetId}?folder=${selectedFolderId}`);
+	};
 	return (
 		<TableContainer component={Paper}>
 			<Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -49,7 +53,7 @@ export default function FilesTable(props: FilesTableProps) {
 								sx={{'&:last-child td, &:last-child th': {border: 0}}}
 							>
 								<TableCell component="th" scope="row">
-									<FolderIcon/><Button onClick={() => selectFile(folder.id)}>{folder.name}</Button>
+									<FolderIcon/><Button onClick={() => selectFolder(folder.id)}>{folder.name}</Button>
 								</TableCell>
 								<TableCell align="right">{folder.author}</TableCell>
 								<TableCell align="right">-</TableCell>

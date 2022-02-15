@@ -3,9 +3,9 @@ import {LOGOUT, logoutHelper} from "./user";
 import {handleErrors} from "./common";
 
 export const RECEIVE_FILES_IN_DATASET = "RECEIVE_FILES_IN_DATASET";
-export function fetchFilesInDataset(id){
+export function fetchFilesInDataset(datasetId, folderId){
 	return (dispatch) => {
-		return V2.DatasetsService.getDatasetFilesApiV2DatasetsDatasetIdFilesGet(id)
+		return V2.DatasetsService.getDatasetFilesApiV2DatasetsDatasetIdFilesGet(datasetId, folderId)
 			.then(json => {
 				dispatch({
 					type: RECEIVE_FILES_IN_DATASET,
