@@ -23,6 +23,7 @@ import {UploadFile} from "./childComponents/UploadFile";
 import {V2} from "../openapi";
 import {ActionModal} from "./childComponents/ActionModal";
 import FilesTable from "./childComponents/FilesTable";
+import {CreateFolder} from "./childComponents/CreateFolder";
 
 const tab = {
 	fontStyle: "normal",
@@ -97,6 +98,12 @@ export const Dataset = (): JSX.Element => {
 			history("/login");
 		}
 	}, [loggedOut]);
+
+	// new folder dialog
+	const [newFolder, setNewFolder] = React.useState<boolean>(false);
+	const handleCloseNewFolder = () => {
+		setNewFolder(false);
+	}
 
 	const handleTabChange = (_event:React.ChangeEvent<{}>, newTabIndex:number) => {
 		setSelectedTabIndex(newTabIndex);
@@ -184,10 +191,12 @@ export const Dataset = (): JSX.Element => {
 									</MenuItem>
 									<MenuItem sx={optionMenuItem}
 											  onClick={()=>{
-												  addFolder(datasetId, "new folder", null);
+												  // addFolder(datasetId, "new folder", null);
+												  setNewFolder(true);
 												  handleOptionClose();
 											  }
 											  }>Add Folder</MenuItem>
+									<CreateFolder datasetId={datasetId} parentFolder={null} open={newFolder} handleClose={handleCloseNewFolder}/>
 									<MenuItem sx={optionMenuItem}
 											  onClick={() => {
 												  downloadDataset(datasetId, about["name"]);
