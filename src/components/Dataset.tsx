@@ -10,7 +10,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {
 	datasetDeleted,
 	fetchDatasetAbout,
-	fetchFilesInDataset,
+	fetchFilesInDataset, fetchFolderPath,
 	fetchFoldersInDataset,
 	folderAdded
 } from "../actions/dataset";
@@ -61,6 +61,7 @@ export const Dataset = (): JSX.Element => {
 	const dispatch = useDispatch();
 	const deleteDataset = (datasetId:string|undefined) => dispatch(datasetDeleted(datasetId));
 	const addFolder = (datasetId:string|undefined, folderName:string, parentFolder:string|null) => dispatch(folderAdded(datasetId, folderName, parentFolder));
+	const getFolderPath= (folderId:string|undefined) => dispatch(fetchFolderPath(folderId));
 	const listFilesInDataset = (datasetId:string|undefined, folderId:string|undefined) => dispatch(fetchFilesInDataset(datasetId, folderId));
 	const listFoldersInDataset = (datasetId:string|undefined, parentFolder:string|undefined) => dispatch(fetchFoldersInDataset(datasetId, parentFolder));
 	const listDatasetAbout= (datasetId:string|undefined) => dispatch(fetchDatasetAbout(datasetId));
@@ -71,6 +72,7 @@ export const Dataset = (): JSX.Element => {
 	const about = useSelector((state:RootState) => state.dataset.about);
 	const reason = useSelector((state:RootState) => state.error.reason);
 	const loggedOut = useSelector((state: RootState) => state.error.loggedOut);
+	const folderPath = useSelector((state:RootState) => state.dataset.folderPath);
 
 	// state
 	const [selectedTabIndex, setSelectedTabIndex] = useState<number>(0);
@@ -84,6 +86,7 @@ export const Dataset = (): JSX.Element => {
 		listFilesInDataset(datasetId, folder);
 		listFoldersInDataset(datasetId, folder);
 		listDatasetAbout(datasetId);
+		if (folder != null) getFolderPath(folder);
 	}, [searchParams]);
 
 	// Error msg dialog
@@ -137,6 +140,15 @@ export const Dataset = (): JSX.Element => {
 			"url":`/datasets/${datasetId}`
 		}
 	];
+
+	if (folderPath != null) {
+		for (const folderBread of folderPath) {
+			paths.push({
+				"name": folderBread["folder_name"],
+				"url": `/datasets/${datasetId}?folder=${folderBread["folder_id"]}`
+			})
+		}
+	}
 
 	return (
 		<div>

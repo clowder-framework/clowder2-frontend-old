@@ -4,7 +4,7 @@ import {
 	RECEIVE_DATASETS,
 	DELETE_DATASET,
 	CREATE_DATASET,
-	FOLDER_ADDED, RECEIVE_FOLDERS_IN_DATASET,
+	FOLDER_ADDED, RECEIVE_FOLDERS_IN_DATASET, GET_FOLDER_PATH,
 } from "../actions/dataset";
 import {CREATE_FILE, DELETE_FILE} from "../actions/file";
 import {DataAction} from "../types/action";
@@ -43,10 +43,10 @@ const dataset = (state = defaultState, action: DataAction) => {
 		return Object.assign({}, state, {
 			folders: [...state.folders, action.folder]
 		});
-	// case FOLDER_ADDED:
-	// 	return Object.assign({}, state, {
-	// 		datasets: state.datasets.map(dataset => dataset.id === action.folder.dataset_id? dataset)
-	// 	});
+	case GET_FOLDER_PATH:
+		return Object.assign({}, state, {
+			folderPath: action.folderPath
+		});
 	default:
 		return state;
 	}

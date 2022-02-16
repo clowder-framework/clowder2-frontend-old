@@ -22,6 +22,7 @@ export type { ValidationError } from './models/ValidationError';
 export { CollectionsService } from './services/CollectionsService';
 export { DatasetsService } from './services/DatasetsService';
 export { FilesService } from './services/FilesService';
+export { FoldersService } from './services/FoldersService';
 export { ItemsService } from './services/ItemsService';
 export { LoginService } from './services/LoginService';
 export { ServiceService } from './services/ServiceService';

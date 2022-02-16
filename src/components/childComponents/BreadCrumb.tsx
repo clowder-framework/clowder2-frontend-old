@@ -17,7 +17,7 @@ export const MainBreadcrumbs: React.FC<BreadCrumbProps> = (props:BreadCrumbProps
 							</Button>);
 						}
 						else{
-							return (<Typography color="text.primary" key={index}>{path["name"]}</Typography>);
+							return (<Button disabled color="primary" key={index}>{path["name"]}</Button>);
 						}
 					})
 				}
