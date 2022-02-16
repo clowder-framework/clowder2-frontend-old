@@ -74,7 +74,7 @@ export const Login = (): JSX.Element => {
 						fullWidth
 						autoFocus
 						id="email"
-						label="Username"
+						label="Email"
 						name="email"
 						value={email}
 						onChange={changeUsername}
