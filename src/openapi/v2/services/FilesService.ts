@@ -36,7 +36,7 @@ export class FilesService {
     public static updateFileApiV2FilesFileIdPut(
         fileId: string,
         formData: Body_update_file_api_v2_files__file_id__put,
-    ): CancelablePromise<ClowderFile> {
+    ): CancelablePromise<any> {
         return __request({
             method: 'PUT',
             path: `/api/v2/files/${fileId}`,

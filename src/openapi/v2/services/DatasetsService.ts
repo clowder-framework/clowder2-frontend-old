@@ -6,6 +6,9 @@ import type { ClowderFile } from '../models/ClowderFile';
 import type { Dataset } from '../models/Dataset';
 import type { FolderIn } from '../models/FolderIn';
 import type { FolderOut } from '../models/FolderOut';
+import type { DatasetBase } from '../models/DatasetBase';
+import type { DatasetIn } from '../models/DatasetIn';
+import type { DatasetOut } from '../models/DatasetOut';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { request as __request } from '../core/request';
 
@@ -16,14 +19,14 @@ export class DatasetsService {
      * @param skip
      * @param limit
      * @param mine
-     * @returns Dataset Successful Response
+     * @returns DatasetOut Successful Response
      * @throws ApiError
      */
     public static getDatasetsApiV2DatasetsGet(
         skip?: number,
         limit: number = 2,
         mine?: any,
-    ): CancelablePromise<Array<Dataset>> {
+    ): CancelablePromise<Array<DatasetOut>> {
         return __request({
             method: 'GET',
             path: `/api/v2/datasets`,
@@ -41,12 +44,12 @@ export class DatasetsService {
     /**
      * Save Dataset
      * @param requestBody
-     * @returns Dataset Successful Response
+     * @returns DatasetOut Successful Response
      * @throws ApiError
      */
     public static saveDatasetApiV2DatasetsPost(
-        requestBody: Dataset,
-    ): CancelablePromise<Dataset> {
+        requestBody: DatasetIn,
+    ): CancelablePromise<DatasetOut> {
         return __request({
             method: 'POST',
             path: `/api/v2/datasets`,
@@ -61,12 +64,12 @@ export class DatasetsService {
     /**
      * Get Dataset
      * @param datasetId
-     * @returns any Successful Response
+     * @returns DatasetOut Successful Response
      * @throws ApiError
      */
     public static getDatasetApiV2DatasetsDatasetIdGet(
         datasetId: string,
-    ): CancelablePromise<any> {
+    ): CancelablePromise<DatasetOut> {
         return __request({
             method: 'GET',
             path: `/api/v2/datasets/${datasetId}`,
@@ -80,13 +83,13 @@ export class DatasetsService {
      * Edit Dataset
      * @param datasetId
      * @param requestBody
-     * @returns Dataset Successful Response
+     * @returns DatasetBase Successful Response
      * @throws ApiError
      */
     public static editDatasetApiV2DatasetsDatasetIdPut(
         datasetId: string,
-        requestBody: Dataset,
-    ): CancelablePromise<Dataset> {
+        requestBody: DatasetBase,
+    ): CancelablePromise<DatasetBase> {
         return __request({
             method: 'PUT',
             path: `/api/v2/datasets/${datasetId}`,

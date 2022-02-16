@@ -1,5 +1,4 @@
-import {About, Dataset, ExtractedMetadata, File, MetadataJsonld, FilePreview, FileMetadata, Folder} from "./data";
-import {RECEIVE_FOLDERS_IN_DATASET} from "../actions/dataset";
+import {About, Dataset, ExtractedMetadata, File, MetadataJsonld, FilePreview, FileMetadata, FileVersion, Folder} from "./data";
 
 interface RECEIVE_FILES_IN_DATASET {
 	type: "RECEIVE_FILES_IN_DATASET";
@@ -43,6 +42,11 @@ interface RECEIVE_FILE_METADATA_JSONLD{
 interface RECEIVE_PREVIEWS{
 	type:"RECEIVE_PREVIEWS";
 	previews: FilePreview[];
+}
+
+interface RECEIVE_VERSIONS{
+	type: "RECEIVE_VERSIONS";
+	fileVersions: FileVersion[];
 }
 
 interface SET_USER{
@@ -110,6 +114,7 @@ export type DataAction =
 	| RECEIVE_FILE_EXTRACTED_METADATA
 	| RECEIVE_FILE_METADATA_JSONLD
 	| RECEIVE_PREVIEWS
+	| RECEIVE_VERSIONS
 	| SET_USER
 	| LOGIN_ERROR
 	| LOGOUT
