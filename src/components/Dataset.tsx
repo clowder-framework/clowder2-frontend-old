@@ -86,7 +86,7 @@ export const Dataset = (): JSX.Element => {
 		listFilesInDataset(datasetId, folder);
 		listFoldersInDataset(datasetId, folder);
 		listDatasetAbout(datasetId);
-		if (folder != null) getFolderPath(folder);
+		getFolderPath(folder);
 	}, [searchParams]);
 
 	// Error msg dialog
@@ -141,6 +141,7 @@ export const Dataset = (): JSX.Element => {
 		}
 	];
 
+
 	if (folderPath != null) {
 		for (const folderBread of folderPath) {
 			paths.push({
@@ -148,6 +149,8 @@ export const Dataset = (): JSX.Element => {
 				"url": `/datasets/${datasetId}?folder=${folderBread["folder_id"]}`
 			})
 		}
+	} else {
+		paths.slice(0, 1)
 	}
 
 	return (

@@ -128,16 +128,24 @@ export function folderAdded(datasetId, folderName, parentFolder = null){
 export const GET_FOLDER_PATH = "GET_FOLDER_PATH";
 export function fetchFolderPath(folderId){
 	return (dispatch) => {
-		return V2.FoldersService.downloadFileApiV2FoldersFolderIdPathGet(folderId)
-			.then(json => {
-				dispatch({
-					type: GET_FOLDER_PATH,
-					folderPath: json,
-					receivedAt: Date.now(),
+		if (folderId != null) {
+			return V2.FoldersService.downloadFileApiV2FoldersFolderIdPathGet(folderId)
+				.then(json => {
+					dispatch({
+						type: GET_FOLDER_PATH,
+						folderPath: json,
+						receivedAt: Date.now(),
+					});
+				})
+				.catch(reason => {
+					dispatch(handleErrors(reason));
 				});
-			})
-			.catch(reason => {
-				dispatch(handleErrors(reason));
+		} else {
+			dispatch({
+				type: GET_FOLDER_PATH,
+				folderPath: [],
+				receivedAt: Date.now(),
 			});
+		}
 	};
 }
