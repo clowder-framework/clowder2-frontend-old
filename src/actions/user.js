@@ -6,7 +6,7 @@ export const userActions = {
 };
 
 export async function loginHelper(username, password, register = false) {
-	const data = {"name": username, "password": password};
+	const data = {"email": username, "password": password};
 	if (register) {
 		return V2.UsersService.saveUserApiV2UsersPost(data)
 			.then(user => {return user;})
