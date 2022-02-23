@@ -3,7 +3,6 @@ import {
 	RECEIVE_DATASET_ABOUT,
 	RECEIVE_DATASETS,
 	DELETE_DATASET,
-	CREATE_DATASET,
 	FOLDER_ADDED, RECEIVE_FOLDERS_IN_DATASET, GET_FOLDER_PATH,
 } from "../actions/dataset";
 import {CREATE_FILE, UPDATE_FILE, DELETE_FILE} from "../actions/file";
@@ -14,7 +13,8 @@ const defaultState: DatasetState = {
 	files: [],
 	about: {name: "", id: "", authorId: "", description: "", created: "", thumbnail: ""},
 	datasets: [],
-	folders: []
+	folders: [],
+	folderPath: []
 };
 
 const dataset = (state = defaultState, action: DataAction) => {

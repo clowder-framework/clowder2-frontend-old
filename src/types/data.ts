@@ -139,7 +139,8 @@ export interface DatasetState{
 	files: File[];
 	datasets: Dataset[];
 	about: About;
-	folders: Folder[]
+	folders: Folder[];
+	folderPath: string[];
 }
 
 export interface FileState{
