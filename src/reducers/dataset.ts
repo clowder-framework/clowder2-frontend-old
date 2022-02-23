@@ -4,6 +4,7 @@ import {
 	RECEIVE_DATASETS,
 	DELETE_DATASET,
 	CREATE_DATASET,
+	RESET_CREATE_DATASET,
 	FOLDER_ADDED, RECEIVE_FOLDERS_IN_DATASET, GET_FOLDER_PATH,
 } from "../actions/dataset";
 import {CREATE_FILE, UPDATE_FILE, DELETE_FILE} from "../actions/file";
@@ -44,6 +45,8 @@ const dataset = (state = defaultState, action: DataAction) => {
 		return Object.assign({}, state, {datasets: action.datasets});
 	case CREATE_DATASET:
 		return Object.assign({}, state, {newDataset: action.dataset});
+	case RESET_CREATE_DATASET:
+			return Object.assign({}, state, {newDataset: {}});
 	case DELETE_DATASET:
 		return Object.assign({}, state, {
 			datasets: state.datasets.filter(dataset => dataset.id !== action.dataset.id),

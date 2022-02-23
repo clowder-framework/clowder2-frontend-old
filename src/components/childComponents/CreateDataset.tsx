@@ -8,7 +8,7 @@ import Form from "@rjsf/material-ui";
 import datasetSchema from "../../schema/datasetSchema.json";
 import {FormProps} from "@rjsf/core";
 import {useDispatch, useSelector,} from "react-redux";
-import {datasetCreated} from "../../actions/dataset";
+import {datasetCreated, resetDatsetCreated} from "../../actions/dataset";
 import {RootState} from "../../types/data";
 import {useNavigate} from "react-router-dom";
 
@@ -34,9 +34,12 @@ export const CreateDataset: React.FC<CreateDatasetProps> = (props: CreateDataset
 		setOpen(false);
 	};
 
-	// zoom into that newly created dataset
+	// zoom into that newly created dataset and reset newDataset
 	useEffect(() => {
-		if (newDataset !== undefined && newDataset.id !== undefined) history(`/datasets/${newDataset.id}`);
+		if (newDataset !== undefined && newDataset.id !== undefined){
+			history(`/datasets/${newDataset.id}`);
+			dispatch(resetDatsetCreated());
+		}
 	}, [newDataset]);
 
 	return (

@@ -89,6 +89,16 @@ export function datasetCreated(formData){
 	};
 }
 
+export const RESET_CREATE_DATASET = "RESET_CREATE_DATASET";
+export function resetDatsetCreated(){
+	return (dispatch) => {
+		dispatch({
+			type: RESET_CREATE_DATASET,
+			receivedAt: Date.now(),
+		});
+	};
+}
+
 export const DELETE_DATASET = "DELETE_DATASET";
 export function datasetDeleted(datasetId){
 	return (dispatch) => {
