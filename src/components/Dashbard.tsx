@@ -211,10 +211,14 @@ export const Dashboard = (): JSX.Element => {
 								<Typography className="content">Some quick example text to tell users why they should
 									upload
 									their own data</Typography>
-								<Link href="#" className="link" onClick={(e) => {
-									e.preventDefault();
-									setCreationOpen(true);
-								}}>Create Dataset</Link>
+								<Link className="link"
+									  onClick={(e) => {
+										e.preventDefault();
+										setCreationOpen(true);
+									}}
+								>
+									Create Dataset
+								</Link>
 							</Box>
 							<Box className="actionCard">
 								<Typography className="title">Explore more dataset</Typography>
