@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 
 import {Box, Button, Container} from "@mui/material";
 
@@ -32,10 +32,12 @@ export const CreateDataset: React.FC<CreateDatasetProps> = (props: CreateDataset
 		createDataset(formData);
 		setLoading(false);
 		setOpen(false);
-
-		// zoom into that newly created dataset
-		history(`/datasets/${newDataset.id}`);
 	};
+
+	// zoom into that newly created dataset
+	useEffect(() => {
+		if (newDataset !== undefined && newDataset.id !== undefined) history(`/datasets/${newDataset.id}`);
+	}, [newDataset]);
 
 	return (
 		<Container>
