@@ -14,7 +14,7 @@ Install dependencies:
 
 Run for development:
 
-`npm start`
+`npm run start:dev`
 
 By default backend runs at `http://localhost:8000`. If running at different url/port, use:
 
