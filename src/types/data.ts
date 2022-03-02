@@ -138,8 +138,10 @@ export interface Thumbnail{
 export interface DatasetState{
 	files: File[];
 	datasets: Dataset[];
+	newDataset: Dataset;
 	about: About;
-	folders: Folder[]
+	folders: Folder[];
+	folderPath: string[];
 }
 
 export interface FileState{
@@ -158,6 +160,7 @@ export interface UserState{
 }
 
 export interface ErrorState{
+	stack: string;
 	reason: string;
 	loggedOut: boolean;
 }

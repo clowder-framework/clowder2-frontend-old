@@ -15,6 +15,7 @@ import {useNavigate} from "react-router-dom";
 import {MainBreadcrumbs} from "./childComponents/BreadCrumb";
 import {ActionModal} from "./childComponents/ActionModal";
 import DatasetCard from "./childComponents/DatasetCard";
+import config from "../app.config";
 
 const tab = {
 	fontStyle: "normal",
@@ -37,19 +38,20 @@ export const Dashboard = (): JSX.Element => {
 	const dismissLogout = () => dispatch(resetLogout());
 	const datasets = useSelector((state: RootState) => state.dataset.datasets);
 	const reason = useSelector((state: RootState) => state.error.reason);
+	const stack = useSelector((state: RootState) => state.error.stack);
 	const loggedOut = useSelector((state: RootState) => state.error.loggedOut);
 
 	const [datasetThumbnailList, setDatasetThumbnailList] = useState<any>([]);
 	// TODO add option to determine limit number; default show 5 datasets each time
 	const [currPageNum, setCurrPageNum] = useState<number>(0);
-	const [limit,] = useState<number>(5);
+	const [limit,] = useState<number>(20);
 	const [skip, setSkip] = useState<number | undefined>();
 	// TODO add switch to turn on and off "mine" dataset
 	const [mine,] = useState<boolean>(false);
 	const [prevDisabled, setPrevDisabled] = useState<boolean>(true);
 	const [nextDisabled, setNextDisabled] = useState<boolean>(false);
 	const [selectedTabIndex, setSelectedTabIndex] = useState(0);
-	const [selectedDataset, setSelectedDataset] = useState<Dataset>();
+	const [selectedDataset, _] = useState<Dataset>();
 	const [creationOpen, setCreationOpen] = useState(false);
 
 	// confirmation dialog
@@ -77,6 +79,9 @@ export const Dashboard = (): JSX.Element => {
 		// reset error message and close the error window
 		dismissError();
 		setErrorOpen(false);
+	}
+	const handleErrorReport = () => {
+		window.open(`${config.GHIssueBaseURL}+${reason}&body=${encodeURIComponent(stack)}`);
 	}
 
 	// log user out if token expired/unauthorized
@@ -160,7 +165,7 @@ export const Dashboard = (): JSX.Element => {
 							 }}/>
 				{/*Error Message dialogue*/}
 				<ActionModal actionOpen={errorOpen} actionTitle="Something went wrong..." actionText={reason}
-							 actionBtnName="Report" handleActionBtnClick={() => console.log(reason)}
+							 actionBtnName="Report" handleActionBtnClick={handleErrorReport}
 							 handleActionCancel={handleErrorCancel}/>
 				<div className="inner-container">
 					<Grid container spacing={4}>
@@ -206,9 +211,14 @@ export const Dashboard = (): JSX.Element => {
 								<Typography className="content">Some quick example text to tell users why they should
 									upload
 									their own data</Typography>
-								<Link href="#" className="link" onClick={() => {
-									setCreationOpen(true);
-								}}>Create Dataset</Link>
+								<Link className="link"
+									  onClick={(e) => {
+										e.preventDefault();
+										setCreationOpen(true);
+									}}
+								>
+									Create Dataset
+								</Link>
 							</Box>
 							<Box className="actionCard">
 								<Typography className="title">Explore more dataset</Typography>
