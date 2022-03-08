@@ -1,8 +1,19 @@
 import {About, Dataset, ExtractedMetadata, File, MetadataJsonld, FilePreview, FileMetadata, FileVersion, Folder} from "./data";
+import {UPDATE_FILE} from "../actions/file";
 
 interface RECEIVE_FILES_IN_DATASET {
 	type: "RECEIVE_FILES_IN_DATASET";
 	files: File[];
+}
+
+interface RECEIVE_FOLDERS_IN_DATASET {
+	type: "RECEIVE_FOLDERS_IN_DATASET";
+	folders: Folder[];
+}
+
+interface UPDATE_FILE {
+	type: "UPDATE_FILE";
+	file: File[];
 }
 
 interface DELETE_FILE {
@@ -123,6 +134,7 @@ export type DataAction =
 	| REGISTER_USER
 	| CREATE_DATASET
 	| CREATE_FILE
+	| UPDATE_FILE
 	| FAILED
 	| RESET_FAILED
 	| RESET_LOGOUT
