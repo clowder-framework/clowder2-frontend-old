@@ -10,11 +10,11 @@ import {
 import {CREATE_FILE, UPDATE_FILE, DELETE_FILE} from "../actions/file";
 import {DataAction} from "../types/action";
 import {DatasetState} from "../types/data";
-import {DatasetOut as Dataset} from "../openapi/v2";
+import {DatasetOut as Dataset, UserOut as Author} from "../openapi/v2";
 
 const defaultState: DatasetState = {
 	files: [],
-	about: <Dataset>{},
+	about: <Dataset>{"author":<Author>{}},
 	datasets: [],
 	newDataset: <Dataset>{},
 	folders: [],

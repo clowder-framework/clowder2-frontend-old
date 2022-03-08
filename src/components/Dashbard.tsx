@@ -169,7 +169,7 @@ export const Dashboard = (): JSX.Element => {
 											return (
 												<Grid item xs>
 													<DatasetCard id={dataset.id} name={dataset.name}
-																 author={dataset.author.email}
+																 author={dataset.author.full_name}
 																 created={dataset.created}
 																 description={dataset.description}/>
 												</Grid>

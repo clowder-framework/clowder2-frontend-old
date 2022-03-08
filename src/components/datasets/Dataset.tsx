@@ -49,10 +49,6 @@ export const Dataset = (): JSX.Element => {
 	// search parameters
 	const [searchParams, _] = useSearchParams();
 	const folder = searchParams.get("folder");
-	useEffect(() => {
-		const currentParams = Object.fromEntries([...searchParams]);
-		console.log(currentParams); // get new values onchange
-	}, [searchParams]);
 
 	// use history hook to redirect/navigate between routes
 	const history = useNavigate();
@@ -269,7 +265,7 @@ export const Dataset = (): JSX.Element => {
 												</Typography>
 										}
 										<Typography className="content">Dataset ID: {about["id"]}</Typography>
-										{/*<Typography className="content">Owner: {about["author"]["full_name"]}</Typography>*/}
+										<Typography className="content">Owner: {about["author"]["full_name"]}</Typography>
 										<Typography className="content">Description: {about["description"]}</Typography>
 										<Typography className="content">Created on: {parseDate(about["created"])}</Typography>
 										{/*/!*TODO use this to get thumbnail*!/*/}
