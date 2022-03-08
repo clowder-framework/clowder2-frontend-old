@@ -1,49 +1,4 @@
-export interface Dataset {
-	name: string;
-	description: string;
-	id:string;
-	author: Author;
-	created: string | Date;
-	modified: string | Date;
-	files: string[];
-	folders: string[];
-	status: string;
-	views: string;
-	downloads: string;
-	thumbnail: string;
-}
-
-export interface Author {
-	id: string;
-	email: string;
-	"full_name": string|null;
-}
-
-export interface File {
-	version: string;
-	creator: string;
-	created: string | Date;
-	id: string;
-	name: string;
-	size: number;
-	"date-created": string;
-	contentType:string;
-}
-
-export interface Folder {
-	id: string;
-	name: string;
-	"parent_folder": string|null;
-}
-
-export interface About {
-	name: string;
-	id: string;
-	authorId: string;
-	description: string;
-	created: string | Date;
-	thumbnail: string;
-}
+import {FileOut as File, DatasetOut as Dataset, FolderOut as Folder} from "../openapi/v2";
 
 export interface FileMetadata {
 	id: string;
@@ -139,7 +94,7 @@ export interface DatasetState{
 	files: File[];
 	datasets: Dataset[];
 	newDataset: Dataset;
-	about: About;
+	about: Dataset;
 	folders: Folder[];
 	folderPath: string[];
 }

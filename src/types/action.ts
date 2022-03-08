@@ -1,5 +1,6 @@
-import {About, Dataset, ExtractedMetadata, File, MetadataJsonld, FilePreview, FileMetadata, FileVersion, Folder} from "./data";
-import {UPDATE_FILE} from "../actions/file";
+import {ExtractedMetadata, MetadataJsonld, FilePreview, FileMetadata, FileVersion} from "./data";
+import {DatasetOut as Dataset, FileOut as File, FolderOut as Folder} from "../openapi/v2";
+import {GET_FOLDER_PATH} from "../actions/dataset";
 
 interface RECEIVE_FILES_IN_DATASET {
 	type: "RECEIVE_FILES_IN_DATASET";
@@ -13,7 +14,7 @@ interface RECEIVE_FOLDERS_IN_DATASET {
 
 interface UPDATE_FILE {
 	type: "UPDATE_FILE";
-	file: File[];
+	file: File;
 }
 
 interface DELETE_FILE {
@@ -23,7 +24,7 @@ interface DELETE_FILE {
 
 interface RECEIVE_DATASET_ABOUT{
 	type: "RECEIVE_DATASET_ABOUT";
-	about: About;
+	about: Dataset;
 }
 
 interface RECEIVE_DATASETS{
@@ -115,6 +116,15 @@ interface FOLDER_ADDED{
 	folder: Folder
 }
 
+interface GET_FOLDER_PATH{
+	type: "GET_FOLDER_PATH",
+	folderPath: string
+}
+
+interface RESET_CREATE_DATASET{
+	type: "RESET_CREATE_DATASET",
+	newDataset: Dataset
+}
 export type DataAction =
 	| RECEIVE_FILES_IN_DATASET
 	| RECEIVE_FOLDERS_IN_DATASET
@@ -139,4 +149,6 @@ export type DataAction =
 	| RESET_FAILED
 	| RESET_LOGOUT
 	| FOLDER_ADDED
+	| GET_FOLDER_PATH
+	| RESET_CREATE_DATASET
 	;

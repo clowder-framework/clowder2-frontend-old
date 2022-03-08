@@ -4,7 +4,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MenuIcon from '@mui/icons-material/Menu';
 import { downloadFile } from '../../utils/file';
-import {FileOut as File} from "../../openapi/v2/models/FileOut";
+import {FileOut as File} from "../../openapi/v2";
 import {useState} from "react";
 import {fileDeleted} from "../../actions/file";
 import {useDispatch} from "react-redux";

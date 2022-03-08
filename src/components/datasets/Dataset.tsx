@@ -49,7 +49,7 @@ export const Dataset = (): JSX.Element => {
 	const { datasetId } = useParams<{datasetId?: string}>();
 
 	// search parameters
-	let [searchParams, setSearchParams] = useSearchParams();
+	let [searchParams, _] = useSearchParams();
 	const folder = searchParams.get("folder");
 	useEffect(() => {
 		const currentParams = Object.fromEntries([...searchParams]);
@@ -62,10 +62,9 @@ export const Dataset = (): JSX.Element => {
 	// Redux connect equivalent
 	const dispatch = useDispatch();
 	const deleteDataset = (datasetId:string|undefined) => dispatch(datasetDeleted(datasetId));
-	const addFolder = (datasetId:string|undefined, folderName:string, parentFolder:string|null) => dispatch(folderAdded(datasetId, folderName, parentFolder));
-	const getFolderPath= (folderId:string|undefined) => dispatch(fetchFolderPath(folderId));
-	const listFilesInDataset = (datasetId:string|undefined, folderId:string|undefined) => dispatch(fetchFilesInDataset(datasetId, folderId));
-	const listFoldersInDataset = (datasetId:string|undefined, parentFolder:string|undefined) => dispatch(fetchFoldersInDataset(datasetId, parentFolder));
+	const getFolderPath= (folderId: string | null) => dispatch(fetchFolderPath(folderId));
+	const listFilesInDataset = (datasetId: string | undefined, folderId: string | null) => dispatch(fetchFilesInDataset(datasetId, folderId));
+	const listFoldersInDataset = (datasetId: string | undefined, parentFolder: string | null) => dispatch(fetchFoldersInDataset(datasetId, parentFolder));
 	const listDatasetAbout= (datasetId:string|undefined) => dispatch(fetchDatasetAbout(datasetId));
 	const dismissError = () => dispatch(resetFailedReason());
 	const dismissLogout = () => dispatch(resetLogout());

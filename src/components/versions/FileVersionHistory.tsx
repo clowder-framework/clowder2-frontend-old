@@ -1,7 +1,6 @@
 import React from "react";
 import {Box, Button, List, ListItem, ListItemAvatar, ListItemText} from "@mui/material";
 import {FileVersion} from "../../types/data";
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import {VersionChip} from "./VersionChip";
 import {parseDate} from "../../utils/common";
 

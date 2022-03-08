@@ -3,11 +3,11 @@ import {Box, Button, Dialog, DialogTitle, Grid, Link, Tab, Tabs, Typography} fro
 
 import {CreateDataset} from "./datasets/CreateDataset";
 
-import {Dataset, RootState} from "../types/data";
+import {RootState} from "../types/data";
+import {DatasetOut as Dataset} from "../openapi/v2";
 import {useDispatch, useSelector} from "react-redux";
 import {datasetDeleted, fetchDatasets,} from "../actions/dataset";
 import {resetFailedReason, resetLogout} from "../actions/common";
-import {downloadThumbnail} from "../utils/thumbnail";
 import TopBar from "./navigation/TopBar";
 
 import {a11yProps, TabPanel} from "./tabs/TabComponent";
@@ -32,7 +32,7 @@ export const Dashboard = (): JSX.Element => {
 
 	// Redux connect equivalent
 	const dispatch = useDispatch();
-	const deleteDataset = (datasetId: string) => dispatch(datasetDeleted(datasetId));
+	const deleteDataset = (datasetId: string | undefined) => dispatch(datasetDeleted(datasetId));
 	const listDatasets = (skip: number | undefined, limit: number | undefined, mine: boolean | undefined) => dispatch(fetchDatasets(skip, limit, mine));
 	const dismissError = () => dispatch(resetFailedReason());
 	const dismissLogout = () => dispatch(resetLogout());
@@ -41,7 +41,6 @@ export const Dashboard = (): JSX.Element => {
 	const stack = useSelector((state: RootState) => state.error.stack);
 	const loggedOut = useSelector((state: RootState) => state.error.loggedOut);
 
-	const [datasetThumbnailList, setDatasetThumbnailList] = useState<any>([]);
 	// TODO add option to determine limit number; default show 5 datasets each time
 	const [currPageNum, setCurrPageNum] = useState<number>(0);
 	const [limit,] = useState<number>(20);
@@ -93,24 +92,8 @@ export const Dashboard = (): JSX.Element => {
 		}
 	}, [loggedOut]);
 
-	// fetch thumbnails from each individual dataset/id calls
+	// check prev/next button valid or not
 	useEffect(() => {
-		(async () => {
-			if (datasets !== undefined && datasets.length > 0) {
-
-				// TODO change the type any to something else
-				const datasetThumbnailListTemp: any = [];
-				await Promise.all(datasets.map(async (dataset) => {
-					// add thumbnails
-					if (dataset["thumbnail"] !== null && dataset["thumbnail"] !== undefined) {
-						const thumbnailURL = await downloadThumbnail(dataset["thumbnail"]);
-						datasetThumbnailListTemp.push({"id": dataset["id"], "thumbnail": thumbnailURL});
-					}
-				}));
-				setDatasetThumbnailList(datasetThumbnailListTemp);
-			}
-		})();
-
 		// disable flipping if reaches the last page
 		if (datasets.length < limit) setNextDisabled(true);
 		else setNextDisabled(false);
@@ -182,19 +165,19 @@ export const Dashboard = (): JSX.Element => {
 							<TabPanel value={selectedTabIndex} index={0}>
 								<Grid container spacing={2}>
 									{
-										datasets !== undefined && datasetThumbnailList !== undefined ?
-											datasets.map((dataset) => {
-												return (
+										datasets.map((dataset) => {
+											return (
+												dataset !== undefined ?
 													<Grid item xs>
 														<DatasetCard id={dataset.id} name={dataset.name}
 																	 author={dataset.author.email}
 																	 created={dataset.created}
 																	 description={dataset.description}/>
 													</Grid>
-												);
-											})
-											:
-											<></>
+													:
+													<></>
+											);
+										})
 									}
 								</Grid>
 								<Button onClick={previous} disabled={prevDisabled}>Prev</Button>
