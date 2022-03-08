@@ -13,7 +13,7 @@ import {isAuthorized} from "./utils/common";
 // https://dev.to/iamandrewluca/private-route-in-react-router-v6-lg5
 class PrivateRoute extends React.Component<{ children: JSX.Element }> {
 	render() {
-		let {children} = this.props;
+		const {children} = this.props;
 		return isAuthorized() ? children : <Navigate to="/login"/>;
 	}
 }

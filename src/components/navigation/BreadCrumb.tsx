@@ -12,18 +12,18 @@ export const MainBreadcrumbs: React.FC<BreadCrumbProps> = (props:BreadCrumbProps
 	const history = useNavigate();
 
 	return (
-			<Breadcrumbs aria-label="breadcrumb">
-				{
-					paths.map((path:any, index:number) => {
-						if (index !== paths.length -1){
-							return (<Button key={index} onClick={() => history(path["url"])}>{path["name"]}
-							</Button>);
-						}
-						else{
-							return (<Button disabled color="primary" key={index}>{path["name"]}</Button>);
-						}
-					})
-				}
-			</Breadcrumbs>
+		<Breadcrumbs aria-label="breadcrumb">
+			{
+				paths.map((path:any, index:number) => {
+					if (index !== paths.length -1){
+						return (<Button key={index} onClick={() => history(path["url"])}>{path["name"]}
+						</Button>);
+					}
+					else{
+						return (<Button disabled color="primary" key={index}>{path["name"]}</Button>);
+					}
+				})
+			}
+		</Breadcrumbs>
 	);
 };

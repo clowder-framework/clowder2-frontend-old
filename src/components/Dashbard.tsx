@@ -60,7 +60,7 @@ export const Dashboard = (): JSX.Element => {
 			deleteDataset(selectedDataset["id"]);
 		}
 		setConfirmationOpen(false);
-	}
+	};
 
 	// component did mount
 	useEffect(() => {
@@ -73,15 +73,15 @@ export const Dashboard = (): JSX.Element => {
 		if (reason !== "" && reason !== null && reason !== undefined) {
 			setErrorOpen(true);
 		}
-	}, [reason])
+	}, [reason]);
 	const handleErrorCancel = () => {
 		// reset error message and close the error window
 		dismissError();
 		setErrorOpen(false);
-	}
+	};
 	const handleErrorReport = () => {
 		window.open(`${config.GHIssueBaseURL}+${reason}&body=${encodeURIComponent(stack)}`);
-	}
+	};
 
 	// log user out if token expired/unauthorized
 	useEffect(() => {
@@ -153,7 +153,7 @@ export const Dashboard = (): JSX.Element => {
 				<div className="inner-container">
 					<Grid container spacing={4}>
 						<Grid item xs={8}>
-							<Box sx={{borderBottom: 1, borderColor: 'divider'}}>
+							<Box sx={{borderBottom: 1, borderColor: "divider"}}>
 								<Tabs value={selectedTabIndex} onChange={handleTabChange} aria-label="dashboard tabs">
 									<Tab sx={tab} label="Datasets" {...a11yProps(0)} />
 									<Tab sx={tab} label="Activity" {...a11yProps(1)} disabled={true}/>

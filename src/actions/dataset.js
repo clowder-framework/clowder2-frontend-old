@@ -120,7 +120,7 @@ export function datasetDeleted(datasetId){
 export const FOLDER_ADDED = "FOLDER_ADDED";
 export function folderAdded(datasetId, folderName, parentFolder = null){
 	return (dispatch) => {
-		const folder = {"name": folderName, "parent_folder": parentFolder}
+		const folder = {"name": folderName, "parent_folder": parentFolder};
 		return V2.DatasetsService.addFolderApiV2DatasetsDatasetIdFoldersPost(datasetId, folder)
 			.then(json => {
 				dispatch({

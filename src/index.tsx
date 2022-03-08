@@ -6,10 +6,10 @@ import { render } from "react-dom";
 import { Provider } from "react-redux";
 import AppRoutes from "./routes";
 import configureStore from "./store/configureStore";
-import {ThemeProvider} from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
+import {ThemeProvider} from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
 const store = configureStore();
-import theme from './theme';
+import theme from "./theme";
 
 
 render(

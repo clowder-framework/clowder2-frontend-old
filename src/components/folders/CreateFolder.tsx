@@ -51,14 +51,14 @@ export const CreateFolder: React.FC<CreateFolderProps> = (props: CreateFolderPro
 				<Dialog open={open} onClose={handleClose} fullWidth={true} aria-labelledby="create-dataset">
 					<DialogTitle>Create New Folder</DialogTitle>
 					<DialogContent>
-							<TextField
-								id="outlined-name"
-								label="Folder Name"
-								variant="standard"
-								fullWidth
-								value={name}
-								onChange={handleChange}
-							/>
+						<TextField
+							id="outlined-name"
+							label="Folder Name"
+							variant="standard"
+							fullWidth
+							value={name}
+							onChange={handleChange}
+						/>
 					</DialogContent>
 					<DialogActions>
 						<Button variant="contained" onClick={onSave} disabled={name == ""}>Create</Button>

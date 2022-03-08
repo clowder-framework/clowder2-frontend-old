@@ -12,9 +12,8 @@ import {
 	fetchDatasetAbout,
 	fetchFilesInDataset, fetchFolderPath,
 	fetchFoldersInDataset,
-	folderAdded
 } from "../../actions/dataset";
-import {resetFailedReason, resetLogout} from "../../actions/common"
+import {resetFailedReason, resetLogout} from "../../actions/common";
 
 import {a11yProps, TabPanel} from "../tabs/TabComponent";
 import TopBar from "../navigation/TopBar";
@@ -41,7 +40,7 @@ const optionMenuItem = {
 	fontSize: "14px",
 	color: "#212529",
 	marginTop:"8px",
-}
+};
 
 export const Dataset = (): JSX.Element => {
 
@@ -49,7 +48,7 @@ export const Dataset = (): JSX.Element => {
 	const { datasetId } = useParams<{datasetId?: string}>();
 
 	// search parameters
-	let [searchParams, _] = useSearchParams();
+	const [searchParams, _] = useSearchParams();
 	const folder = searchParams.get("folder");
 	useEffect(() => {
 		const currentParams = Object.fromEntries([...searchParams]);
@@ -97,15 +96,15 @@ export const Dataset = (): JSX.Element => {
 		if (reason !== "" && reason !== null && reason !== undefined){
 			setErrorOpen(true);
 		}
-	}, [reason])
+	}, [reason]);
 	const handleErrorCancel = () => {
 		// reset error message and close the error window
 		dismissError();
 		setErrorOpen(false);
-	}
+	};
 	const handleErrorReport = (reason:string) => {
 		window.open(`${config.GHIssueBaseURL}+${reason}&body=${encodeURIComponent(stack)}`);
-	}
+	};
 
 	// log user out if token expired/unauthorized
 	useEffect(() => {
@@ -120,7 +119,7 @@ export const Dataset = (): JSX.Element => {
 	const [newFolder, setNewFolder] = React.useState<boolean>(false);
 	const handleCloseNewFolder = () => {
 		setNewFolder(false);
-	}
+	};
 
 	const handleTabChange = (_event:React.ChangeEvent<{}>, newTabIndex:number) => {
 		setSelectedTabIndex(newTabIndex);
@@ -152,10 +151,10 @@ export const Dataset = (): JSX.Element => {
 			paths.push({
 				"name": folderBread["folder_name"],
 				"url": `/datasets/${datasetId}?folder=${folderBread["folder_id"]}`
-			})
+			});
 		}
 	} else {
-		paths.slice(0, 1)
+		paths.slice(0, 1);
 	}
 
 	return (
@@ -170,7 +169,7 @@ export const Dataset = (): JSX.Element => {
 				<div className="inner-container">
 					<Grid container spacing={4}>
 						<Grid item xs={8}>
-							<Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+							<Box sx={{ borderBottom: 1, borderColor: "divider" }}>
 								<Tabs value={selectedTabIndex} onChange={handleTabChange} aria-label="dataset tabs">
 									<Tab sx={tab} label="Files" {...a11yProps(0)} />
 									<Tab sx={tab} label="Metadata" {...a11yProps(1)} disabled={true}/>
@@ -191,17 +190,17 @@ export const Dataset = (): JSX.Element => {
 							{/*option menus*/}
 							<Box className="infoCard">
 								<Button aria-haspopup="true" onClick={handleOptionClick}
-										sx={{
-											padding: "6px 12px",
-											width: "100px",
-											background: "#6C757D",
-											borderRadius: "4px",
-											color: "white",
-											textTransform: "capitalize",
-											'&:hover': {
-												color: "black"
-											},
-										}} endIcon={<ArrowDropDownIcon />}>
+									sx={{
+										padding: "6px 12px",
+										width: "100px",
+										background: "#6C757D",
+										borderRadius: "4px",
+										color: "white",
+										textTransform: "capitalize",
+										"&:hover": {
+											color: "black"
+										},
+									}} endIcon={<ArrowDropDownIcon />}>
 									Options
 								</Button>
 								<Menu
@@ -240,7 +239,7 @@ export const Dataset = (): JSX.Element => {
 												  // Go to Explore page
 												  history("/");
 											  }
-									}>Delete Dataset</MenuItem>
+										}>Delete Dataset</MenuItem>
 									<MenuItem onClick={handleOptionClose} sx={optionMenuItem} disabled={true}>Follow</MenuItem>
 									<MenuItem onClick={handleOptionClose} sx={optionMenuItem} disabled={true}>Collaborators</MenuItem>
 									<MenuItem onClick={handleOptionClose} sx={optionMenuItem} disabled={true}>Extraction</MenuItem>

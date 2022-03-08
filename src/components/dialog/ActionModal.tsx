@@ -23,17 +23,17 @@ export const ActionModal:React.FC<ActionModalProps> = (props: ActionModalProps) 
 	return (
 		<Dialog open={actionOpen} onClose={handleActionCancel} maxWidth={"sm"}>
 			<DialogTitle id="confirmation-dialog-title">{actionTitle}</DialogTitle>
-				<DialogContent>
-					<DialogContentText>
-						{actionText}
-					</DialogContentText>
-				</DialogContent>
-				<DialogActions>
-					{/*handleActionBtnClick This could be used to report error/ confirm deletion and so on*/}
-					<Button onClick={handleActionBtnClick} style={{color:"#007BFF"}}>{actionBtnName}
-					</Button>
-					<Button onClick={handleActionCancel} style={{color:"#007BFF"}}>Cancel</Button>
-				</DialogActions>
-			</Dialog>
+			<DialogContent>
+				<DialogContentText>
+					{actionText}
+				</DialogContentText>
+			</DialogContent>
+			<DialogActions>
+				{/*handleActionBtnClick This could be used to report error/ confirm deletion and so on*/}
+				<Button onClick={handleActionBtnClick} style={{color:"#007BFF"}}>{actionBtnName}
+				</Button>
+				<Button onClick={handleActionCancel} style={{color:"#007BFF"}}>Cancel</Button>
+			</DialogActions>
+		</Dialog>
 	);
-}
+};

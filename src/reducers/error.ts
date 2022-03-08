@@ -8,16 +8,16 @@ const defaultState = {
 
 const error = (state = defaultState, action: DataAction) => {
 	switch (action.type) {
-		case "FAILED":
-			return Object.assign({}, state, {reason: action.reason, stack: action.stack});
-		case "RESET_FAILED":
-			return Object.assign({}, state, {reason: "", stack: ""});
-		case "LOGOUT":
-			return Object.assign({}, state, {loggedOut: true});
-		case "RESET_LOGOUT":
-			return Object.assign({}, state, {loggedOut: false});
-		default:
-			return state;
+	case "FAILED":
+		return Object.assign({}, state, {reason: action.reason, stack: action.stack});
+	case "RESET_FAILED":
+		return Object.assign({}, state, {reason: "", stack: ""});
+	case "LOGOUT":
+		return Object.assign({}, state, {loggedOut: true});
+	case "RESET_LOGOUT":
+		return Object.assign({}, state, {loggedOut: false});
+	default:
+		return state;
 	}
 };
 

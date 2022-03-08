@@ -8,7 +8,7 @@ import Thumbnail from "../previewers/Thumbnail";
 import {PreviewConfiguration, RootState} from "../../types/data";
 import {useParams, useLocation, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {resetFailedReason, resetLogout} from "../../actions/common"
+import {resetFailedReason, resetLogout} from "../../actions/common";
 
 import {TabPanel} from "../tabs/TabComponent";
 import {a11yProps} from "../tabs/TabComponent";
@@ -23,11 +23,11 @@ import {FileVersionHistory} from "../versions/FileVersionHistory";
 
 const tab = {
 	fontStyle: "normal",
-		fontWeight: "normal",
-		fontSize: "16px",
-		color: "#495057",
-		textTransform: "capitalize",
-}
+	fontWeight: "normal",
+	fontSize: "16px",
+	color: "#495057",
+	textTransform: "capitalize",
+};
 
 export const File = (): JSX.Element => {
 	// use history hook to redirect/navigate between routes
@@ -76,15 +76,15 @@ export const File = (): JSX.Element => {
 		if (reason !== "" && reason !== null && reason !== undefined){
 			setErrorOpen(true);
 		}
-	}, [reason])
+	}, [reason]);
 	const handleErrorCancel = () => {
 		// reset error message and close the error window
 		dismissError();
 		setErrorOpen(false);
-	}
+	};
 	const handleErrorReport = (reason:string) => {
 		window.open(`${config.GHIssueBaseURL}+${reason}&body=${encodeURIComponent(stack)}`);
-	}
+	};
 
 	// log user out if token expired/unauthorized
 	useEffect(() => {
@@ -149,17 +149,17 @@ export const File = (): JSX.Element => {
 			paths.push({
 				"name": folderBread["folder_name"],
 				"url": `/datasets/${datasetId}?folder=${folderBread["folder_id"]}`
-			})
+			});
 		}
 	} else {
-		paths.slice(0, 1)
+		paths.slice(0, 1);
 	}
 
 	// add file link to breadcrumbs
 	paths.push({
 		"name":fileMetadata["name"],
 		"url":`/files/${fileId}`
-	})
+	});
 
 
 	return (
@@ -174,7 +174,7 @@ export const File = (): JSX.Element => {
 				<div className="inner-container">
 					<Grid container spacing={8}>
 						<Grid item xs={8}>
-							<Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+							<Box sx={{ borderBottom: 1, borderColor: "divider" }}>
 								<Tabs value={selectedTabIndex} onChange={handleTabChange} aria-label="file tabs">
 									<Tab sx={tab} label="Previews" {...a11yProps(0)} />
 									<Tab sx={tab} label="Version History" {...a11yProps(1)} />

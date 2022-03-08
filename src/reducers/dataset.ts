@@ -47,7 +47,7 @@ const dataset = (state = defaultState, action: DataAction) => {
 	case CREATE_DATASET:
 		return Object.assign({}, state, {newDataset: action.dataset});
 	case RESET_CREATE_DATASET:
-			return Object.assign({}, state, {newDataset: {}});
+		return Object.assign({}, state, {newDataset: {}});
 	case DELETE_DATASET:
 		return Object.assign({}, state, {
 			datasets: state.datasets.filter(dataset => dataset.id !== action.dataset.id),

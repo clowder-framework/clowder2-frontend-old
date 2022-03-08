@@ -26,7 +26,7 @@ export const Login = (): JSX.Element => {
 	// component did mount
 	useEffect(() => {
 		if (isAuthorized()) { history("/");}
-		}, []);
+	}, []);
 
 	const handleKeyPressed= async (event: React.KeyboardEvent<{}>) => {
 		if (event.key === "Enter") { await handleLoginButtonClick();}

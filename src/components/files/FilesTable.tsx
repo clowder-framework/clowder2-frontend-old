@@ -1,18 +1,18 @@
-import * as React from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import * as React from "react";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
 import {useSelector} from "react-redux";
 import {RootState} from "../../types/data";
 import {useNavigate} from "react-router-dom";
 import {Button} from "@mui/material";
 import FileMenu from "./FileMenu";
-import FolderIcon from '@mui/icons-material/Folder';
-import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
+import FolderIcon from "@mui/icons-material/Folder";
+import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import {parseDate} from "../../utils/common";
 import {VersionChip} from "../versions/VersionChip";
 
@@ -44,7 +44,7 @@ export default function FilesTable(props: FilesTableProps) {
 						<TableCell align="right">Updated</TableCell>
 						<TableCell align="right">Size</TableCell>
 						<TableCell align="right">Type</TableCell>
-						<TableCell align="right"></TableCell>
+						<TableCell align="right" />
 					</TableRow>
 				</TableHead>
 				<TableBody>
@@ -52,7 +52,7 @@ export default function FilesTable(props: FilesTableProps) {
 						foldersInDataset.map((folder) => (
 							<TableRow
 								key={folder.id}
-								sx={{'&:last-child td, &:last-child th': {border: 0}}}
+								sx={{"&:last-child td, &:last-child th": {border: 0}}}
 							>
 								<TableCell component="th" scope="row">
 									<FolderIcon/><Button onClick={() => selectFolder(folder.id)}>{folder.name}</Button>
@@ -65,21 +65,21 @@ export default function FilesTable(props: FilesTableProps) {
 					}
 					{
 						filesInDataset.map((file) => (
-						<TableRow
-							key={file.id}
-							sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-						>
-							<TableCell component="th" scope="row">
-								<InsertDriveFileIcon/>
-								<Button onClick={() => selectFile(file.id)}>{file.name}</Button>
-								{/*TODO this should be version number; for now put version ID instead*/}
-								<VersionChip versionNumber={file.version.slice(0,2)}/>
-							</TableCell>
-							<TableCell align="right">{parseDate(file.created)} by {file.creator}</TableCell>
-							<TableCell align="right">{file.size}</TableCell>
-							<TableCell align="right">{file.contentType}</TableCell>
-							<TableCell align="right"><FileMenu file={file}/></TableCell>
-						</TableRow>))
+							<TableRow
+								key={file.id}
+								sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+							>
+								<TableCell component="th" scope="row">
+									<InsertDriveFileIcon/>
+									<Button onClick={() => selectFile(file.id)}>{file.name}</Button>
+									{/*TODO this should be version number; for now put version ID instead*/}
+									<VersionChip versionNumber={file.version.slice(0,2)}/>
+								</TableCell>
+								<TableCell align="right">{parseDate(file.created)} by {file.creator}</TableCell>
+								<TableCell align="right">{file.size}</TableCell>
+								<TableCell align="right">{file.contentType}</TableCell>
+								<TableCell align="right"><FileMenu file={file}/></TableCell>
+							</TableRow>))
 					}
 				</TableBody>
 			</Table>

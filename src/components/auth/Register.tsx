@@ -29,7 +29,7 @@ const textField = {
 			borderColor: "#212529",
 		},
 	},
-}
+};
 
 export const Register = (): JSX.Element => {
 
@@ -51,7 +51,7 @@ export const Register = (): JSX.Element => {
 
 	useEffect(()=>{
 		if (registerSucceeded) history("/login");
-	}, [registerSucceeded])
+	}, [registerSucceeded]);
 
 	const changeUsername = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setEmail(event.target.value);

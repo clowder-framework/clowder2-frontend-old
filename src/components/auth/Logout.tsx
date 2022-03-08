@@ -11,5 +11,5 @@ export const Logout = (): JSX.Element => {
 
 	return (
 		<Navigate to={"/login"}/>
-	)
-}
+	);
+};
