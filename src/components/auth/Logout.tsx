@@ -1,3 +1,4 @@
+// @ts-ignore
 import React, {useEffect} from "react";
 import {useDispatch} from "react-redux";
 import {logout as logoutAction} from "../../actions/user";

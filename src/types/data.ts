@@ -1,4 +1,4 @@
-import {FileOut as File, DatasetOut as Dataset, FolderOut as Folder} from "../openapi/v2";
+import {FileOut as File, DatasetOut as Dataset, FolderOut as Folder, FileVersion} from "../openapi/v2";
 
 export interface FileMetadata {
 	id: string;
@@ -13,14 +13,6 @@ export interface FileMetadata {
 	downloads:number;
 	views:number;
 	version: string;
-}
-
-export interface FileVersion {
-	id: string;
-	"version_id": string;
-	"file_id": string;
-	"creator": string;
-	"created": string | Date;
 }
 
 export interface FileMetadataList{
@@ -90,13 +82,18 @@ export interface Thumbnail{
 	thumbnail: string;
 }
 
+export interface FolderPath{
+	"folder_name": string;
+	"folder_id": string;
+}
+
 export interface DatasetState{
 	files: File[];
 	datasets: Dataset[];
 	newDataset: Dataset;
 	about: Dataset;
 	folders: Folder[];
-	folderPath: string[];
+	folderPath: FolderPath[];
 }
 
 export interface FileState{

@@ -1,7 +1,8 @@
-import {Box, Typography} from "@mui/material";
+// @ts-ignore
 import React from "react";
 import {FileMetadata} from "../../types/data";
 import {parseDate} from "../../utils/common";
+import {Box, Typography} from "@mui/material";
 
 
 type FileAboutProps = {

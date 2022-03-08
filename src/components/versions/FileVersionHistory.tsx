@@ -1,6 +1,7 @@
+// @ts-ignore
 import React from "react";
 import {Box, Button, List, ListItem, ListItemAvatar, ListItemText} from "@mui/material";
-import {FileVersion} from "../../types/data";
+import {FileVersion} from "../../openapi/v2";
 import {VersionChip} from "./VersionChip";
 import {parseDate} from "../../utils/common";
 
@@ -22,7 +23,10 @@ export function FileVersionHistory(props: FileVersionHistoryProps) {
 							<ListItem>
 								<ListItemAvatar>
 									{/*TODO replace with pretty version name*/}
-									<VersionChip versionNumber={fileVersion["version_id"].slice(0,2)}/>
+									{fileVersion["version_id"] ?
+										<VersionChip versionNumber={fileVersion["version_id"].slice(0,2)}/>
+										: <></>
+									}
 								</ListItemAvatar>
 								<ListItemText primary={`Uploaded by ${fileVersion["creator"]}`}
 									secondary={`Uploaded on ${parseDate(fileVersion["created"])}`}

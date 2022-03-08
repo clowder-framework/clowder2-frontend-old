@@ -1,4 +1,5 @@
 import {Box, Typography} from "@mui/material";
+// @ts-ignore
 import React from "react";
 
 export function TabPanel(props:any) {

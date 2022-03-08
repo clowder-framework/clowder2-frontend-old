@@ -13,6 +13,7 @@ export type { DatasetIn } from './models/DatasetIn';
 export type { DatasetOut } from './models/DatasetOut';
 export type { FileIn } from './models/FileIn';
 export type { FileOut } from './models/FileOut';
+export type { FileVersion } from './models/FileVersion';
 export type { FolderIn } from './models/FolderIn';
 export type { FolderOut } from './models/FolderOut';
 export type { HTTPValidationError } from './models/HTTPValidationError';

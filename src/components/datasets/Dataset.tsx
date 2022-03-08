@@ -19,7 +19,6 @@ import {a11yProps, TabPanel} from "../tabs/TabComponent";
 import TopBar from "../navigation/TopBar";
 import {MainBreadcrumbs} from "../navigation/BreadCrumb";
 import {UploadFile} from "../files/UploadFile";
-import {V2} from "../../openapi";
 import {ActionModal} from "../dialog/ActionModal";
 import FilesTable from "../files/FilesTable";
 import {CreateFolder} from "../folders/CreateFolder";
@@ -60,11 +59,11 @@ export const Dataset = (): JSX.Element => {
 
 	// Redux connect equivalent
 	const dispatch = useDispatch();
-	const deleteDataset = (datasetId:string|undefined) => dispatch(datasetDeleted(datasetId));
+	const deleteDataset = (datasetId:string | undefined) => dispatch(datasetDeleted(datasetId));
 	const getFolderPath= (folderId: string | null) => dispatch(fetchFolderPath(folderId));
 	const listFilesInDataset = (datasetId: string | undefined, folderId: string | null) => dispatch(fetchFilesInDataset(datasetId, folderId));
 	const listFoldersInDataset = (datasetId: string | undefined, parentFolder: string | null) => dispatch(fetchFoldersInDataset(datasetId, parentFolder));
-	const listDatasetAbout= (datasetId:string|undefined) => dispatch(fetchDatasetAbout(datasetId));
+	const listDatasetAbout= (datasetId?:string) => dispatch(fetchDatasetAbout(datasetId));
 	const dismissError = () => dispatch(resetFailedReason());
 	const dismissLogout = () => dispatch(resetLogout());
 
@@ -257,11 +256,11 @@ export const Dataset = (): JSX.Element => {
 													setNewDatasetName(value);
 												}} defaultValue={about["name"]}/>
 												<Button onClick={() => {
-													V2.DatasetsService.editDatasetApiV2DatasetsDatasetIdPut(about["id"]).then((json: any) => {
-														// TODO: Dispatch response back to Redux
-														console.log("PUT Dataset Response:", json);
-														setEditingName(false);
-													});
+													// V2.DatasetsService.editDatasetApiV2DatasetsDatasetIdPut(about["id"]).then((json: any) => {
+													// 	// TODO: Dispatch response back to Redux
+													// 	console.log("PUT Dataset Response:", json);
+													// 	setEditingName(false);
+													// });
 												}} disabled={true}>Save</Button>
 												<Button onClick={() => setEditingName(false)}>Cancel</Button>
 											</> :
@@ -270,11 +269,11 @@ export const Dataset = (): JSX.Element => {
 												</Typography>
 										}
 										<Typography className="content">Dataset ID: {about["id"]}</Typography>
-										<Typography className="content">Owner: {about["authorId"]}</Typography>
+										{/*<Typography className="content">Owner: {about["author"]["full_name"]}</Typography>*/}
 										<Typography className="content">Description: {about["description"]}</Typography>
 										<Typography className="content">Created on: {parseDate(about["created"])}</Typography>
 										{/*/!*TODO use this to get thumbnail*!/*/}
-										<Typography className="content">Thumbnail: {about["thumbnail"]}</Typography>
+										{/*<Typography className="content">Thumbnail: {about["thumbnail"]}</Typography>*/}
 										{/*<Typography className="content">Belongs to spaces: {about["authorId"]}</Typography>*/}
 										{/*/!*TODO not sure how to use this info*!/*/}
 										{/*<Typography className="content">Resource type: {about["resource_type"]}</Typography>*/}

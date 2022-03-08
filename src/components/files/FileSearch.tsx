@@ -1,7 +1,8 @@
-import {Box, Grid, Typography} from "@mui/material";
+// @ts-ignore
 import React from "react";
 import {ClowderInput} from "../styledComponents/ClowderInput";
 import {ClowderButton} from "../styledComponents/ClowderButton";
+import {Box, Grid, Typography} from "@mui/material";
 
 export function FileSearch() {
 

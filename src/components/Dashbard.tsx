@@ -167,16 +167,13 @@ export const Dashboard = (): JSX.Element => {
 									{
 										datasets.map((dataset) => {
 											return (
-												dataset !== undefined ?
-													<Grid item xs>
-														<DatasetCard id={dataset.id} name={dataset.name}
-																	 author={dataset.author.email}
-																	 created={dataset.created}
-																	 description={dataset.description}/>
-													</Grid>
-													:
-													<></>
-											);
+												<Grid item xs>
+													<DatasetCard id={dataset.id} name={dataset.name}
+																 author={dataset.author.email}
+																 created={dataset.created}
+																 description={dataset.description}/>
+												</Grid>
+											)
 										})
 									}
 								</Grid>

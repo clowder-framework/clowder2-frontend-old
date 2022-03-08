@@ -1,3 +1,4 @@
+// @ts-ignore
 import * as React from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -17,8 +18,8 @@ import {parseDate} from "../../utils/common";
 import {VersionChip} from "../versions/VersionChip";
 
 type FilesTableProps = {
-	datasetId: string | undefined,
-	datasetName: string
+	datasetId?: string,
+	datasetName?: string
 }
 
 export default function FilesTable(props: FilesTableProps) {
@@ -27,11 +28,11 @@ export default function FilesTable(props: FilesTableProps) {
 	const foldersInDataset = useSelector((state:RootState) => state.dataset.folders);
 	// use history hook to redirect/navigate between routes
 	const history = useNavigate();
-	const selectFile = (selectedFileId: string) => {
+	const selectFile = (selectedFileId?:string) => {
 		// Redirect to file route with file Id and dataset id
 		history(`/files/${selectedFileId}?dataset=${props.datasetId}&name=${props.datasetName}`);
 	};
-	const selectFolder = (selectedFolderId: string) => {
+	const selectFolder = (selectedFolderId?:string) => {
 		// Redirect to file route with file Id and dataset id
 		history(`/datasets/${props.datasetId}?folder=${selectedFolderId}`);
 	};
@@ -73,11 +74,11 @@ export default function FilesTable(props: FilesTableProps) {
 									<InsertDriveFileIcon/>
 									<Button onClick={() => selectFile(file.id)}>{file.name}</Button>
 									{/*TODO this should be version number; for now put version ID instead*/}
-									<VersionChip versionNumber={file.version.slice(0,2)}/>
+									{
+										file.version ? <VersionChip versionNumber={file.version.slice(0,2)}/> : <></>
+									}
 								</TableCell>
 								<TableCell align="right">{parseDate(file.created)} by {file.creator}</TableCell>
-								<TableCell align="right">{file.size}</TableCell>
-								<TableCell align="right">{file.contentType}</TableCell>
 								<TableCell align="right"><FileMenu file={file}/></TableCell>
 							</TableRow>))
 					}

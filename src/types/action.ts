@@ -1,5 +1,5 @@
-import {ExtractedMetadata, MetadataJsonld, FilePreview, FileMetadata, FileVersion} from "./data";
-import {DatasetOut as Dataset, FileOut as File, FolderOut as Folder} from "../openapi/v2";
+import {ExtractedMetadata, MetadataJsonld, FilePreview, FileMetadata, FolderPath} from "./data";
+import {DatasetOut as Dataset, FileOut as File, FolderOut as Folder, FileVersion} from "../openapi/v2";
 import {GET_FOLDER_PATH} from "../actions/dataset";
 
 interface RECEIVE_FILES_IN_DATASET {
@@ -118,7 +118,7 @@ interface FOLDER_ADDED{
 
 interface GET_FOLDER_PATH{
 	type: "GET_FOLDER_PATH",
-	folderPath: string
+	folderPath: FolderPath[],
 }
 
 interface RESET_CREATE_DATASET{

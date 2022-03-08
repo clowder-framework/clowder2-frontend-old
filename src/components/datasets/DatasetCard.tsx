@@ -1,3 +1,4 @@
+// @ts-ignore
 import React from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
@@ -8,11 +9,11 @@ import {useNavigate} from "react-router-dom";
 import {parseDate} from "../../utils/common";
 
 type DatasetCardProps = {
-	id: string,
-	name: string,
-	author: string,
-	created: string | Date,
-	description: string
+	id?: string,
+	name?: string,
+	author?: string,
+	created?: string | Date,
+	description?: string
 }
 
 export default function DatasetCard(props: DatasetCardProps) {
@@ -20,7 +21,7 @@ export default function DatasetCard(props: DatasetCardProps) {
 	const formattedCreated = parseDate(created);
 	// use history hook to redirect/navigate between routes
 	const history = useNavigate();
-	const selectDataset = (selectedDatasetId: string) => {
+	const selectDataset = (selectedDatasetId: string | undefined) => {
 		// Redirect to dataset route with dataset Id
 		history(`/datasets/${selectedDatasetId}`);
 	};

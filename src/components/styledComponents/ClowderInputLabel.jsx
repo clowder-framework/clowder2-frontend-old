@@ -1,7 +1,7 @@
 import {styled} from "@mui/styles";
 import {InputLabel} from "@mui/material";
 
-export const IncoreInputLabel = styled(InputLabel)({
+export const ClowderInputLabel = styled(InputLabel)({
 	color: "#2E384D",
 	fontSize: "16px",
 	fontWeight: 500,
