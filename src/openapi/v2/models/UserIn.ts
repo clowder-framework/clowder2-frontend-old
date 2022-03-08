@@ -5,7 +5,6 @@
 export type UserIn = {
     id?: string;
     email: string;
-    first_name?: string;
-    last_name?: string;
+    full_name?: string;
     password: string;
 }

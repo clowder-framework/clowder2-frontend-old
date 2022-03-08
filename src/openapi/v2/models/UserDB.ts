@@ -5,7 +5,6 @@
 export type UserDB = {
     id?: string;
     email: string;
-    first_name?: string;
-    last_name?: string;
+    full_name?: string;
     hashed_password: string;
 }
