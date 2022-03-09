@@ -63,9 +63,9 @@ export default function FilesTable(props: FilesTableProps) {
 									<Button onClick={() => selectFolder(folder.id)}>{folder.name}</Button>
 								</TableCell>
 								<TableCell align="right">{folder.author.full_name}</TableCell>
-								<TableCell align="right">-</TableCell>
-								<TableCell align="right">-</TableCell>
-								<TableCell align="right">-</TableCell>
+								<TableCell align="right">&nbsp;</TableCell>
+								<TableCell align="right">&nbsp;</TableCell>
+								<TableCell align="right">&nbsp;</TableCell>
 							</TableRow>))
 					}
 					{
