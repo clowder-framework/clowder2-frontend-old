@@ -12,11 +12,13 @@ export const DOI = () => {
 
 	useEffect(() => {
 		// If DOI doesn't follow the format (Regex)
-		if (!/doi:[0-9]{7}\/[0-9]{12}/.test(DOI)){
-			setPromptError(true);
-		}
-		else{
-			setPromptError(false);
+		if (DOI !== ""){
+			if (!/doi:[0-9]{7}\/[0-9]{12}/.test(DOI)){
+				setPromptError(true);
+			}
+			else{
+				setPromptError(false);
+			}
 		}
 	}, [DOI]);
 	return (

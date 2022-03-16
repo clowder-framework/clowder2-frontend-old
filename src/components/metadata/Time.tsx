@@ -7,7 +7,7 @@ import crypto from "crypto";
 export const Time = () => {
 	const [value, setValue] = useState(new Date());
 
-	const id = `time-${crypto.randomBytes(7).toString('hex')}`;
+	const id = `time-${crypto.randomBytes(7).toString("hex")}`;
 
 	const handleChange = (newValue:Date) => {
 		setValue(newValue);
