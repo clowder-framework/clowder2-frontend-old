@@ -7,6 +7,7 @@ import {File as FileComponent} from "./components/files/File";
 import {Login as LoginComponent} from "./components/auth/Login";
 import {Logout as LogoutComponent} from "./components/auth/Logout";
 import {Register as RegisterComponent} from "./components/auth/Register";
+import {Metadata} from "./components/metadata/Metadata";
 
 import {isAuthorized} from "./utils/common";
 
@@ -28,6 +29,7 @@ const AppRoutes = (
 			<Route path="/login" element={<LoginComponent/>} />
 			<Route path="/logout" element={<LogoutComponent/>} />
 			<Route path="/register" element={<RegisterComponent/>} />
+			<Route path="/files/:fileId" element={<Metadata/>} />
 			<Route path="*"
 				element={
 					<main style={{ padding: "1rem" }}>
