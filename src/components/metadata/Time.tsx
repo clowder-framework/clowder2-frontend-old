@@ -19,7 +19,7 @@ export const Time = () => {
 				label="Date and Time"
 				value={value}
 				onChange={handleChange}
-				renderInput={(params) => <TextField id={id} {...params} />}
+				renderInput={(params) => <TextField id={id} {...params} fullWidth/>}
 			/>
 		</LocalizationProvider>
 	);
