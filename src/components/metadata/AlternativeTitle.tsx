@@ -9,7 +9,7 @@ export const AlternativeTitle = () => {
 
 	return (
 		<TextField label="Alternative Title" variant="outlined" margin="normal"
-				   fullWidth autoFocus id={id}
+				   fullWidth id={id}
 				   name="Alternative Title"
 				   value={alternativeTitle}
 				   onChange={(event: React.ChangeEvent<HTMLInputElement>) => { setAlternativeTitle(event.target.value);}}/>
