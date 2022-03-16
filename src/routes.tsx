@@ -26,10 +26,10 @@ const AppRoutes = (
 			<Route path="/" element={<PrivateRoute><Dashboard/></PrivateRoute>} />
 			<Route path="/datasets/:datasetId" element={<PrivateRoute><DatasetComponent/></PrivateRoute>} />
 			<Route path="/files/:fileId" element={<PrivateRoute><FileComponent/></PrivateRoute>} />
+			<Route path="/files/:fileId/metadata" element={<PrivateRoute><Metadata/></PrivateRoute>} />
 			<Route path="/login" element={<LoginComponent/>} />
 			<Route path="/logout" element={<LogoutComponent/>} />
 			<Route path="/register" element={<RegisterComponent/>} />
-			<Route path="/files/:fileId" element={<Metadata/>} />
 			<Route path="*"
 				element={
 					<main style={{ padding: "1rem" }}>
