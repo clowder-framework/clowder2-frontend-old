@@ -24,7 +24,7 @@ import {V2} from "../../openapi";
 import {ActionModal} from "../dialog/ActionModal";
 import FilesTable from "../files/FilesTable";
 import {CreateFolder} from "../folders/CreateFolder";
-import { useSearchParams } from "react-router-dom";
+import {useSearchParams} from "react-router-dom";
 import {parseDate} from "../../utils/common";
 import config from "../../app.config";
 

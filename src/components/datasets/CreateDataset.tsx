@@ -1,62 +1,114 @@
-import React, {useEffect, useState} from "react";
+import * as React from "react";
+import Box from "@mui/material/Box";
+import Stepper from "@mui/material/Stepper";
+import Step from "@mui/material/Step";
+import StepLabel from "@mui/material/StepLabel";
+import StepContent from "@mui/material/StepContent";
+import Button from "@mui/material/Button";
+// import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
+import {CreateDatasetModal} from "./CreateDatasetModal";
+import {Metadata} from "../metadata/Metadata";
+import {UploadFile} from "../files/UploadFile";
 
-import {Box, Button, Container} from "@mui/material";
+const steps = [
+	{
+		label: "Create Dataset",
+		description: "",
+		component: <CreateDatasetModal />
+	},
+	{
+		label: "Fill in Metadata",
+		description: "",
+		component: <Metadata />
+	},
+	{
+		label: "Create Folders",
+		description: "Users can create folders and subfolders inside dataset to help with file management.",
+		component: <></>
+	},
+	{
+		label: "Attach Files",
+		description: "",
+		component: <UploadFile />
+	},
+];
 
-import LoadingOverlay from "react-loading-overlay-ts";
+export const CreateDataset = () => {
+	const [activeStep, setActiveStep] = React.useState(0);
 
-import Form from "@rjsf/material-ui";
-import datasetSchema from "../../schema/datasetSchema.json";
-import {FormProps} from "@rjsf/core";
-import {useDispatch, useSelector,} from "react-redux";
-import {datasetCreated, resetDatsetCreated} from "../../actions/dataset";
-import {RootState} from "../../types/data";
-import {useNavigate} from "react-router-dom";
-
-
-type CreateDatasetProps = {
-	setOpen:(open:boolean) => void,
-}
-
-export const CreateDataset: React.FC<CreateDatasetProps> = (props: CreateDatasetProps) => {
-	const history = useNavigate();
-
-	const dispatch = useDispatch();
-	const createDataset = (formData: FormData) => dispatch(datasetCreated(formData));
-	const newDataset = useSelector((state:RootState) => state.dataset.newDataset);
-	const {setOpen} = props;
-
-	const [loading, setLoading] = useState(false);
-
-	const onSave = async (formData:FormData) => {
-		setLoading(true);
-		createDataset(formData);
-		setLoading(false);
-		setOpen(false);
+	const handleNext = () => {
+		setActiveStep((prevActiveStep) => prevActiveStep + 1);
 	};
 
-	// zoom into that newly created dataset and reset newDataset
-	useEffect(() => {
-		if (newDataset !== undefined && newDataset.id !== undefined){
-			history(`/datasets/${newDataset.id}`);
-			dispatch(resetDatsetCreated());
-		}
-	}, [newDataset]);
+	const handleBack = () => {
+		setActiveStep((prevActiveStep) => prevActiveStep - 1);
+	};
+
+	const handleSkip = () => {
+		setActiveStep((prevActiveStep) => prevActiveStep + 1);
+	};
 
 	return (
-		<Container>
-			<LoadingOverlay
-				active={loading}
-				spinner
-				text="Saving..."
-			>
-				<Form schema={datasetSchema["schema"] as FormProps<any>["schema"]}
-					  uiSchema={datasetSchema["uiSchema"] as FormProps<any>["uiSchema"]} // widgets={widgets}
-					  onSubmit={({formData}) => {onSave(formData);}}>
-					<Box className="inputGroup">
-						<Button variant="contained" type="submit" className="form-button-block">Create</Button>
-					</Box>
-				</Form>
-			</LoadingOverlay>
-		</Container>
+		<Box sx={{ maxWidth: 400 }}>
+			<Stepper activeStep={activeStep} orientation="vertical">
+				{steps.map((step, index) => (
+					<Step key={step.label}>
+						<StepLabel
+							optional={
+								index === steps.length -1 ? (
+									<Typography variant="caption">Last step</Typography>
+								) : null
+							}
+						>
+							{step.label}
+						</StepLabel>
+						<StepContent>
+							<Typography>{step.description}</Typography>
+							<Box>
+								{step.component}
+							</Box>
+							{/*buttons*/}
+							<Box sx={{ mb: 2 }}>
+								<div>
+									<Button
+										variant="contained"
+										onClick={handleNext}
+										sx={{ mt: 1, mr: 1 }}
+									>
+										{index === steps.length - 1 ? "Finish" : "Continue"}
+									</Button>
+
+									{
+										index === steps.length -1 || index === 0?
+											null
+											:
+											<Button
+												disabled={index === steps.length -1}
+												onClick={handleSkip}
+												sx={{ mt: 1, mr: 1 }}
+											>
+												Skip
+											</Button>
+									}
+									{
+										index === 0 ?
+											null
+											:
+											<Button
+												disabled={index === 0}
+												onClick={handleBack}
+												sx={{ mt: 1, mr: 1 }}
+											>
+												Back
+											</Button>
+									}
+								</div>
+							</Box>
+						</StepContent>
+					</Step>
+				))}
+			</Stepper>
+		</Box>
 	);
-};
+}

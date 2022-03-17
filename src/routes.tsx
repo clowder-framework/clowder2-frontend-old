@@ -2,6 +2,7 @@ import React from "react";
 import {Route, Navigate, Routes, BrowserRouter} from "react-router-dom";
 
 import {Dashboard} from "./components/Dashbard";
+import {CreateDataset} from "./components/datasets/CreateDataset";
 import {Dataset as DatasetComponent} from "./components/datasets/Dataset";
 import {File as FileComponent} from "./components/files/File";
 import {Login as LoginComponent} from "./components/auth/Login";
@@ -24,6 +25,7 @@ const AppRoutes = (
 	<BrowserRouter>
 		<Routes>
 			<Route path="/" element={<PrivateRoute><Dashboard/></PrivateRoute>} />
+			{/*<Route path="/create-dataset/" element={<PrivateRoute><CreateDataset/></PrivateRoute>} />*/}
 			<Route path="/datasets/:datasetId" element={<PrivateRoute><DatasetComponent/></PrivateRoute>} />
 			<Route path="/files/:fileId" element={<PrivateRoute><FileComponent/></PrivateRoute>} />
 			<Route path="/files/:fileId/metadata" element={<PrivateRoute><Metadata/></PrivateRoute>} />
