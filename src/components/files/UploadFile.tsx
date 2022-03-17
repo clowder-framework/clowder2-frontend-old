@@ -15,7 +15,6 @@ import {fileCreated} from "../../actions/file";
 type UploadFileProps ={
 	selectedDatasetId: string|undefined,
 	folderId: string|undefined,
-	setOpen:(open:boolean) => void,
 }
 
 export const UploadFile: React.FC<UploadFileProps> = (props: UploadFileProps) => {

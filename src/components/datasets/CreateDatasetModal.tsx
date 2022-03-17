@@ -12,11 +12,6 @@ import {datasetCreated, resetDatsetCreated} from "../../actions/dataset";
 import {RootState} from "../../types/data";
 import {useNavigate} from "react-router-dom";
 
-
-type CreateDatasetProps = {
-	setOpen:(open:boolean) => void,
-}
-
 export const CreateDatasetModal: React.FC<CreateDatasetProps> = () => {
 	const history = useNavigate();
 

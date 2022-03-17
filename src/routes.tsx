@@ -25,7 +25,7 @@ const AppRoutes = (
 	<BrowserRouter>
 		<Routes>
 			<Route path="/" element={<PrivateRoute><Dashboard/></PrivateRoute>} />
-			{/*<Route path="/create-dataset/" element={<PrivateRoute><CreateDataset/></PrivateRoute>} />*/}
+			<Route path="/create-dataset/" element={<PrivateRoute><CreateDataset/></PrivateRoute>} />
 			<Route path="/datasets/:datasetId" element={<PrivateRoute><DatasetComponent/></PrivateRoute>} />
 			<Route path="/files/:fileId" element={<PrivateRoute><FileComponent/></PrivateRoute>} />
 			<Route path="/files/:fileId/metadata" element={<PrivateRoute><Metadata/></PrivateRoute>} />

@@ -52,7 +52,6 @@ export const Dashboard = (): JSX.Element => {
 	const [nextDisabled, setNextDisabled] = useState<boolean>(false);
 	const [selectedTabIndex, setSelectedTabIndex] = useState(0);
 	const [selectedDataset, _] = useState<Dataset>();
-	const [creationOpen, setCreationOpen] = useState(false);
 
 	// confirmation dialog
 	const [confirmationOpen, setConfirmationOpen] = useState(false);
@@ -211,12 +210,7 @@ export const Dashboard = (): JSX.Element => {
 								<Typography className="content">Some quick example text to tell users why they should
 									upload
 									their own data</Typography>
-								<Link className="link"
-									  onClick={(e) => {
-										e.preventDefault();
-										setCreationOpen(true);
-									}}
-								>
+								<Link className="link" href="/create-dataset">
 									Create Dataset
 								</Link>
 							</Box>
@@ -237,16 +231,6 @@ export const Dashboard = (): JSX.Element => {
 							</Box>
 						</Grid>
 					</Grid>
-					{/*Create New Dataset Dialog*/}
-					<Dialog open={creationOpen} onClose={() => {
-						setCreationOpen(false);
-					}} fullWidth={true} aria-labelledby="create-dataset" maxWidth="lg" sx={{ m: 2 }} >
-						<DialogTitle id="form-dialog-title">Create New Dataset</DialogTitle>
-						{/*pass select to uploader so once upload succeeded, can jump to that dataset/file page*/}
-						<DialogContent>
-							<CreateDataset setOpen={setCreationOpen}/>
-						</DialogContent>
-					</Dialog>
 				</div>
 			</div>
 		</div>
