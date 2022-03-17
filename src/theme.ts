@@ -23,18 +23,7 @@ const theme = createTheme({
 		info:{
 			main:"#0086A1"
 		}
-	},
-	// components:{
-	// 	MuiLink: {
-	// 		styleOverrides: {
-	// 			// Name of the slot
-	// 			root: {
-	// 				// Some CSS
-	// 				color: "#F7941E",
-	// 			},
-	// 		},
-	// 	},
-	// }
+	}
 });
 
 export default theme;
