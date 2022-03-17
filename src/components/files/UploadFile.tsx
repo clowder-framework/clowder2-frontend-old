@@ -22,7 +22,7 @@ export const UploadFile: React.FC<UploadFileProps> = (props: UploadFileProps) =>
 	const dispatch = useDispatch();
 	const uploadFile = (formData: FormData, selectedDatasetId: string|undefined) => dispatch(fileCreated(formData, selectedDatasetId));
 
-	const {selectedDatasetId, folderId, setOpen,} = props;
+	const {selectedDatasetId, folderId,} = props;
 
 	const [loading, setLoading] = useState<boolean>(false);
 
@@ -31,7 +31,6 @@ export const UploadFile: React.FC<UploadFileProps> = (props: UploadFileProps) =>
 		formData["folder_id"] = folderId;
 		uploadFile(formData, selectedDatasetId);
 		setLoading(false);
-		setOpen(false);
 	};
 
 	// TODO

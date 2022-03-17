@@ -17,13 +17,12 @@ type CreateDatasetProps = {
 	setOpen:(open:boolean) => void,
 }
 
-export const CreateDatasetModal: React.FC<CreateDatasetProps> = (props: CreateDatasetProps) => {
+export const CreateDatasetModal: React.FC<CreateDatasetProps> = () => {
 	const history = useNavigate();
 
 	const dispatch = useDispatch();
 	const createDataset = (formData: FormData) => dispatch(datasetCreated(formData));
 	const newDataset = useSelector((state:RootState) => state.dataset.newDataset);
-	const {setOpen} = props;
 
 	const [loading, setLoading] = useState(false);
 
@@ -31,7 +30,6 @@ export const CreateDatasetModal: React.FC<CreateDatasetProps> = (props: CreateDa
 		setLoading(true);
 		createDataset(formData);
 		setLoading(false);
-		setOpen(false);
 	};
 
 	// zoom into that newly created dataset and reset newDataset

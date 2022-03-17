@@ -5,7 +5,6 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import StepContent from "@mui/material/StepContent";
 import Button from "@mui/material/Button";
-// import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import {CreateDatasetModal} from "./CreateDatasetModal";
 import {Metadata} from "../metadata/Metadata";
@@ -34,7 +33,9 @@ const steps = [
 	},
 ];
 
-export const CreateDataset = () => {
+export const CreateDataset = (props) => {
+	const {setOpen} = props;
+
 	const [activeStep, setActiveStep] = React.useState(0);
 
 	const handleNext = () => {
@@ -49,8 +50,12 @@ export const CreateDataset = () => {
 		setActiveStep((prevActiveStep) => prevActiveStep + 1);
 	};
 
+	const handleFinish = () => {
+		setOpen(false);
+	}
+
 	return (
-		<Box sx={{ maxWidth: 400 }}>
+		<Box>
 			<Stepper activeStep={activeStep} orientation="vertical">
 				{steps.map((step, index) => (
 					<Step key={step.label}>
@@ -71,14 +76,26 @@ export const CreateDataset = () => {
 							{/*buttons*/}
 							<Box sx={{ mb: 2 }}>
 								<div>
-									<Button
-										variant="contained"
-										onClick={handleNext}
-										sx={{ mt: 1, mr: 1 }}
-									>
-										{index === steps.length - 1 ? "Finish" : "Continue"}
-									</Button>
+									{index === steps.length - 1 ?
 
+										<Button
+											variant="contained"
+											onClick={handleFinish}
+											sx={{ mt: 1, mr: 1 }}
+										>
+											Finish
+										</Button>
+
+										:
+
+										<Button
+											variant="contained"
+											onClick={handleNext}
+											sx={{ mt: 1, mr: 1 }}
+										>
+											Next
+										</Button>
+									}
 									{
 										index === steps.length -1 || index === 0?
 											null

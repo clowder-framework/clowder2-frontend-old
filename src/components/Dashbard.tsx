@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Box, Button, Dialog, DialogTitle, Grid, Link, Tab, Tabs, Typography} from "@mui/material";
+import {Box, Button, Dialog, DialogContent, DialogTitle, Grid, Link, Tab, Tabs, Typography} from "@mui/material";
 
 import {CreateDataset} from "./datasets/CreateDataset";
 
@@ -237,12 +237,15 @@ export const Dashboard = (): JSX.Element => {
 							</Box>
 						</Grid>
 					</Grid>
+					{/*Create New Dataset Dialog*/}
 					<Dialog open={creationOpen} onClose={() => {
 						setCreationOpen(false);
-					}} fullWidth={true} aria-labelledby="create-dataset">
+					}} fullWidth={true} aria-labelledby="create-dataset" maxWidth="lg" sx={{ m: 2 }} >
 						<DialogTitle id="form-dialog-title">Create New Dataset</DialogTitle>
 						{/*pass select to uploader so once upload succeeded, can jump to that dataset/file page*/}
-						<CreateDataset setOpen={setCreationOpen}/>
+						<DialogContent>
+							<CreateDataset setOpen={setCreationOpen}/>
+						</DialogContent>
 					</Dialog>
 				</div>
 			</div>
