@@ -15,6 +15,7 @@ const apikey = process.env.APIKEY || "";
 config["hostname"] = hostname;
 config["apikey"] = apikey;
 
+// Initiate the open api base for codegen
 V2.OpenAPI.BASE = config.hostname;
 
 config["GHIssueBaseURL"] = "https://github.com/clowder-framework/clowder2-frontend/issues/new?title=%5BClowder+V2%5D";
