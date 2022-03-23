@@ -24,7 +24,7 @@ export class DatasetsService {
     public static getDatasetsApiV2DatasetsGet(
         skip?: number,
         limit: number = 2,
-        mine?: any,
+        mine: boolean = false,
     ): CancelablePromise<Array<DatasetOut>> {
         return __request({
             method: 'GET',
@@ -82,13 +82,13 @@ export class DatasetsService {
      * Edit Dataset
      * @param datasetId
      * @param requestBody
-     * @returns DatasetBase Successful Response
+     * @returns DatasetOut Successful Response
      * @throws ApiError
      */
     public static editDatasetApiV2DatasetsDatasetIdPut(
         datasetId: string,
         requestBody: DatasetBase,
-    ): CancelablePromise<DatasetBase> {
+    ): CancelablePromise<DatasetOut> {
         return __request({
             method: 'PUT',
             path: `/api/v2/datasets/${datasetId}`,

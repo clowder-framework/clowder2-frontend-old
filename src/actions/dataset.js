@@ -36,6 +36,13 @@ export function fetchFoldersInDataset(datasetId, parentFolder){
 	};
 }
 
+export const UPDATE_DATASET = "UPDATE_DATASET";
+export function updateDataset(datasetId, ){
+	return (dispatch) => {
+		return V2.DatasetsService
+	}
+}
+
 export const RECEIVE_DATASET_ABOUT = "RECEIVE_DATASET_ABOUT";
 export function fetchDatasetAbout(id){
 	return (dispatch) => {
