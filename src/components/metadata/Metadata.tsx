@@ -1,39 +1,33 @@
 import React from "react";
-import {Box, Button} from "@mui/material";
+import {Box, Button, Typography} from "@mui/material";
 import metadataConfig from "../../metadata.config";
 
 
 export const Metadata = (props) => {
 	// const {metadataDefinition} = props;
 	const metadataDefinition =
-		[{
-			"widget_id": "",
-			"widget_name": "alternative_title",
-			"key": ""
-		},
+		[
 		{
-			"widget_id": "",
-			"widget_name": "doi",
+			"widget_id": "time",
+			"widget_name": "start time",
 			"key": "",
 		},
 		{
-			"widget_id": "",
-			"widget_name": "time",
+			"widget_id": "time",
+			"widget_name": "end time",
 			"key": "",
 		},
-		{
-			"widget_id": "",
-			"widget_name": "unit",
-			"key": "",
-		}];
+		];
 
 	return (
 		<>
 			{
 				metadataDefinition.map((item) => {
-					if (item.widget_name in metadataConfig) {
+					if (item.widget_id in metadataConfig) {
 						return (
-							<Box className="inputGroup">{metadataConfig[item.widget_name]}</Box>
+							<Box className="inputGroup">
+								<Typography>{item.widget_name}</Typography>
+								{metadataConfig[item.widget_id]}</Box>
 						);
 					}
 				})
