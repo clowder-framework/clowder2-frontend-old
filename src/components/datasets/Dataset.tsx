@@ -303,6 +303,7 @@ export const Dataset = (): JSX.Element => {
 											Owner: {about["author"]["first_name"]} {about["author"]["last_name"]}
 										</Typography>
 										<Typography className="content">Created on: {parseDate(about["created"])}</Typography>
+										<Typography className="content">Modified on: {parseDate(about["modified"])}</Typography>
 										{/*/!*TODO use this to get thumbnail*!/*/}
 										{/*<Typography className="content">Thumbnail: {about["thumbnail"]}</Typography>*/}
 										{/*<Typography className="content">Belongs to spaces: {about["authorId"]}</Typography>*/}
