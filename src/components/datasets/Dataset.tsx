@@ -20,7 +20,6 @@ import {a11yProps, TabPanel} from "../tabs/TabComponent";
 import TopBar from "../navigation/TopBar";
 import {MainBreadcrumbs} from "../navigation/BreadCrumb";
 import {UploadFile} from "../files/UploadFile";
-import {V2} from "../../openapi";
 import {ActionModal} from "../dialog/ActionModal";
 import FilesTable from "../files/FilesTable";
 import {CreateFolder} from "../folders/CreateFolder";
@@ -139,12 +138,12 @@ export const Dataset = (): JSX.Element => {
 	};
 
 	const handleDatasetNameEdit = () => {
-		updateDataset(about["id"], {"name": datasetName});
+		editDataset(about["id"], {"name": datasetName});
 		setEditingNameOpen(false);
 	};
 
 	const handleDatasetDescriptionEdit = () => {
-		updateDataset(about["id"], {"description":datasetDescription});
+		editDataset(about["id"], {"description":datasetDescription});
 		setEditDescriptionOpen(false);
 	};
 
@@ -271,7 +270,7 @@ export const Dataset = (): JSX.Element => {
 													<ClowderInput required={true} onChange={(event) => {
 														setDatasetName(event.target.value);
 													}}/>
-													<Button onClick={handleDatasetNameEdit}>Save</Button>
+													<Button onClick={()=>{ handleDatasetNameEdit();} }>Save</Button>
 													<Button onClick={() => setEditingNameOpen(false)}>Cancel</Button>
 												</>
 												:
