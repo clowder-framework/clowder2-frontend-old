@@ -37,10 +37,20 @@ export function fetchFoldersInDataset(datasetId, parentFolder){
 }
 
 export const UPDATE_DATASET = "UPDATE_DATASET";
-export function updateDataset(datasetId, ){
+export function updateDataset(datasetId, formData){
 	return (dispatch) => {
-		return V2.DatasetsService
-	}
+		return V2.DatasetsService.editDatasetApiV2DatasetsDatasetIdPut(datasetId, formData)
+			.then(json => {
+				dispatch({
+					type: UPDATE_DATASET,
+					about: json,
+					receivedAt: Date.now(),
+				});
+			})
+			.catch(reason => {
+				dispatch(handleErrors(reason));
+			});
+	};
 }
 
 export const RECEIVE_DATASET_ABOUT = "RECEIVE_DATASET_ABOUT";

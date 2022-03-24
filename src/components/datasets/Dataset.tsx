@@ -12,7 +12,7 @@ import {
 	fetchDatasetAbout,
 	fetchFilesInDataset, fetchFolderPath,
 	fetchFoldersInDataset,
-	folderAdded
+	folderAdded, updateDataset
 } from "../../actions/dataset";
 import {resetFailedReason, resetLogout} from "../../actions/common"
 
@@ -62,6 +62,7 @@ export const Dataset = (): JSX.Element => {
 	// Redux connect equivalent
 	const dispatch = useDispatch();
 	const deleteDataset = (datasetId:string|undefined) => dispatch(datasetDeleted(datasetId));
+	const editDataset = (datasetId: string|undefined, formData: Object) => dispatch(updateDataset(datasetId, formData));
 	const addFolder = (datasetId:string|undefined, folderName:string, parentFolder:string|null) => dispatch(folderAdded(datasetId, folderName, parentFolder));
 	const getFolderPath= (folderId:string|undefined) => dispatch(fetchFolderPath(folderId));
 	const listFilesInDataset = (datasetId:string|undefined, folderId:string|undefined) => dispatch(fetchFilesInDataset(datasetId, folderId));
@@ -81,8 +82,10 @@ export const Dataset = (): JSX.Element => {
 	const [selectedTabIndex, setSelectedTabIndex] = useState<number>(0);
 	const [createFileOpen, setCreateFileOpen] = React.useState<boolean>(false);
 	const [anchorEl, setAnchorEl] = React.useState<Element | null>(null);
-	const [editingName, setEditingName] = React.useState<boolean>(false);
-	const [, setNewDatasetName] = React.useState<string>("");
+	const [editingNameOpen, setEditingNameOpen] = React.useState<boolean>(false);
+	const [editDescriptionOpen, setEditDescriptionOpen] = React.useState<boolean>(false);
+	const [datasetName, setDatasetName] = React.useState<string>("");
+	const [datasetDescription, setDatasetDescription] = React.useState<string>("");
 
 	// component did mount list all files in dataset
 	useEffect(() => {
@@ -135,6 +138,16 @@ export const Dataset = (): JSX.Element => {
 		setAnchorEl(null);
 	};
 
+	const handleDatasetNameEdit = () => {
+		updateDataset(about["id"], {"name": datasetName});
+		setEditingNameOpen(false);
+	};
+
+	const handleDatasetDescriptionEdit = () => {
+		updateDataset(about["id"], {"description":datasetDescription});
+		setEditDescriptionOpen(false);
+	};
+
 	// for breadcrumb
 	const paths = [
 		{
@@ -146,7 +159,6 @@ export const Dataset = (): JSX.Element => {
 			"url":`/datasets/${datasetId}`
 		}
 	];
-
 
 	if (folderPath != null) {
 		for (const folderBread of folderPath) {
@@ -254,29 +266,39 @@ export const Dataset = (): JSX.Element => {
 									<Box className="infoCard">
 										<Typography className="title">About</Typography>
 										{
-											editingName ? <>:
-												<ClowderInput required={true} onChange={(event) => {
-													const { value } = event.target;
-													setNewDatasetName(value);
-												}} defaultValue={about["name"]}/>
-												<Button onClick={() => {
-													V2.DatasetsService.editDatasetApiV2DatasetsDatasetIdPut(about["id"]).then((json: any) => {
-														// TODO: Dispatch response back to Redux
-														console.log("PUT Dataset Response:", json);
-														setEditingName(false);
-													});
-												}} disabled={true}>Save</Button>
-												<Button onClick={() => setEditingName(false)}>Cancel</Button>
-											</> :
+											editingNameOpen ?
+												<>
+													<ClowderInput required={true} onChange={(event) => {
+														setDatasetName(event.target.value);
+													}}/>
+													<Button onClick={handleDatasetNameEdit}>Save</Button>
+													<Button onClick={() => setEditingNameOpen(false)}>Cancel</Button>
+												</>
+												:
+												// TODO need to align this button
 												<Typography className="content">Name: {about["name"]}
-													<Button onClick={() => setEditingName(true)} size={"small"}>Edit</Button>
+													<Button onClick={() => setEditingNameOpen(true)} size={"small"}>Edit</Button>
+												</Typography>
+										}
+										{
+											editDescriptionOpen ?
+												<>
+													<ClowderInput required={true} onChange={(event) => {
+														setDatasetDescription(event.target.value);
+													}}/>
+													<Button onClick={handleDatasetDescriptionEdit}>Save</Button>
+													<Button onClick={() => setEditDescriptionOpen(false)}>Cancel</Button>
+												</>
+												:
+												// TODO need to align this button
+												<Typography className="content">Description: {about["description"]}
+													<Button onClick={() => setEditDescriptionOpen(true)} size={"small"}>Edit</Button>
 												</Typography>
 										}
 										<Typography className="content">Dataset ID: {about["id"]}</Typography>
 										<Typography className="content">
 											Owner: {about["author"]["first_name"]} {about["author"]["last_name"]}
 										</Typography>
-										<Typography className="content">Description: {about["description"]}</Typography>
 										<Typography className="content">Created on: {parseDate(about["created"])}</Typography>
 										{/*/!*TODO use this to get thumbnail*!/*/}
 										{/*<Typography className="content">Thumbnail: {about["thumbnail"]}</Typography>*/}
