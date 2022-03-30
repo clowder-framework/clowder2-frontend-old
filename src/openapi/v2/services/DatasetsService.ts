@@ -120,6 +120,28 @@ export class DatasetsService {
     }
 
     /**
+     * Patch Dataset
+     * @param datasetId
+     * @param requestBody
+     * @returns DatasetOut Successful Response
+     * @throws ApiError
+     */
+    public static patchDatasetApiV2DatasetsDatasetIdPatch(
+        datasetId: string,
+        requestBody: DatasetPatch,
+    ): CancelablePromise<DatasetOut> {
+        return __request({
+            method: 'PATCH',
+            path: `/api/v2/datasets/${datasetId}`,
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
      * Get Dataset Files
      * @param datasetId
      * @param folderId
@@ -158,31 +180,6 @@ export class DatasetsService {
             path: `/api/v2/datasets/${datasetId}/files`,
             formData: formData,
             mediaType: 'multipart/form-data',
-            errors: {
-                422: `Validation Error`,
-            },
-        });
-    }
-
-    /**
-     * Patch Dataset
-     * @param datasetId
-     * @param requestBody
-     * @returns DatasetOut Successful Response
-     * @throws ApiError
-     */
-    public static patchDatasetApiV2DatasetsDatasetIdPatch(
-        datasetId: string,
-        requestBody: DatasetPatch,
-    ): CancelablePromise<DatasetOut> {
-        return __request({
-            method: 'PATCH',
-            path: `/api/v2/datasets/{dataset_id`,
-            query: {
-                'dataset_id': datasetId,
-            },
-            body: requestBody,
-            mediaType: 'application/json',
             errors: {
                 422: `Validation Error`,
             },
