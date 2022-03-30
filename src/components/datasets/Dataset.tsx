@@ -144,7 +144,7 @@ export const Dataset = (): JSX.Element => {
 	};
 
 	const handleDatasetDescriptionEdit = () => {
-		editDataset(about["id"], {"description":datasetDescription});
+		editDataset(about["id"], {"description": datasetDescription});
 		setEditDescriptionOpen(false);
 	};
 
