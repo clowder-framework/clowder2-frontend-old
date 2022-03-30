@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Box, Button, Dialog, DialogTitle, Divider, Grid, Menu, MenuItem, Tab, Tabs, Typography} from "@mui/material";
+import {Box, Button, Dialog, DialogTitle, Divider, Grid, Menu, MenuItem, Tab, Tabs, Typography, TextField} from "@mui/material";
 import {ClowderInput} from "../styledComponents/ClowderInput";
 import {ClowderButton} from "../styledComponents/ClowderButton";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
@@ -266,36 +266,48 @@ export const Dataset = (): JSX.Element => {
 									<Box className="infoCard">
 										<Typography className="title">About</Typography>
 										<Box>
-											<Typography className="content" sx={{display:"inline-block"}}>Name: {about["name"]}</Typography>
+											<Typography className="content" sx={{display:"inline-block"}}>Name:&nbsp;</Typography>
 											{
 												editingNameOpen ?
 													<>
-														<ClowderInput required={true} onChange={(event) => {
-															setDatasetName(event.target.value);
-														}}/>
-														<Button onClick={()=>{ handleDatasetNameEdit();}} size={"small"}>Save</Button>
-														<Button onClick={() => setEditingNameOpen(false)} size={"small"}>Cancel</Button>
+														<ClowderInput required={true} id="name" onChange={(event) => {
+															setDatasetName(event.target.value);}} defaultValue={about["name"]}
+														/>
+														<Box sx={{margin:"5px auto"}}>
+															<Button onClick={()=>{ handleDatasetNameEdit();}} size={"small"} variant="outlined">Save</Button>
+															<Button onClick={() => setEditingNameOpen(false)} size={"small"}>Cancel</Button>
+														</Box>
 													</>
 													:
-													// TODO need to align this button
-													<Button onClick={() => setEditingNameOpen(true)} size={"small"}>Edit</Button>
+													<>
+														<Typography className="content" sx={{display:"inline"}}>{about["name"]}</Typography>
+														<Button onClick={() => setEditingNameOpen(true)} size={"small"} sx={{display:"inline"}}>Edit</Button>
+													</>
 											}
 										</Box>
 										<Box>
-											<Typography className="content" sx={{display:"inline-block"}}>Description: {about["description"]}</Typography>
+											<Typography className="content" sx={{display:"inline-block"}}>Description:&nbsp;</Typography>
 											{
 												editDescriptionOpen ?
 													<>
-														<ClowderInput required={true} onChange={(event) => {
-															setDatasetDescription(event.target.value);
-														}}/>
-														<Button onClick={handleDatasetDescriptionEdit} size={"small"}>Save</Button>
-														<Button onClick={() => setEditDescriptionOpen(false)} size={"small"}>Cancel</Button>
+														<ClowderInput
+															id="description"
+															defaultValue={about["description"]}
+															multiline
+															rows={4}
+															onChange={(event) => {
+																setDatasetDescription(event.target.value);}}
+														/>
+														<Box sx={{margin:"5px auto"}}>
+															<Button onClick={handleDatasetDescriptionEdit} size={"small"} variant={"outlined"}>Save</Button>
+															<Button onClick={() => setEditDescriptionOpen(false)} size={"small"}>Cancel</Button>
+														</Box>
 													</>
 													:
-													// TODO need to align this button
-													<Button onClick={() => setEditDescriptionOpen(true)} size={"small"}>Edit</Button>
-
+													<>
+														<Typography className="content" sx={{display:"inline"}}>{about["description"]}</Typography>
+														<Button onClick={() => setEditDescriptionOpen(true)} size={"small"} sx={{display:"inline"}}>Edit</Button>
+													</>
 											}
 										</Box>
 										<Typography className="content">Dataset ID: {about["id"]}</Typography>
