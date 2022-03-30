@@ -139,12 +139,12 @@ export const Dataset = (): JSX.Element => {
 	};
 
 	const handleDatasetNameEdit = () => {
-		editDataset(about["id"], {"name": datasetName, "description": about["description"]});
+		editDataset(about["id"], {"name": datasetName});
 		setEditingNameOpen(false);
 	};
 
 	const handleDatasetDescriptionEdit = () => {
-		editDataset(about["id"], {"name": about["name"], "description":datasetDescription});
+		editDataset(about["id"], {"description":datasetDescription});
 		setEditDescriptionOpen(false);
 	};
 

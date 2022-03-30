@@ -39,7 +39,7 @@ export function fetchFoldersInDataset(datasetId, parentFolder){
 export const UPDATE_DATASET = "UPDATE_DATASET";
 export function updateDataset(datasetId, formData){
 	return (dispatch) => {
-		return V2.DatasetsService.editDatasetApiV2DatasetsDatasetIdPut(datasetId, formData)
+		return V2.DatasetsService.patchDatasetApiV2DatasetsDatasetIdPatch(datasetId, formData)
 			.then(json => {
 				dispatch({
 					type: UPDATE_DATASET,

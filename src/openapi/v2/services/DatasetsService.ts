@@ -5,6 +5,7 @@ import type { Body_save_file_api_v2_datasets__dataset_id__files_post } from '../
 import type { DatasetBase } from '../models/DatasetBase';
 import type { DatasetIn } from '../models/DatasetIn';
 import type { DatasetOut } from '../models/DatasetOut';
+import type { DatasetPatch } from '../models/DatasetPatch';
 import type { FileOut } from '../models/FileOut';
 import type { FolderIn } from '../models/FolderIn';
 import type { FolderOut } from '../models/FolderOut';
@@ -157,6 +158,31 @@ export class DatasetsService {
             path: `/api/v2/datasets/${datasetId}/files`,
             formData: formData,
             mediaType: 'multipart/form-data',
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
+     * Patch Dataset
+     * @param datasetId
+     * @param requestBody
+     * @returns DatasetOut Successful Response
+     * @throws ApiError
+     */
+    public static patchDatasetApiV2DatasetsDatasetIdPatch(
+        datasetId: string,
+        requestBody: DatasetPatch,
+    ): CancelablePromise<DatasetOut> {
+        return __request({
+            method: 'PATCH',
+            path: `/api/v2/datasets/{dataset_id`,
+            query: {
+                'dataset_id': datasetId,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
             errors: {
                 422: `Validation Error`,
             },
