@@ -2,13 +2,13 @@ import React, {useEffect, useState} from "react";
 import {TextField} from "@mui/material";
 import crypto from "crypto";
 
-export const DOI = () => {
-
+export const DOI = (props) => {
+	const {widgetName, key} = props;
 	const [DOI, setDOI] = useState("");
 	const [promptError, setPromptError] = useState(false);
 	const DOIErrorText = "DOI must follow the format of doi:0000000/000000000000!";
 
-	const id = `DOI-${crypto.randomBytes(7).toString('hex')}`;
+	const id = `DOI-${key}`;
 
 	useEffect(() => {
 		// If DOI doesn't follow the format (Regex)
@@ -22,9 +22,9 @@ export const DOI = () => {
 		}
 	}, [DOI]);
 	return (
-		<TextField label="DOI" variant="outlined" margin="normal"
+		<TextField label={widgetName} variant="outlined" margin="normal"
 				   fullWidth id={id}
-				   name="DOI"
+				   name={widgetName}
 				   value={DOI}
 				   onChange={(event: React.ChangeEvent<HTMLInputElement>) => { setDOI(event.target.value);}}
 				   error={promptError}

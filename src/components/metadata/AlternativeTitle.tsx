@@ -1,16 +1,15 @@
 import React, {useState} from "react";
 import {TextField} from "@mui/material";
-import crypto from "crypto";
 
-export const AlternativeTitle = () => {
-
+export const AlternativeTitle = (props) => {
+	const {widgetName, key} = props;
 	const [alternativeTitle, setAlternativeTitle] = useState("");
-	const id = `alternative-title-${crypto.randomBytes(7).toString('hex')}`;
+	const id = `alternative-title-${key}`;
 
 	return (
-		<TextField label="Alternative Title" variant="outlined" margin="normal"
+		<TextField label={widgetName} variant="outlined" margin="normal"
 				   fullWidth id={id}
-				   name="Alternative Title"
+				   name={widgetName}
 				   value={alternativeTitle}
 				   onChange={(event: React.ChangeEvent<HTMLInputElement>) => { setAlternativeTitle(event.target.value);}}/>
 	)
