@@ -1,5 +1,5 @@
 import {V2} from "../openapi";
-import {keycloak} from "../keycloak";
+import keycloak from "../keycloak";
 
 export const userActions = {
 	login,
