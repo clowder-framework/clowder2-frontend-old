@@ -84,9 +84,12 @@ export function register(email, password, firstname, lastname) {
 
 export function logout() {
 	return (dispatch) => {
-		logoutHelper();
-		return dispatch({
-			type: LOGOUT,
+		keycloak.logout({redirectUri:"/login"}).then(()=>{
+			V2.OpenAPI.TOKEN = undefined;
+			localStorage.removeItem("Authorization");
+			return dispatch({
+				type: LOGOUT,
+			});
 		});
 	};
 }
