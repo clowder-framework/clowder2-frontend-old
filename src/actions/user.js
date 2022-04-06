@@ -1,4 +1,5 @@
 import {V2} from "../openapi";
+import {keycloak} from "../keycloak";
 
 export const userActions = {
 	login,
@@ -35,25 +36,33 @@ export const REGISTER_USER = "REGISTER_USER";
 export const REGISTER_ERROR = "REGISTER_ERROR";
 export const LOGOUT = "LOGOUT";
 
-export function login(email, password) {
+export function login() {
 	return async (dispatch) => {
-		const json = await loginHelper(email, password, false);
+		// clear cached login info
 		V2.OpenAPI.TOKEN = undefined;
 		localStorage.removeItem("Authorization");
 
-		if (json["token"] !== undefined && json["token"] !== "none") {
-			localStorage.setItem("Authorization", `bearer ${json["token"]}`);
-			V2.OpenAPI.TOKEN = json["token"];
-			return dispatch({
-				type: SET_USER,
-				Authorization: `bearer ${json["token"]}`,
-			});
-		} else {
+		keycloak.init("login-required").then(function(authenticated) {
+			if (authenticated)  {
+				localStorage.setItem("Authorization", `bearer ${keycloak.token}`);
+				V2.OpenAPI.TOKEN = keycloak.token;
+				return dispatch({
+					type: SET_USER,
+					Authorization: `bearer ${keycloak.token}`,
+				});
+			}
+			else {
+				return dispatch({
+					type: LOGIN_ERROR,
+					errorMsg: "Not Authenticated!"
+				});
+			}
+		}).catch(function() {
 			return dispatch({
 				type: LOGIN_ERROR,
-				errorMsg: json["errorMsg"] !== undefined && json["errorMsg"] !== "" ? json["errorMsg"]: "Email/Password incorrect!"
+				errorMsg: "Fail to Connect to keycloak!"
 			});
-		}
+		});
 	};
 }
 
