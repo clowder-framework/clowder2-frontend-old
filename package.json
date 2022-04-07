@@ -12,7 +12,7 @@
 		"start-message": "babel-node tools/startMessage.js",
 		"prestart": "npm-run-all --parallel start-message",
 		"start": "npm-run-all --parallel open:src",
-	  	"start:dev": "export CLOWDER_REMOTE_HOSTNAME=http://localhost:8000 && npm run start",
+		"start:dev": "export CLOWDER_REMOTE_HOSTNAME=http://localhost:8000 && npm run start",
 		"open:src": "babel-node tools/srcServer.js",
 		"open:dist": "babel-node tools/distServer.js",
 		"lint:watch": "npm run lint --watch",
@@ -55,7 +55,8 @@
 		"redux": "^4.1.2",
 		"redux-thunk": "^2.4.1",
 		"universal-cookie": "~4.0.4",
-		"whatwg-fetch": "2.0.2"
+		"whatwg-fetch": "2.0.2",
+		"keycloak-js": "16.1.1"
 	},
 	"devDependencies": {
 		"@babel/cli": "^7.0.0",

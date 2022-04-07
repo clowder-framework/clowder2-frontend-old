@@ -1,14 +1,20 @@
 import React, {useEffect} from "react";
-import {Link} from "react-router-dom";
-import config from "../../app.config";
+import {keycloak} from "../../keycloak";
 
 export const RedirectLogin = (): JSX.Element => {
-	const url = config.KeycloakLogin;
 	useEffect(() => {
-		window.location.href = url;
+		keycloak.init({onLoad: "login-required"}).success(function() {
+
+			sessionStorage.setItem("kcToken", keycloak.token);
+			sessionStorage.setItem("kcRefreshToken", keycloak.refreshToken);
+			sessionStorage.setItem("kcTokenExpiry", keycloak.tokenParsed.exp);
+			sessionStorage.setItem("isProxyAuth", "false");
+		});
 	}, []);
 
 	return (
-		<Link to={{ pathname: url }} target="_blank" />
-	)
+		<div>
+			Redirecting to keycloak...
+		</div>
+	);
 }
