@@ -26,7 +26,7 @@ const AppRoutes = (
 			<Route path="/datasets/:datasetId" element={<PrivateRoute><DatasetComponent/></PrivateRoute>} />
 			<Route path="/files/:fileId" element={<PrivateRoute><FileComponent/></PrivateRoute>} />
 			<Route path="/register" element={<RegisterComponent/>} />
-			<Route path="/auth/login" element={<RedirectLoginComponent/>} />
+			<Route path="/login" element={<RedirectLoginComponent/>} />
 			<Route path="/auth" element={<AuthComponent/>} />
 		</Routes>
 	</BrowserRouter>

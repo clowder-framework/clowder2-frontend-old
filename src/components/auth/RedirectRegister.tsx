@@ -1,11 +1,11 @@
 import React, {useEffect} from "react";
 import {keycloak} from "../../keycloak";
 
-export const RedirectLogin = (): JSX.Element => {
+export const RedirectRegister = (): JSX.Element => {
 	useEffect(() => {
 		keycloak.init({
 			onLoad: "login-required",
-			redirectUri:"http://localhost:8000/api/v2/auth"
+			// redirectUri:"http://localhost:8000/api/v2/auth"
 		}).success(function() {
 
 			sessionStorage.setItem("kcToken", keycloak.token);
