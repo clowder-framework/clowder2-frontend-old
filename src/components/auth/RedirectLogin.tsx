@@ -25,8 +25,7 @@ export const RedirectLogin = (): JSX.Element => {
 		keycloak.init({
 			onLoad: "login-required",
 			redirectUri: redirectUri,
-			// responseMode: responseMode
-		}).success(function() {
+		}).then(function() {
 
 			if (keycloak.token !== undefined && keycloak.token !== "none") {
 				cookies.set("Authorization", `Bearer ${keycloak.token}`);
@@ -41,7 +40,7 @@ export const RedirectLogin = (): JSX.Element => {
 					Authorization: `Bearer ${token}`,
 				});
 			}
-		});
+		}).catch();
 	}, []);
 
 	useEffect(() => {
