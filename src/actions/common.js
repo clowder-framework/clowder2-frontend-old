@@ -1,4 +1,5 @@
 import {LOGOUT, logoutHelper} from "./user";
+import {keycloak} from "../keycloak";
 
 export const RESET_FAILED = "RESET_FAILED";
 export function resetFailedReason(){
@@ -27,6 +28,12 @@ export function handleErrors(reason){
 	if (reason.status === 401){
 		logoutHelper();
 		return (dispatch) => {
+			keycloak.onTokenExpired = () => {
+				console.log('token expired', keycloak.token);
+				keycloak.updateToken(30).then(() => {
+					console.log('successfully get a new token', keycloak.token);
+				})
+			}
 			dispatch({
 				type: LOGOUT,
 				receivedAt: Date.now()

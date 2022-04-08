@@ -30,6 +30,9 @@ export async function loginHelper(email, password, register = false) {
 export async function logoutHelper(){
 	V2.OpenAPI.TOKEN = undefined;
 	cookies.remove("Authorization");
+	cookies.remove("kcRefreshToken");
+	cookies.remove("kcRefreshToken");
+	cookies.remove("kcTokenExpiry");
 }
 
 export const LOGIN_ERROR = "LOGIN_ERROR";
