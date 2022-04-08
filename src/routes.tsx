@@ -6,7 +6,7 @@ import {Dataset as DatasetComponent} from "./components/datasets/Dataset";
 import {File as FileComponent} from "./components/files/File";
 import {Register as RegisterComponent} from "./components/auth/Register";
 import {RedirectLogin as RedirectLoginComponent} from "./components/auth/RedirectLogin";
-import {Logout as LogoutComponent} from "./components/auth/Logout";
+import {RedirectLogout as RedirectLogoutComponent} from "./components/auth/Logout";
 import {isAuthorized} from "./utils/common";
 
 // https://dev.to/iamandrewluca/private-route-in-react-router-v6-lg5
@@ -25,9 +25,9 @@ const AppRoutes = (
 			<Route path="/dashboard" element={<PrivateRoute><Dashboard/></PrivateRoute>} />
 			<Route path="/datasets/:datasetId" element={<PrivateRoute><DatasetComponent/></PrivateRoute>} />
 			<Route path="/files/:fileId" element={<PrivateRoute><FileComponent/></PrivateRoute>} />
-			<Route path="/register" element={<RegisterComponent/>} />
-			<Route path="/login" element={<RedirectLoginComponent/>} />
-			<Route path="/logout" element={<LogoutComponent/>} />
+			<Route path="/auth/register" element={<RegisterComponent/>} />
+			<Route path="/auth/login" element={<RedirectLoginComponent/>} />
+			<Route path="/auth/logout" element={<RedirectLogoutComponent/>} />
 		</Routes>
 	</BrowserRouter>
 );

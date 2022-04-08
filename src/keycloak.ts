@@ -8,5 +8,5 @@ export const keycloak = Keycloak(
 	}
 )
 
-export const redirectUri = "http://localhost:3000/login";
+export const redirectUri = "http://localhost:3000/auth/login";
 export const responseMode = "query";

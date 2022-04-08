@@ -50,7 +50,7 @@ export const Register = (): JSX.Element => {
 	const [promptError, setPromptError] = useState(false);
 
 	useEffect(()=>{
-		if (registerSucceeded) history("/login");
+		if (registerSucceeded) history("/auth/login");
 	}, [registerSucceeded])
 
 	const changeUsername = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -166,7 +166,7 @@ export const Register = (): JSX.Element => {
 						}}
 						disabled={!(password === passwordConfirm && password !== "")}
 					>Register</Button>
-					<Link href="/login" sx={{
+					<Link href="/auth/login" sx={{
 						fontWeight: 500,
 						fontSize:"15px",
 						display:"block",

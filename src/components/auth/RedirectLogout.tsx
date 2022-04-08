@@ -4,7 +4,7 @@ import {logout as logoutAction} from "../../actions/user";
 import {Navigate} from "react-router-dom";
 import {keycloak, redirectUri} from "../../keycloak";
 
-export const Logout = (): JSX.Element => {
+export const RedirectLogout = (): JSX.Element => {
 	const dispatch = useDispatch();
 	const logout = () => dispatch(logoutAction());
 	// component did mount
@@ -21,6 +21,6 @@ export const Logout = (): JSX.Element => {
 		}, []);
 
 	return (
-		<Navigate to={"/login"}/>
+		<Navigate to={"/auth/login"}/>
 	);
 }
