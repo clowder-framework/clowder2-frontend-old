@@ -1,5 +1,4 @@
 import {V2} from "../openapi";
-import {LOGOUT, logoutHelper} from "./user";
 import {handleErrors} from "./common";
 
 export const RECEIVE_FILES_IN_DATASET = "RECEIVE_FILES_IN_DATASET";
