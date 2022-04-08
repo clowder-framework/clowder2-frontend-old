@@ -45,7 +45,7 @@ export const RedirectLogin = (): JSX.Element => {
 
 	useEffect(() => {
 		if (authorization !== undefined && authorization !== "" && authorization !== null &&
-			!loginError) { history("/");}
+			!loginError) { history("/dashboard");}
 	}, [authorization,loginError,errorMsg]);
 
 

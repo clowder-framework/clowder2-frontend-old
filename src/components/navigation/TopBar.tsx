@@ -30,7 +30,7 @@ export default function TopBar() {
 					<Link href="https://clowderframework.org/" target="_blank" sx={link}>
 						Help</Link>
 
-					<Link href="/" sx={link}>Explore</Link>
+					<Link href="/dashboard" sx={link}>Explore</Link>
 					<Link href="/logout" sx={link}>Logout</Link>
 				</Toolbar>
 			</AppBar>

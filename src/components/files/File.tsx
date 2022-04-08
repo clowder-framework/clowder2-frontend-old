@@ -134,7 +134,7 @@ export const File = (): JSX.Element => {
 	const paths = [
 		{
 			"name": "Explore",
-			"url": "/",
+			"url": "/dashboard",
 		},
 		{
 			"name":datasetName,

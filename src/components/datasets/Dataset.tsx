@@ -139,7 +139,7 @@ export const Dataset = (): JSX.Element => {
 	const paths = [
 		{
 			"name": "Explore",
-			"url": "/",
+			"url": "/dashboard",
 		},
 		{
 			"name":about["name"],
@@ -239,7 +239,7 @@ export const Dataset = (): JSX.Element => {
 												  deleteDataset(datasetId);
 												  handleOptionClose();
 												  // Go to Explore page
-												  history("/");
+												  history("/dashboard");
 											  }
 									}>Delete Dataset</MenuItem>
 									<MenuItem onClick={handleOptionClose} sx={optionMenuItem} disabled={true}>Follow</MenuItem>

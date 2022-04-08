@@ -147,7 +147,7 @@ export const Dashboard = (): JSX.Element => {
 	const paths = [
 		{
 			"name": "Explore",
-			"url": "/",
+			"url": "/dashboard",
 		}
 	];
 
