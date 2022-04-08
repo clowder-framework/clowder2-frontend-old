@@ -6,14 +6,14 @@ import {Dataset as DatasetComponent} from "./components/datasets/Dataset";
 import {File as FileComponent} from "./components/files/File";
 import {Register as RegisterComponent} from "./components/auth/Register";
 import {RedirectLogin as RedirectLoginComponent} from "./components/auth/RedirectLogin";
-import {RedirectLogout as RedirectLogoutComponent} from "./components/auth/Logout";
+import {RedirectLogout as RedirectLogoutComponent} from "./components/auth/RedirectLogout";
 import {isAuthorized} from "./utils/common";
 
 // https://dev.to/iamandrewluca/private-route-in-react-router-v6-lg5
 class PrivateRoute extends React.Component<{ children: JSX.Element }> {
 	render() {
 		let {children} = this.props;
-		return isAuthorized() ? children : <Navigate to="/login"/>;
+		return isAuthorized() ? children : <Navigate to="/auth/login"/>;
 	}
 }
 
