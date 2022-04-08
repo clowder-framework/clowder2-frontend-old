@@ -12,11 +12,10 @@ export const RedirectLogout = (): JSX.Element => {
 	useEffect(() => {
 		// keycloak logout
 		keycloak.init({}).then(function(){
+			// remove token and dispatch action
+			logout();
 			keycloak.logout({
 				redirectUri: history("/")
-			}).then(function(){
-				// remove token and dispatch atctions
-				logout();
 			});
 		});
 		}, []);

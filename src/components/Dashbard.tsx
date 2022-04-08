@@ -16,6 +16,7 @@ import {MainBreadcrumbs} from "./navigation/BreadCrumb";
 import {ActionModal} from "./dialog/ActionModal";
 import DatasetCard from "./datasets/DatasetCard";
 import config from "../app.config";
+import {keycloak} from "../keycloak";
 
 const tab = {
 	fontStyle: "normal",

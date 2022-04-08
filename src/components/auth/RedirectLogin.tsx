@@ -20,18 +20,16 @@ export const RedirectLogin = (): JSX.Element => {
 	useEffect(() => {
 		// initialize
 		V2.OpenAPI.TOKEN = undefined;
-		cookies.remove("Authorization");
+		cookies.remove("Authorization", {path: "/"});
 
 		keycloak.init({
 			onLoad: "login-required",
 			redirectUri: redirectUri,
 		}).then(function() {
-
 			if (keycloak.token !== undefined && keycloak.token !== "none") {
-				cookies.set("Authorization", `Bearer ${keycloak.token}`);
-				cookies.set("kcRefreshToken", keycloak.refreshToken);
-				cookies.set("kcRefreshToken", keycloak.refreshToken);
-				cookies.set("kcTokenExpiry", keycloak.tokenParsed.exp);
+				cookies.set("Authorization", `Bearer ${keycloak.token}`, { path: "/" });
+				cookies.set("kcRefreshToken", keycloak.refreshToken, { path: "/" });
+				cookies.set("kcTokenExpiry", keycloak.tokenParsed.exp, { path: "/" });
 
 				const token = keycloak.token.replace("Bearer ", "");
 				V2.OpenAPI.TOKEN = token;

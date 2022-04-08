@@ -29,10 +29,9 @@ export async function loginHelper(email, password, register = false) {
 
 export async function logoutHelper(){
 	V2.OpenAPI.TOKEN = undefined;
-	cookies.remove("Authorization");
-	cookies.remove("kcRefreshToken");
-	cookies.remove("kcRefreshToken");
-	cookies.remove("kcTokenExpiry");
+	cookies.remove("Authorization", {path:"/"});
+	cookies.remove("kcRefreshToken", {path:"/"});
+	cookies.remove("kcTokenExpiry", {path:"/"});
 }
 
 export const LOGIN_ERROR = "LOGIN_ERROR";
@@ -45,10 +44,10 @@ export function login(email, password) {
 	return async (dispatch) => {
 		const json = await loginHelper(email, password, false);
 		V2.OpenAPI.TOKEN = undefined;
-		cookies.remove("Authorization");
+		cookies.remove("Authorization", {path: "/"});
 
 		if (json["token"] !== undefined && json["token"] !== "none") {
-			cookies.set("Authorization", `Bearer ${json["token"]}`);
+			cookies.set("Authorization", `Bearer ${json["token"]}`, {path:"/"});
 			V2.OpenAPI.TOKEN = json["token"];
 			return dispatch({
 				type: SET_USER,
