@@ -1,5 +1,6 @@
-import {LOGOUT, logoutHelper} from "./user";
+import {kcLoginHelper, logoutHelper, SET_USER} from "./user";
 import {keycloak} from "../keycloak";
+
 
 export const RESET_FAILED = "RESET_FAILED";
 export function resetFailedReason(){
@@ -27,18 +28,17 @@ export function handleErrors(reason){
 	// Authorization error we need to automatically logout user
 	if (reason.status === 401){
 		logoutHelper();
-		return (dispatch) => {
-			// keycloak.onTokenExpired = () => {
-			// 	console.log('token expired', keycloak.token);
-			// 	keycloak.updateToken(30).then(() => {
-			// 		console.log('successfully get a new token', keycloak.token);
-			// 	})
-			// }
-			dispatch({
-				type: LOGOUT,
-				receivedAt: Date.now()
-			});
-		};
+		keycloak.updateToken(30).then(() => {
+			if (keycloak.token !== undefined && keycloak.token !== "none") {
+				kcLoginHelper(keycloak.token, keycloak.refreshToken, keycloak.tokenParsed.exp);
+				return (dispatch) => {
+					dispatch({
+						type: SET_USER,
+						Authorization: `Bearer ${keycloak.token}`,
+					});
+				};
+			}
+		});
 	}
 	else{
 		return (dispatch) => {

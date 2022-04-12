@@ -1,5 +1,6 @@
 import {V2} from "../openapi";
 import Cookies from "universal-cookie";
+import {keycloak} from "../keycloak";
 
 const cookies = new Cookies();
 
@@ -27,11 +28,20 @@ export async function loginHelper(email, password, register = false) {
 	}
 }
 
-export async function logoutHelper(){
+export function logoutHelper(){
 	V2.OpenAPI.TOKEN = undefined;
 	cookies.remove("Authorization", {path:"/"});
 	cookies.remove("kcRefreshToken", {path:"/"});
 	cookies.remove("kcTokenExpiry", {path:"/"});
+}
+
+export function kcLoginHelper(authToken, refreshToken, exp){
+	cookies.set("Authorization", `Bearer ${authToken}`, { path: "/" });
+	cookies.set("kcRefreshToken", refreshToken, { path: "/" });
+	cookies.set("kcTokenExpiry", exp, { path: "/" });
+
+	const token = authToken.replace("Bearer ", "");
+	V2.OpenAPI.TOKEN = token;
 }
 
 export const LOGIN_ERROR = "LOGIN_ERROR";

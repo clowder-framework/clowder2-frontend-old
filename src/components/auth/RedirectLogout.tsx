@@ -4,7 +4,7 @@ import {logout as logoutAction} from "../../actions/user";
 import {keycloak} from "../../keycloak";
 import {useNavigate} from "react-router-dom";
 
-export const RedirectLogout = (): JSX.Element => {
+export const RedirectLogout = (): null => {
 	const dispatch = useDispatch();
 	const history = useNavigate();
 	const logout = () => dispatch(logoutAction());
@@ -17,9 +17,7 @@ export const RedirectLogout = (): JSX.Element => {
 			keycloak.logout({
 				redirectUri: history("/")
 			});
-		});
-		}, []);
+		});}, []);
 
 	return null;
-
-}
+};

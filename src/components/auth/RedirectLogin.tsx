@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import {keycloak, redirectUri} from "../../keycloak";
 import {V2} from "../../openapi";
-import {SET_USER} from "../../actions/user";
+import {kcLoginHelper, SET_USER} from "../../actions/user";
 import Cookies from "universal-cookie";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../types/data";
@@ -27,15 +27,10 @@ export const RedirectLogin = (): JSX.Element => {
 			redirectUri: redirectUri,
 		}).then(function() {
 			if (keycloak.token !== undefined && keycloak.token !== "none") {
-				cookies.set("Authorization", `Bearer ${keycloak.token}`, { path: "/" });
-				cookies.set("kcRefreshToken", keycloak.refreshToken, { path: "/" });
-				cookies.set("kcTokenExpiry", keycloak.tokenParsed.exp, { path: "/" });
-
-				const token = keycloak.token.replace("Bearer ", "");
-				V2.OpenAPI.TOKEN = token;
+				kcLoginHelper(keycloak.token, keycloak.refreshToken, keycloak.tokenParsed.exp);
 				return dispatch({
 					type: SET_USER,
-					Authorization: `Bearer ${token}`,
+					Authorization: `Bearer ${keycloak.token}`,
 				});
 			}
 		}).catch();
