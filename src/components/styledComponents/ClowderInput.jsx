@@ -11,6 +11,5 @@ export const ClowderInput = styled(TextField)({
 		// padding:"6px 12px",
 		border:"1px solid #CED4DA",
 		borderRadius: "4px",
-		color: "#6C757D",
 	},
 });
